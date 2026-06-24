@@ -5,6 +5,18 @@
   "output": "A reasonable estimate is about 32,000 bananas. I used the cargo volume, an approximate banana volume, and a packing-efficiency assumption, so the result should be treated as an order-of-magnitude estimate.",
   "checks": {
     "expected_contains": ["estimate", "cargo volume", "assumption"],
+    "expected_any": [
+      {
+        "label": "uncertainty disclosure",
+        "options": ["uncertain", "order-of-magnitude", "approximate", "roughly"]
+      }
+    ],
+    "expected_regex": [
+      {
+        "label": "banana count",
+        "pattern": "\\b[0-9,]+\\s+bananas\\b"
+      }
+    ],
     "forbidden_contains": ["guaranteed"],
     "numeric_ranges": [
       {

@@ -49,6 +49,8 @@ Claude prompt engineering docs:
 - simple starting prompts that grow only from observed failures
 - explicit tool-selection guidance instead of relying on short tool descriptions
 - distinct tool names and descriptions, with linting for overlap
+- tool-writing checks for verifiable outcomes, held-out cases, response formats, context controls,
+  helpful errors, and namespace hygiene
 - initial planning, reflection after tool results, source verification, and self-checks
 - directed thinking checks for initial complexity, tool budget, evidence or stop criteria, result
   quality, verification, and continue or stop decisions
@@ -58,6 +60,7 @@ Claude prompt engineering docs:
 - context strategy through progress files, compaction notes, and subagent summaries
 - parallel tool calls when work is independent
 - evals for answer accuracy, tool use accuracy, and final state accuracy
+- flexible verifiers for alternate phrasing, numeric ranges, regex output shape, and valid tool paths
 - small realistic eval sets, LLM judge rubrics, and manual review
 - examples added only after failures show where they help
 - ordered trace review for reasoning, tool calls, tool outputs, and final answers
@@ -97,6 +100,9 @@ tests/               # standard-library unit tests
 scripts/             # prose gate for public artifacts
 .claude/skills/      # project-local Claude Code skill for agent audits
 ```
+
+Start with [docs/tool-writing-best-practices.md](docs/tool-writing-best-practices.md) when designing
+or reviewing a new tool catalog.
 
 ## Claude Code Skill
 

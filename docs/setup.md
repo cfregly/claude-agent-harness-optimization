@@ -102,9 +102,15 @@ Use an audit bundle when reviewing a full agent:
       "use_when": "Use for unknown, current, or broad questions where source discovery is required.",
       "avoid_when": "Avoid when a known source URL should be fetched directly.",
       "input_schema": {
-        "properties": {"query": "Specific query with entity, metric, and time frame."},
+        "properties": {
+          "query": "Specific query with entity, metric, and time frame.",
+          "response_format": "concise or detailed"
+        },
         "required": ["query"]
       },
+      "output_schema": {"results": "Ranked sources with title, url, snippet, and date."},
+      "context_controls": ["response_format", "query specificity"],
+      "error_guidance": "If the query is too broad, suggest a narrower entity or time frame.",
       "quality_checks": ["Prefer primary sources.", "Compare snippets before fetching."]
     }
   ],
@@ -114,9 +120,24 @@ Use an audit bundle when reviewing a full agent:
       "task": "Find current cargo specifications for a vehicle model.",
       "expected_tools": ["web_search"],
       "forbidden_tools": ["web_fetch"],
-      "rationale": "The task starts without a known URL, so source discovery comes first."
+      "rationale": "The task starts without a known URL, so source discovery comes first.",
+      "verifier": {"type": "flexible_text", "must_include_any": [["cargo volume"], ["source"]]}
     }
   ],
+  "heldout_tool_selection_cases": [
+    {
+      "name": "discover then compute",
+      "task": "Estimate a quantity when required facts are unknown.",
+      "valid_tool_paths": [["web_search", "web_fetch", "calculator"], ["web_search", "calculator"]],
+      "verifier": {"type": "flexible_text", "must_include_any": [["estimate"], ["source"]]}
+    }
+  ],
+  "tool_metrics": {
+    "avg_runtime_ms": 1800,
+    "avg_tool_calls": 4,
+    "token_count": 4200,
+    "tool_error_rate": 0
+  },
   "traces": [{"name": "representative trace", "trace": "agent_trace_good.json"}],
   "value_bar": {
     "claim": "The audit harness separates a supported trace from a weak trace.",

@@ -54,6 +54,25 @@ def evaluate_answer_accuracy(case: dict[str, Any]) -> EvaluationResult:
         else:
             details.append(f"missing expected text: {text}")
 
+    for item in checks.get("expected_any", []):
+        label, options = _labeled_options(item)
+        total_checks += 1
+        matched = [option for option in options if option.lower() in output.lower()]
+        if matched:
+            passed_checks += 1
+            details.append(f"found acceptable wording for {label}: {matched[0]}")
+        else:
+            details.append(f"missing acceptable wording for {label}: {options}")
+
+    for item in checks.get("expected_regex", []):
+        label, pattern = _labeled_pattern(item)
+        total_checks += 1
+        if re.search(pattern, output, flags=re.IGNORECASE):
+            passed_checks += 1
+            details.append(f"matched expected pattern for {label}")
+        else:
+            details.append(f"missing expected pattern for {label}: {pattern}")
+
     for text in checks.get("forbidden_contains", []):
         total_checks += 1
         if text.lower() in output.lower():
@@ -61,6 +80,15 @@ def evaluate_answer_accuracy(case: dict[str, Any]) -> EvaluationResult:
         else:
             passed_checks += 1
             details.append(f"did not find forbidden text: {text}")
+
+    for item in checks.get("forbidden_regex", []):
+        label, pattern = _labeled_pattern(item)
+        total_checks += 1
+        if re.search(pattern, output, flags=re.IGNORECASE):
+            details.append(f"found forbidden pattern for {label}: {pattern}")
+        else:
+            passed_checks += 1
+            details.append(f"did not find forbidden pattern for {label}")
 
     for numeric in checks.get("numeric_ranges", []):
         total_checks += 1
@@ -123,6 +151,15 @@ def evaluate_tool_use(case: dict[str, Any]) -> EvaluationResult:
         else:
             details.append("required sequence missing")
 
+    valid_paths = requirements.get("valid_tool_paths", [])
+    if valid_paths:
+        total_checks += 1
+        if any(_contains_sequence(names, path) for path in valid_paths):
+            passed_checks += 1
+            details.append("one valid tool path found")
+        else:
+            details.append("no valid tool path found")
+
     for expected in requirements.get("required_args", []):
         total_checks += 1
         if _tool_call_with_args(calls, expected["name"], expected["args"]):
@@ -171,6 +208,22 @@ def _extract_numbers(text: str) -> list[float]:
     for match in re.findall(r"[-+]?\d[\d,]*(?:\.\d+)?", text):
         values.append(float(match.replace(",", "")))
     return values
+
+
+def _labeled_options(item: Any) -> tuple[str, list[str]]:
+    if isinstance(item, dict):
+        label = str(item.get("label", "acceptable wording"))
+        options = [str(option) for option in item.get("options", [])]
+        return label, options
+    if isinstance(item, list):
+        return "acceptable wording", [str(option) for option in item]
+    return "acceptable wording", [str(item)]
+
+
+def _labeled_pattern(item: Any) -> tuple[str, str]:
+    if isinstance(item, dict):
+        return str(item.get("label", "pattern")), str(item.get("pattern", ""))
+    return "pattern", str(item)
 
 
 def _contains_sequence(names: list[str], sequence: list[str]) -> bool:

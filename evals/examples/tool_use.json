@@ -37,7 +37,10 @@
     "at_most": {
       "web_search": 5
     },
-    "required_sequence": ["web_search", "web_fetch", "calculator"],
+    "valid_tool_paths": [
+      ["web_search", "web_fetch", "calculator"],
+      ["web_search", "calculator"]
+    ],
     "forbidden": ["send_email"],
     "required_args": [
       {

@@ -208,7 +208,9 @@ def build_claude_tool_selection_judge_prompt(
     """Build the semantic judge prompt for tool description optimization."""
 
     payload = {
+        "heldout_selection_cases": bundle.get("heldout_tool_selection_cases", []),
         "selection_cases": bundle.get("tool_selection_cases", []),
+        "tool_metrics": bundle.get("tool_metrics", {}),
         "tools": bundle.get("tools", []),
         "trace_index": bundle.get("traces", []),
         "value_bar": bundle.get("value_bar", {}),
@@ -226,10 +228,18 @@ def build_claude_tool_selection_judge_prompt(
         "</bundle_extract>\n\n"
         "<semantic_rubric>\n"
         "- Are similar tools easy to distinguish from the descriptions alone?\n"
+        "- Are there a few agent-fit tools rather than many endpoint-shaped wrappers?\n"
+        "- Do large catalogs use service or resource namespaces where useful?\n"
         "- Do use_when and avoid_when rules give the agent a reliable selection policy?\n"
         "- Do schemas and argument descriptions make valid calls likely?\n"
+        "- Do tool outputs return meaningful context with predictable output contracts?\n"
+        "- Do large-output tools expose pagination, filtering, range, truncation, or response_format controls?\n"
+        "- Do error responses give actionable recovery guidance instead of opaque failures?\n"
         "- Do quality checks tell the agent how to inspect tool outputs before the next action?\n"
-        "- Do selection cases cover expected tools, forbidden tools, and confusing boundaries?\n"
+        "- Are evaluation prompts paired with verifiable responses or outcomes?\n"
+        "- Are expected tool calls used as optional diagnostics instead of overfitted exact strategies?\n"
+        "- Do selection cases cover confusing boundaries and held-out cases?\n"
+        "- Do transcript metrics expose runtime, tool-call count, token use, and tool errors where available?\n"
         "- Do recommended changes improve value over the baseline instead of adding prompt bulk?\n"
         "- Is the result adversarially-confirmed to add value?\n"
         "</semantic_rubric>\n\n"

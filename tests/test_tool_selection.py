@@ -48,6 +48,54 @@ class ToolSelectionTests(unittest.TestCase):
         joined = "\n".join(review.recommendations)
         self.assertIn("input_schema", joined)
         self.assertIn("tool_selection_cases", joined)
+        self.assertIn("heldout_tool_selection_cases", joined)
+
+    def test_selection_cases_require_verifiable_outcomes_without_exact_order(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            bundle = Path(tmpdir) / "bundle.json"
+            bundle.write_text(
+                """{
+  "tools": [
+    {
+      "name": "web_search",
+      "purpose": "Find sources.",
+      "use_when": "Use for unknown facts.",
+      "avoid_when": "Avoid for known URLs.",
+      "input_schema": {"properties": {"query": "Search query"}, "required": ["query"]},
+      "output_schema": {"results": "Source candidates"},
+      "context_controls": ["query specificity"],
+      "error_guidance": "Ask for a narrower query.",
+      "quality_checks": ["Prefer primary sources"]
+    }
+  ],
+  "tool_selection_cases": [
+    {
+      "name": "too exact",
+      "task": "Find a source.",
+      "expected_tools": ["web_search"],
+      "required_sequence": ["web_search"],
+      "rationale": "Search is required."
+    }
+  ],
+  "heldout_tool_selection_cases": [
+    {
+      "name": "heldout",
+      "task": "Find another source.",
+      "expected_tools": ["web_search"],
+      "rationale": "Search is required.",
+      "verifier": {"type": "flexible_text", "must_include_any": [["source"]]}
+    }
+  ],
+  "traces": []
+}
+""",
+                encoding="utf-8",
+            )
+            review = review_tool_selection_bundle(bundle)
+
+        failed = {finding.check for finding in review.findings if not finding.passed}
+        self.assertIn("selection_cases.verifiable_outcome", failed)
+        self.assertIn("selection_cases.avoids_exact_strategy", failed)
 
     def test_markdown_renderer(self):
         review = review_tool_selection_bundle(ROOT / "evals" / "examples" / "agent_audit_bundle.json")

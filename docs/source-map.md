@@ -42,6 +42,15 @@ Checked on 2026-06-24.
   - Used for the live Claude judge path, which sends a full user message to Claude and reads the
     returned text block.
 
+## Anthropic Engineering
+
+- [Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents)
+  - Used for prototype-first tool design, realistic multi-tool eval tasks, verifiable outcomes,
+    flexible verifiers, optional expected tool calls, avoiding strategy overfit, direct API eval
+    loops, reasoning and feedback blocks, transcript review, tool-call metrics, held-out test sets,
+    selective tool design, namespacing, meaningful output context, response formats, token
+    efficiency, actionable errors, and prompt-engineered tool descriptions.
+
 ## Local Screenshots
 
 The initial implementation also used user-provided screenshots of these slides:

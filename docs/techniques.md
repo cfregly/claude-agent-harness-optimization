@@ -59,6 +59,14 @@ tool descriptions.
 Each tool gets a purpose, use rule, avoid rule, and quality checks. Similar tools should be merged or
 renamed so the model does not have to guess which nearly identical tool should be used.
 
+Tools should also carry the context needed for agents to use them well:
+
+- predictable output contracts or response formats
+- context controls for large responses
+- actionable error guidance
+- clear parameter names and strict input models
+- held-out eval cases that were not used to design the prompt change
+
 Run `optimize-tools` on an audit bundle to review tool descriptions, schemas, calibration cases, and
 trace-derived selection failures. The command returns concrete changes for names, `use_when`,
 `avoid_when`, `input_schema`, result checks, calibration cases, and stop criteria.
@@ -114,6 +122,11 @@ The local eval harness covers the three eval families from the talk:
 - final state accuracy: check that files, data, or workflow state ended correctly
 
 Start with a small realistic set, keep it consistent, and expand it when failures repeat.
+
+Each eval should have a verifiable response or outcome. Use exact checks only when exactness matters.
+Use numeric ranges, flexible phrase groups, regex checks, subset checks, or Claude judge rubrics when
+those better match the real task. Expected tools are useful, but use `valid_tool_paths` when several
+successful strategies are allowed.
 
 ## 12. Use Examples Sparingly
 

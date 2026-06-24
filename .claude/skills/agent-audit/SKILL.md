@@ -65,9 +65,14 @@ human.
 
 ## What To Look For
 
-- Tools: duplicate names, vague purposes, missing `use_when` or `avoid_when`, missing `input_schema`, missing `quality_checks`, overlapping search tools.
+- Tools: duplicate names, vague purposes, endpoint-shaped wrappers, missing `use_when` or
+  `avoid_when`, missing `input_schema`, missing `output_schema`, missing `quality_checks`, missing
+  context controls for large outputs, missing error guidance, overlapping search tools.
 - Tool calls: wrong tool, missing required tool, forbidden tool, bad arguments, duplicate calls, over-budget calls.
-- Selection cases: missing expected tools, missing forbidden tools, missing contrast between similar tools, missing rationale.
+- Metrics: missing runtime, token, tool-call count, or tool-error summaries from representative runs.
+- Selection cases: missing verifiable outcomes, missing held-out cases, missing expected tools,
+  missing forbidden tools, missing contrast between similar tools, missing rationale, exact tool
+  order that overfits one valid strategy.
 - Model matrix: provider-specific failures, native-tool failures, JSON-choice failures, baseline versus tuned description gaps, instruction variant regressions.
 - Harness grind: repeated failures that can be turned into a candidate variant and retested live against the baseline.
 - Tool outputs: missing result, result linked to no call, errors without recovery.

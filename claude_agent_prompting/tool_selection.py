@@ -61,12 +61,16 @@ def review_tool_selection(bundle: dict[str, Any], base_dir: str | Path) -> ToolS
     tools = bundle.get("tools", [])
     traces = bundle.get("traces", [])
     cases = bundle.get("tool_selection_cases", [])
+    heldout_cases = bundle.get("heldout_tool_selection_cases", [])
+    metrics = bundle.get("tool_metrics", {})
     base_path = Path(base_dir)
     findings: list[ToolSelectionFinding] = []
 
     findings.extend(_inventory_findings(tools))
-    findings.extend(_selection_case_findings(cases, tools))
+    findings.extend(_selection_suite_findings(cases, heldout_cases))
+    findings.extend(_selection_case_findings(cases + heldout_cases, tools))
     findings.extend(_trace_selection_findings(traces, tools, base_path))
+    findings.extend(_metric_findings(metrics))
 
     score = _weighted_score(findings)
     failed_high = any(not finding.passed and finding.severity == "high" for finding in findings)
@@ -177,7 +181,90 @@ def _inventory_findings(tools: list[dict[str, Any]]) -> list[ToolSelectionFindin
                 "medium",
             )
         )
+        has_output_contract = bool(
+            tool.get("output_schema")
+            or tool.get("result_schema")
+            or tool.get("response_format")
+            or tool.get("response_formats")
+        )
+        findings.append(
+            ToolSelectionFinding(
+                "inventory.output_contract",
+                has_output_contract,
+                f"{name} declares useful output shape or response formats",
+                (
+                    f"Add output_schema, result_schema, response_format, or response_formats to {name} "
+                    "so the agent can predict useful tool output."
+                    if not has_output_contract
+                    else ""
+                ),
+                "medium",
+            )
+        )
+        needs_context_controls = _may_return_large_context(tool)
+        has_context_controls = _has_context_controls(tool)
+        findings.append(
+            ToolSelectionFinding(
+                "inventory.context_controls",
+                (not needs_context_controls) or has_context_controls,
+                (
+                    f"{name} has context controls or is not a large-output tool"
+                    if (not needs_context_controls) or has_context_controls
+                    else f"{name} may return large context without pagination, filtering, range, limit, or response_format controls"
+                ),
+                (
+                    f"Add context_controls or input parameters like limit, filter, page_size, range, "
+                    f"or response_format to {name}."
+                    if needs_context_controls and not has_context_controls
+                    else ""
+                ),
+                "medium",
+            )
+        )
+        has_error_guidance = bool(tool.get("error_guidance") or tool.get("error_examples"))
+        findings.append(
+            ToolSelectionFinding(
+                "inventory.error_guidance",
+                has_error_guidance,
+                f"{name} provides actionable error guidance",
+                (
+                    f"Add error_guidance or error_examples to {name} so validation failures steer "
+                    "the agent toward valid parameters."
+                    if not has_error_guidance
+                    else ""
+                ),
+                "low",
+            )
+        )
+    findings.append(_namespace_finding(tools))
     return findings
+
+
+def _selection_suite_findings(
+    cases: list[dict[str, Any]],
+    heldout_cases: list[dict[str, Any]],
+) -> list[ToolSelectionFinding]:
+    return [
+        ToolSelectionFinding(
+            "selection_cases.heldout_present",
+            bool(heldout_cases),
+            f"found {len(heldout_cases)} held-out tool-selection cases",
+            (
+                "Add heldout_tool_selection_cases so tool-description changes are checked against "
+                "cases not used to design the change."
+                if not heldout_cases
+                else ""
+            ),
+            "medium",
+        ),
+        ToolSelectionFinding(
+            "selection_cases.training_present",
+            bool(cases),
+            f"found {len(cases)} training calibration cases",
+            "Add tool_selection_cases based on realistic user tasks." if not cases else "",
+            "high",
+        ),
+    ]
 
 
 def _selection_case_findings(
@@ -204,8 +291,11 @@ def _selection_case_findings(
         name = str(case.get("name", "<unnamed>"))
         expected = set(case.get("expected_tools", []))
         forbidden = set(case.get("forbidden_tools", []))
+        valid_paths = case.get("valid_tool_paths", [])
+        valid_path_tools = {str(tool) for path in valid_paths for tool in path}
         unknown_expected = sorted(expected - tool_names)
         unknown_forbidden = sorted(forbidden - tool_names)
+        unknown_path_tools = sorted(valid_path_tools - tool_names)
         findings.append(
             ToolSelectionFinding(
                 "selection_cases.expected_tools_known",
@@ -232,6 +322,33 @@ def _selection_case_findings(
                 "medium",
             )
         )
+        findings.append(
+            ToolSelectionFinding(
+                "selection_cases.valid_paths_known",
+                not unknown_path_tools,
+                f"{name} valid tool paths reference known tools",
+                (
+                    f"Add or rename missing tools in valid_tool_paths for case {name}: {unknown_path_tools}"
+                    if unknown_path_tools
+                    else ""
+                ),
+                "medium",
+            )
+        )
+        has_verifiable_outcome = _has_verifiable_outcome(case)
+        findings.append(
+            ToolSelectionFinding(
+                "selection_cases.verifiable_outcome",
+                has_verifiable_outcome,
+                f"{name} has a verifiable response or outcome",
+                (
+                    f"Add verifier, expected_outcome, checks, or ground_truth to case {name}."
+                    if not has_verifiable_outcome
+                    else ""
+                ),
+                "high",
+            )
+        )
         has_contrast = bool(forbidden or case.get("contrast_with"))
         findings.append(
             ToolSelectionFinding(
@@ -256,6 +373,22 @@ def _selection_case_findings(
                     f"Add a rationale to case {name} so failures explain "
                     "the prompt or tool-description fix."
                     if not has_rationale
+                    else ""
+                ),
+                "low",
+            )
+        )
+        avoids_exact_strategy = not any(
+            key in case for key in ("required_sequence", "exact_tool_order", "must_call_in_order")
+        )
+        findings.append(
+            ToolSelectionFinding(
+                "selection_cases.avoids_exact_strategy",
+                avoids_exact_strategy,
+                f"{name} does not force one exact tool order",
+                (
+                    f"Replace exact tool order in case {name} with valid_tool_paths or outcome checks."
+                    if not avoids_exact_strategy
                     else ""
                 ),
                 "low",
@@ -382,8 +515,109 @@ def _tools_with_error_results(trace: dict[str, Any]) -> set[str]:
     return names
 
 
+def _metric_findings(metrics: dict[str, Any]) -> list[ToolSelectionFinding]:
+    required = {
+        "avg_runtime_ms": "average task or tool runtime",
+        "avg_tool_calls": "average tool-call count",
+        "tool_error_rate": "tool error rate",
+        "token_count": "token consumption",
+    }
+    findings = [
+        ToolSelectionFinding(
+            "metrics.present",
+            bool(metrics),
+            "tool-calling metrics are present" if metrics else "tool-calling metrics are missing",
+            (
+                "Add tool_metrics with avg_runtime_ms, avg_tool_calls, token_count, and "
+                "tool_error_rate from representative runs."
+                if not metrics
+                else ""
+            ),
+            "medium",
+        )
+    ]
+    for key, label in required.items():
+        has_metric = key in metrics
+        findings.append(
+            ToolSelectionFinding(
+                f"metrics.{key}",
+                has_metric,
+                f"metrics include {label}",
+                f"Track {key} so transcript analysis can catch inefficient or error-prone tool use."
+                if not has_metric
+                else "",
+                "low",
+            )
+        )
+    return findings
+
+
+def _has_verifiable_outcome(case: dict[str, Any]) -> bool:
+    return any(
+        case.get(key)
+        for key in ("verifier", "expected_outcome", "ground_truth", "checks", "rubric")
+    )
+
+
 def _has_input_schema(tool: dict[str, Any]) -> bool:
     return bool(tool.get("input_schema") or tool.get("parameters") or tool.get("args_schema"))
+
+
+def _has_context_controls(tool: dict[str, Any]) -> bool:
+    if tool.get("context_controls"):
+        return True
+    schema = tool.get("input_schema") or tool.get("parameters") or {}
+    properties = schema.get("properties", {}) if isinstance(schema, dict) else {}
+    return bool(
+        {
+            "filter",
+            "limit",
+            "page",
+            "page_size",
+            "range",
+            "response_format",
+            "start",
+            "truncate",
+        }
+        & {str(key) for key in properties}
+    )
+
+
+def _may_return_large_context(tool: dict[str, Any]) -> bool:
+    text = " ".join(
+        str(tool.get(key, ""))
+        for key in ("name", "purpose", "use_when")
+    ).lower()
+    return any(
+        term in text
+        for term in ("fetch", "list", "logs", "read", "retrieve", "search", "thread")
+    )
+
+
+def _namespace_finding(tools: list[dict[str, Any]]) -> ToolSelectionFinding:
+    names = [str(tool.get("name", "")).strip() for tool in tools if str(tool.get("name", "")).strip()]
+    if len(names) < 8:
+        return ToolSelectionFinding(
+            "inventory.namespacing",
+            True,
+            "small tool catalog does not need namespacing",
+            "",
+            "low",
+        )
+    namespaced = [name for name in names if "_" in name or "." in name]
+    passed = len(namespaced) / len(names) >= 0.75
+    return ToolSelectionFinding(
+        "inventory.namespacing",
+        passed,
+        f"{len(namespaced)} of {len(names)} tools use a namespace-like name",
+        (
+            "Group large tool catalogs by service or resource namespace so agents can distinguish "
+            "tool boundaries."
+            if not passed
+            else ""
+        ),
+        "low",
+    )
 
 
 def _tool_names(tools: list[dict[str, Any]]) -> set[str]:

@@ -8,8 +8,10 @@ The optimizer turns that guesswork into a testable loop.
 `optimize-tools` reads an agent audit bundle with:
 
 - `tools`: names, purposes, use rules, avoid rules, input schemas, and quality checks.
-- `tool_selection_cases`: small calibration tasks with expected and forbidden tools.
+- `tool_selection_cases`: calibration tasks with verifiable outcomes and optional expected tools.
+- `heldout_tool_selection_cases`: cases used to check that a candidate generalizes.
 - `traces`: representative runs with ordered reasoning, tool calls, tool results, and final answers.
+- `tool_metrics`: runtime, tool-call count, token count, and tool error summaries.
 - `value_bar`: baseline, candidate, metric, threshold, and adversarial review.
 
 ## What It Checks
@@ -19,9 +21,16 @@ The deterministic optimizer checks:
 - distinct tool names and descriptions
 - `input_schema` or equivalent parameter shape for every tool
 - result `quality_checks` for every tool
+- output contracts and helpful error guidance
+- context controls for large-output tools
+- namespacing for large tool catalogs
 - calibration cases for each confusing tool boundary
 - expected and forbidden tools in each case
+- verifiable outcomes for every case
+- held-out cases for promotion checks
+- exact strategy overfitting through required tool order
 - trace tool calls against the declared catalog
+- transcript metrics for runtime, call count, token use, and tool errors
 - trace failures that point back to descriptions, schemas, examples, or budgets
 
 The Claude judge then reviews whether the descriptions and cases are semantically strong enough for
@@ -37,8 +46,11 @@ baseline.
    - sharpen `use_when`
    - sharpen `avoid_when`
    - add input schema details
+   - add output contracts or response formats
+   - add pagination, filtering, range, truncation, or response format controls
+   - add actionable error guidance
    - add result quality checks
-   - add one calibration case for a confusing boundary
+   - add one calibration case and one held-out case for a confusing boundary
    - add a regression trace when the failure came from a real run
 4. Re-run deterministic checks.
 5. Re-run `--claude-judge`.

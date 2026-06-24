@@ -5,11 +5,17 @@
       "avoid_when": "Avoid when a known source URL should be fetched directly.",
       "input_schema": {
         "properties": {
-          "query": "Specific search query with the entity, metric, and time frame."
+          "query": "Specific search query with the entity, metric, and time frame.",
+          "response_format": "Use concise for source discovery and detailed when snippets or ids are needed."
         },
         "required": ["query"]
       },
       "name": "web_search",
+      "context_controls": ["response_format", "query specificity"],
+      "error_guidance": "If the query is too broad, ask for a narrower entity, metric, or time frame.",
+      "output_schema": {
+        "results": "Ranked source candidates with title, url, snippet, source type, and date when available."
+      },
       "purpose": "Find candidate sources and fresh facts from the public web.",
       "quality_checks": [
         "Prefer primary or authoritative sources.",
@@ -21,11 +27,17 @@
       "avoid_when": "Avoid for broad discovery across many possible sources.",
       "input_schema": {
         "properties": {
-          "url": "Known source URL to retrieve."
+          "url": "Known source URL to retrieve.",
+          "response_format": "Use concise for claim support and detailed when ids, tables, or surrounding context are needed."
         },
         "required": ["url"]
       },
       "name": "web_fetch",
+      "context_controls": ["response_format", "source URL"],
+      "error_guidance": "If the URL cannot be fetched, return the status and suggest whether search or a different source is needed.",
+      "output_schema": {
+        "content": "Relevant source text, source URL, title, date, and notes about truncation or missing context."
+      },
       "purpose": "Read a known source URL in enough detail to ground an answer.",
       "quality_checks": [
         "Check that the fetched page directly supports the claim.",
@@ -42,6 +54,10 @@
         "required": ["expression"]
       },
       "name": "calculator",
+      "error_guidance": "If the expression is invalid, point to the invalid token and show one corrected expression shape.",
+      "output_schema": {
+        "result": "Numeric result with units when supplied and any parsing warning."
+      },
       "purpose": "Run arithmetic, unit conversion, and deterministic calculations.",
       "quality_checks": [
         "Use values already grounded by tool outputs.",
@@ -56,21 +72,53 @@
       "forbidden_tools": ["web_fetch", "calculator"],
       "name": "discover unknown current sources",
       "rationale": "The task starts without a known URL, so source discovery comes before fetching or calculating.",
-      "task": "Find current cargo specifications for a vehicle model."
+      "task": "Find current cargo specifications for a vehicle model.",
+      "verifier": {
+        "type": "flexible_text",
+        "must_include_any": [["cargo volume", "storage volume"], ["source", "manufacturer"]]
+      }
     },
     {
       "expected_tools": ["web_fetch"],
       "forbidden_tools": ["web_search", "calculator"],
       "name": "read known source",
       "rationale": "The user already supplied a URL, so direct fetch is more precise than another broad search.",
-      "task": "Read a provided manufacturer URL and extract cargo volume."
+      "task": "Read a provided manufacturer URL and extract cargo volume.",
+      "verifier": {
+        "type": "flexible_text",
+        "must_include_any": [["cargo volume", "storage volume"], ["URL", "source"]]
+      }
     },
     {
       "expected_tools": ["calculator"],
       "forbidden_tools": ["web_search", "web_fetch"],
       "name": "compute grounded estimate",
       "rationale": "The needed facts have already been gathered, so the next action is deterministic math.",
-      "task": "Convert 120.8 cubic feet to cubic inches."
+      "task": "Convert 120.8 cubic feet to cubic inches.",
+      "verifier": {
+        "type": "numeric_range",
+        "label": "cubic inches",
+        "min": 208742,
+        "max": 208743
+      }
+    }
+  ],
+  "heldout_tool_selection_cases": [
+    {
+      "contrast_with": ["mutation or messaging tools"],
+      "expected_tools": ["web_search", "calculator"],
+      "forbidden_tools": [],
+      "name": "grounded estimate from unknown facts",
+      "rationale": "A valid path may search first and calculate after enough evidence is found, but it should not send or mutate anything.",
+      "task": "Estimate how many items fit in a vehicle cargo area when neither cargo volume nor item volume is known.",
+      "valid_tool_paths": [
+        ["web_search", "web_fetch", "calculator"],
+        ["web_search", "calculator"]
+      ],
+      "verifier": {
+        "type": "flexible_text",
+        "must_include_any": [["estimate", "roughly"], ["evidence", "source"], ["uncertain", "assumption"]]
+      }
     }
   ],
   "traces": [
@@ -83,6 +131,12 @@
       "trace": "agent_trace_parallel_good.json"
     }
   ],
+  "tool_metrics": {
+    "avg_runtime_ms": 1800,
+    "avg_tool_calls": 4,
+    "token_count": 4200,
+    "tool_error_rate": 0
+  },
   "value_bar": {
     "adversarial_review": {
       "challenge": "The known-bad trace must fail for missing tools, duplicate search, missing inter-tool reasoning, and unsupported final output.",
