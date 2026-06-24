@@ -25,10 +25,10 @@ pip install -e .
 ```bash
 cp .env.example .env
 $EDITOR .env
-python -m claude_agent_prompting audit-agent evals/examples/agent_audit_bundle.json --claude-judge
-python -m claude_agent_prompting optimize-tools evals/examples/agent_audit_bundle.json --claude-judge
-python -m claude_agent_prompting model-matrix evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8
-python -m claude_agent_prompting grind-harness evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8 --heldout-cases "find python files,read known file" --min-improvement 0.05 --markdown
+python -m claude_agent_harness_optimization audit-agent evals/examples/agent_audit_bundle.json --claude-judge
+python -m claude_agent_harness_optimization optimize-tools evals/examples/agent_audit_bundle.json --claude-judge
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8
+python -m claude_agent_harness_optimization grind-harness evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8 --heldout-cases "find python files,read known file" --min-improvement 0.05 --markdown
 ```
 
 Do not commit `.env` files or API keys. The repo ignores local environment files. Commit only
@@ -84,8 +84,8 @@ reviewer then expects one reasoning step after the batch before the next action.
 For Agent SDK loops or IDE agents, normalize the raw runtime export first:
 
 ```bash
-python -m claude_agent_prompting normalize-runtime evals/examples/cursor_trace_review_events.json
-python -m claude_agent_prompting model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture
+python -m claude_agent_harness_optimization normalize-runtime evals/examples/cursor_trace_review_events.json
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture
 ```
 
 ## Audit Bundle Contract
@@ -158,9 +158,9 @@ Use an audit bundle when reviewing a full agent:
 Run:
 
 ```bash
-python -m claude_agent_prompting audit-agent evals/examples/agent_audit_bundle.json --markdown
-python -m claude_agent_prompting audit-agent evals/examples/agent_audit_bundle.json --claude-judge
-python -m claude_agent_prompting optimize-tools evals/examples/agent_audit_bundle.json --markdown
+python -m claude_agent_harness_optimization audit-agent evals/examples/agent_audit_bundle.json --markdown
+python -m claude_agent_harness_optimization audit-agent evals/examples/agent_audit_bundle.json --claude-judge
+python -m claude_agent_harness_optimization optimize-tools evals/examples/agent_audit_bundle.json --markdown
 ```
 
 ## Where The Evals Are

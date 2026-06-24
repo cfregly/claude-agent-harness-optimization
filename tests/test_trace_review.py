@@ -3,7 +3,7 @@ import subprocess
 import sys
 import unittest
 
-from claude_agent_prompting.trace_review import load_trace, review_trace
+from claude_agent_harness_optimization.trace_review import load_trace, review_trace
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +58,7 @@ class TraceReviewTests(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "claude_agent_prompting",
+                "claude_agent_harness_optimization",
                 "review-trace",
                 "evals/examples/agent_trace_good.json",
             ],

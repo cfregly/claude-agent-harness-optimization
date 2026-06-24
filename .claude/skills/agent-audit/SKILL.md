@@ -29,20 +29,20 @@ from prose. Treat "adversarially-confirmed to add value" as the pass bar.
 Run from the repo root.
 
 ```bash
-python -m claude_agent_prompting audit-agent <bundle.json> --markdown
-python -m claude_agent_prompting audit-agent <bundle.json> --claude-judge --markdown
-python -m claude_agent_prompting optimize-tools <bundle.json> --markdown
-python -m claude_agent_prompting optimize-tools <bundle.json> --claude-judge
-python -m claude_agent_prompting model-matrix <matrix.json> --markdown
-python -m claude_agent_prompting model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture --harnesses agent_sdk_trace,cursor_trace --variants exported_trace_tools --instruction-variants exported_trace --markdown
-python -m claude_agent_prompting model-matrix <matrix.json> --env-file .env --live --concurrency 8 --markdown
-python -m claude_agent_prompting grind-harness <matrix.json> --env-file .env --live --require-live --heldout-cases "<case 1>,<case 2>" --min-improvement 0.05 --concurrency 8 --markdown
-python -m claude_agent_prompting trace-suite <suite.json> --markdown
-python -m claude_agent_prompting review-trace <trace.json>
-python -m claude_agent_prompting review-trace <trace.json> --claude-judge
-python -m claude_agent_prompting normalize-claude <messages.json>
-python -m claude_agent_prompting normalize-runtime <events.json>
-python -m claude_agent_prompting trace-judge-prompt <trace.json>
+python -m claude_agent_harness_optimization audit-agent <bundle.json> --markdown
+python -m claude_agent_harness_optimization audit-agent <bundle.json> --claude-judge --markdown
+python -m claude_agent_harness_optimization optimize-tools <bundle.json> --markdown
+python -m claude_agent_harness_optimization optimize-tools <bundle.json> --claude-judge
+python -m claude_agent_harness_optimization model-matrix <matrix.json> --markdown
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture --harnesses agent_sdk_trace,cursor_trace --variants exported_trace_tools --instruction-variants exported_trace --markdown
+python -m claude_agent_harness_optimization model-matrix <matrix.json> --env-file .env --live --concurrency 8 --markdown
+python -m claude_agent_harness_optimization grind-harness <matrix.json> --env-file .env --live --require-live --heldout-cases "<case 1>,<case 2>" --min-improvement 0.05 --concurrency 8 --markdown
+python -m claude_agent_harness_optimization trace-suite <suite.json> --markdown
+python -m claude_agent_harness_optimization review-trace <trace.json>
+python -m claude_agent_harness_optimization review-trace <trace.json> --claude-judge
+python -m claude_agent_harness_optimization normalize-claude <messages.json>
+python -m claude_agent_harness_optimization normalize-runtime <events.json>
+python -m claude_agent_harness_optimization trace-judge-prompt <trace.json>
 ```
 
 Use JSON output when another program will consume the result. Use `--markdown` when reporting to a

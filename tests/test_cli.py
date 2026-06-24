@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class CliTests(unittest.TestCase):
     def run_cli(self, *args: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
-            [sys.executable, "-m", "claude_agent_prompting", *args],
+            [sys.executable, "-m", "claude_agent_harness_optimization", *args],
             cwd=ROOT,
             check=False,
             text=True,
@@ -76,7 +76,7 @@ class CliTests(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "claude_agent_prompting",
+                "claude_agent_harness_optimization",
                 "review-trace",
                 "evals/examples/agent_trace_good.json",
                 "--claude-judge",

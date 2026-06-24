@@ -13,6 +13,4 @@ authors = [{ name = "Contributors" }]
 dependencies = []
 
 [project.scripts]
-claude-agent-harness-optimization = "claude_agent_prompting.cli:main"
-agent-harness-optimization = "claude_agent_prompting.cli:main"
-claude-agent-prompting = "claude_agent_prompting.cli:main"
+claude-agent-harness-optimization = "claude_agent_harness_optimization.cli:main"

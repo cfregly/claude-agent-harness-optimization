@@ -59,9 +59,9 @@ baseline.
 ## Commands
 
 ```bash
-python -m claude_agent_prompting optimize-tools evals/examples/agent_audit_bundle.json --markdown
-python -m claude_agent_prompting optimize-tools evals/examples/agent_audit_bundle.json --claude-judge
-python -m claude_agent_prompting audit-agent evals/examples/agent_audit_bundle.json --claude-judge --markdown
+python -m claude_agent_harness_optimization optimize-tools evals/examples/agent_audit_bundle.json --markdown
+python -m claude_agent_harness_optimization optimize-tools evals/examples/agent_audit_bundle.json --claude-judge
+python -m claude_agent_harness_optimization audit-agent evals/examples/agent_audit_bundle.json --claude-judge --markdown
 ```
 
 `audit-agent --claude-judge` includes the tool-selection optimizer, so a real audit cannot pass on

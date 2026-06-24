@@ -44,7 +44,7 @@ access to hidden chain-of-thought.
 Use `model-matrix` when the question is tool choice:
 
 ```bash
-python -m claude_agent_prompting model-matrix evals/model_matrix/coding_tool_selection.json \
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/coding_tool_selection.json \
   --env-file .env \
   --live \
   --require-live \
@@ -57,7 +57,7 @@ python -m claude_agent_prompting model-matrix evals/model_matrix/coding_tool_sel
 Use `grind-harness` when a baseline fails and you want a candidate tool-description variant:
 
 ```bash
-python -m claude_agent_prompting grind-harness evals/model_matrix/coding_tool_selection.json \
+python -m claude_agent_harness_optimization grind-harness evals/model_matrix/coding_tool_selection.json \
   --env-file .env \
   --live \
   --require-live \
@@ -98,22 +98,22 @@ The first adapter should be thin. Capture actual tool calls and outputs before w
 about the harness. Normalize the event export first:
 
 ```bash
-python -m claude_agent_prompting normalize-runtime path/to/events.json > path/to/trace.json
+python -m claude_agent_harness_optimization normalize-runtime path/to/events.json > path/to/trace.json
 ```
 
 Once a real trace exists, run:
 
 ```bash
-python -m claude_agent_prompting review-trace path/to/trace.json --claude-judge
-python -m claude_agent_prompting trace-suite path/to/suite.json --markdown
-python -m claude_agent_prompting audit-agent path/to/bundle.json --claude-judge --markdown
+python -m claude_agent_harness_optimization review-trace path/to/trace.json --claude-judge
+python -m claude_agent_harness_optimization trace-suite path/to/suite.json --markdown
+python -m claude_agent_harness_optimization audit-agent path/to/bundle.json --claude-judge --markdown
 ```
 
 Then add the exported run as a named harness in a model matrix. The fixture provider is useful for
 testing adapters without spending live provider calls:
 
 ```bash
-python -m claude_agent_prompting model-matrix evals/model_matrix/harness_trace_adapters.json \
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/harness_trace_adapters.json \
   --live \
   --require-live \
   --providers trace_fixture \

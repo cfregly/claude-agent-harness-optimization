@@ -3,7 +3,7 @@ import subprocess
 import sys
 import unittest
 
-from claude_agent_prompting.trace_suite import run_trace_suite
+from claude_agent_harness_optimization.trace_suite import run_trace_suite
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +21,7 @@ class TraceSuiteTests(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "claude_agent_prompting",
+                "claude_agent_harness_optimization",
                 "trace-suite",
                 "evals/suites/agent_trace_suite.json",
             ],

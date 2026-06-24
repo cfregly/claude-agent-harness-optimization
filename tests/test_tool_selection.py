@@ -4,7 +4,7 @@ import sys
 import tempfile
 import unittest
 
-from claude_agent_prompting.tool_selection import (
+from claude_agent_harness_optimization.tool_selection import (
     render_tool_selection_markdown,
     review_tool_selection_bundle,
 )
@@ -108,7 +108,7 @@ class ToolSelectionTests(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "claude_agent_prompting",
+                "claude_agent_harness_optimization",
                 "optimize-tools",
                 "evals/examples/agent_audit_bundle.json",
                 "--markdown",

@@ -13,10 +13,10 @@ harnesses, `CLAUDE.md` style instructions, and skills across model generations.
 ## Run it
 
     pip install -e .
-    python -m claude_agent_prompting render recipes/agentic_search.json
-    python -m claude_agent_prompting score recipes/agentic_search.json
-    python -m claude_agent_prompting eval evals/examples/search_answer.json
-    python -m claude_agent_prompting model-matrix evals/model_matrix/coding_tool_selection.json
+    python -m claude_agent_harness_optimization render recipes/agentic_search.json
+    python -m claude_agent_harness_optimization score recipes/agentic_search.json
+    python -m claude_agent_harness_optimization eval evals/examples/search_answer.json
+    python -m claude_agent_harness_optimization model-matrix evals/model_matrix/coding_tool_selection.json
 
 ## Rules
 

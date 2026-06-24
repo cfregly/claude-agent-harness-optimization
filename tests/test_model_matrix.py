@@ -2,7 +2,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from claude_agent_prompting.model_matrix import (
+from claude_agent_harness_optimization.model_matrix import (
     MatrixFilters,
     evaluate_model_choice,
     load_env_file,
