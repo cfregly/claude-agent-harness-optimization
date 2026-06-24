@@ -12,8 +12,8 @@ value claim, compares against a baseline, meets a minimum improvement threshold,
 adversarial check with no open objections.
 
 The repo turns the main ideas from Anthropic's "Prompting for Agents" talk into code and templates.
-The deterministic checks run offline with the Python standard library. Real semantic audits can call
-Claude through the Messages API with `ANTHROPIC_API_KEY`.
+The deterministic checks run first, then real semantic audits call Claude through the Messages API
+with `ANTHROPIC_API_KEY`. CI requires a live Claude judge pass.
 
 ```bash
 python3.11 -m venv .venv
@@ -88,7 +88,8 @@ reports concrete prompt or tool changes. The skill treats missing value-bar proo
 
 ## Claude Judge
 
-Use the Claude judge when the audit depends on semantic judgment rather than JSON structure alone:
+Use the Claude judge for real audits. It is the semantic gate for reasoning quality, tool-output
+use, and final grounding:
 
 ```bash
 export ANTHROPIC_API_KEY=...
@@ -101,6 +102,9 @@ when available, tool calls, tool outputs, and final answers. It does not claim a
 chain-of-thought. If an agent runtime does not expose reasoning, instrument the agent to emit short
 decision notes before and after tool calls.
 
+GitHub Actions requires the `ANTHROPIC_API_KEY` repository secret and runs the same live judge
+against the sample audit bundle on every push and pull request.
+
 ## Verify it
 
 ```bash
@@ -112,6 +116,7 @@ python -m claude_agent_prompting review-trace evals/examples/agent_trace_good.js
 python -m claude_agent_prompting normalize-claude evals/examples/claude_messages.json
 python -m claude_agent_prompting trace-suite evals/suites/agent_trace_suite.json
 python -m claude_agent_prompting audit-agent evals/examples/agent_audit_bundle.json
+python -m claude_agent_prompting audit-agent evals/examples/agent_audit_bundle.json --claude-judge
 python scripts/check_value_bar.py
 ```
 

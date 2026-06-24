@@ -5,10 +5,9 @@ description: Review an agent's tool inventory, tool calls, reasoning summaries, 
 
 # Agent Audit
 
-Use the repo's CLI to produce deterministic trace reviews before giving judgment, then use the
-Claude judge for real semantic audits when an API key is available. Prefer existing JSON artifacts
-over reconstructing a trace from prose. Treat "adversarially-confirmed to add value" as the pass
-bar.
+Use the repo's CLI to produce deterministic trace reviews before giving judgment, then run the live
+Claude judge for real semantic audits. Prefer existing JSON artifacts over reconstructing a trace
+from prose. Treat "adversarially-confirmed to add value" as the pass bar.
 
 ## Decision Tree
 
