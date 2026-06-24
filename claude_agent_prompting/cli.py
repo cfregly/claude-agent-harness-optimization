@@ -7,9 +7,11 @@ import json
 from pathlib import Path
 import sys
 
+from .adapters import claude_messages_to_trace, load_json
 from .evals import build_judge_prompt, evaluate_case, load_eval_case
 from .prompt_builder import lint_tools, load_recipe, render_prompt
 from .suitability import score_use_case
+from .trace_review import build_trace_judge_prompt, load_trace, review_trace
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -30,6 +32,21 @@ def main(argv: list[str] | None = None) -> int:
 
     judge_parser = subparsers.add_parser("judge-prompt", help="render an LLM judge prompt")
     judge_parser.add_argument("case", type=Path)
+
+    trace_parser = subparsers.add_parser("review-trace", help="review an ordered agent trace")
+    trace_parser.add_argument("trace", type=Path)
+
+    trace_judge_parser = subparsers.add_parser(
+        "trace-judge-prompt",
+        help="render an LLM judge prompt for an ordered agent trace",
+    )
+    trace_judge_parser.add_argument("trace", type=Path)
+
+    normalize_parser = subparsers.add_parser(
+        "normalize-claude",
+        help="normalize Claude Messages API blocks into an agent trace",
+    )
+    normalize_parser.add_argument("messages", type=Path)
 
     args = parser.parse_args(argv)
 
@@ -56,6 +73,20 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "judge-prompt":
         sys.stdout.write(build_judge_prompt(load_eval_case(args.case)))
+        return 0
+
+    if args.command == "review-trace":
+        result = review_trace(load_trace(args.trace))
+        print(result.to_json())
+        return 0 if result.passed else 1
+
+    if args.command == "trace-judge-prompt":
+        sys.stdout.write(build_trace_judge_prompt(load_trace(args.trace)))
+        return 0
+
+    if args.command == "normalize-claude":
+        trace = claude_messages_to_trace(load_json(args.messages))
+        print(json.dumps(trace, indent=2, sort_keys=True))
         return 0
 
     parser.error(f"unknown command: {args.command}")

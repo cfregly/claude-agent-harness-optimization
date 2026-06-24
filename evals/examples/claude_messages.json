@@ -1,0 +1,56 @@
+{
+  "name": "claude_messages_trace",
+  "rubric": {
+    "max_duplicate_calls": 0,
+    "max_tool_calls": 2,
+    "min_tool_calls": 1,
+    "pass_score": 1.0,
+    "required_final_contains": ["104.7"],
+    "required_tools": ["web_search"]
+  },
+  "task": "Find a current cargo-volume fact.",
+  "messages": [
+    {
+      "content": [
+        {
+          "signature": "sig_opaque",
+          "thinking": "I need a direct source for the cargo volume before answering.",
+          "type": "thinking"
+        },
+        {
+          "id": "toolu_1",
+          "input": {
+            "query": "Rivian R1S cargo volume"
+          },
+          "name": "web_search",
+          "type": "tool_use"
+        }
+      ],
+      "role": "assistant"
+    },
+    {
+      "content": [
+        {
+          "content": "Manufacturer specs say cargo volume is 104.7 cubic feet.",
+          "tool_use_id": "toolu_1",
+          "type": "tool_result"
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "content": [
+        {
+          "signature": "sig_opaque_2",
+          "thinking": "The result is direct evidence from a relevant source, so I can answer.",
+          "type": "thinking"
+        },
+        {
+          "text": "The cargo volume is 104.7 cubic feet.",
+          "type": "text"
+        }
+      ],
+      "role": "assistant"
+    }
+  ]
+}

@@ -27,6 +27,11 @@ Checked on 2026-06-24.
 - [Define success criteria and build evaluations](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests)
   - Used for task-specific evals, automated grading, LLM-based grading rubrics, and multidimensional
     success criteria.
+- [Extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
+  - Used for thinking blocks, summarized or omitted display, interleaved thinking with tools,
+    preserving thinking blocks during tool use, and redacted thinking blocks.
+- [Tool use with Claude](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)
+  - Used for `tool_use` and `tool_result` content block terminology.
 
 ## Local Screenshots
 

@@ -19,6 +19,8 @@ python -m claude_agent_prompting render recipes/agentic_search.json
 python -m claude_agent_prompting score recipes/agentic_search.json
 python -m claude_agent_prompting lint-tools recipes/agentic_search.json
 python -m claude_agent_prompting eval evals/examples/search_answer.json
+python -m claude_agent_prompting review-trace evals/examples/agent_trace_good.json
+python -m claude_agent_prompting normalize-claude evals/examples/claude_messages.json
 python -m claude_agent_prompting judge-prompt evals/examples/search_answer.json
 ```
 
@@ -40,6 +42,7 @@ Claude prompt engineering docs:
 - evals for answer accuracy, tool use accuracy, and final state accuracy
 - small realistic eval sets, LLM judge rubrics, and manual review
 - examples added only after failures show where they help
+- ordered trace review for reasoning, tool calls, tool outputs, and final answers
 
 ## Layout
 
@@ -48,6 +51,8 @@ claude_agent_prompting/
   prompt_builder.py  # recipe validation and system prompt rendering
   suitability.py     # agent task-fit scoring
   evals.py           # offline answer, tool-use, and final-state evals
+  trace_review.py    # ordered trace review for tools and reasoning
+  adapters.py        # transcript normalizers for provider content blocks
   cli.py             # render, score, lint-tools, eval, judge-prompt
 recipes/             # ready-to-edit agent recipes
 evals/examples/      # small local eval cases
@@ -64,6 +69,8 @@ python scripts/deslop_check.py
 python -m compileall claude_agent_prompting scripts
 python -m unittest discover -s tests -q
 python -m claude_agent_prompting eval evals/examples/search_answer.json
+python -m claude_agent_prompting review-trace evals/examples/agent_trace_good.json
+python -m claude_agent_prompting normalize-claude evals/examples/claude_messages.json
 ```
 
 ## Sources
