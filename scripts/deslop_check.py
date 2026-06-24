@@ -8,7 +8,7 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CHECKED_GLOBS = ("*.md", "docs/*.md", "prompts/*.md")
+CHECKED_GLOBS = ("*.md", "docs/*.md", "prompts/*.md", ".claude/skills/*/SKILL.md")
 FORBIDDEN = {
     "\u2014": "em dash",
     "\u2013": "en dash",

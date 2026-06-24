@@ -66,7 +66,15 @@ prompts/             # reusable prompt snippets
 docs/                # technique map and source map
 tests/               # standard-library unit tests
 scripts/             # prose gate for public artifacts
+.claude/skills/      # project-local Claude Code skill for agent audits
 ```
+
+## Claude Code Skill
+
+The repo includes a project-local `/agent-audit` skill at
+`.claude/skills/agent-audit/SKILL.md`. Use it when reviewing another agent's tools, traces, Claude
+Messages API blocks, or trace suites. It chooses the right CLI path, runs deterministic checks, and
+reports concrete prompt or tool changes.
 
 ## Verify it
 
