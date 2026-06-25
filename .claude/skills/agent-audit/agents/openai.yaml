@@ -1,4 +1,4 @@
 interface:
   display_name: "Agent Audit"
   short_description: "Review agent tools, traces, and value proof"
-  default_prompt: "Review this agent bundle or trace suite and report tool-use, reasoning, trace-quality, and adversarial value-bar issues."
+  default_prompt: "Review this agent bundle or trace suite and report tool-use, reasoning, trace-quality, adversarial value-bar issues, and backing data for each summary claim."

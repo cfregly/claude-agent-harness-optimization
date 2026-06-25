@@ -17,11 +17,21 @@ class ReportTests(unittest.TestCase):
             "passed": False,
             "results": [{"case": "case one", "passed": False, "status": "failed"}],
             "summary": {"errors": 0, "failed_cases": 1, "passed_cases": 0, "score": 0.0, "total": 1},
+            "value_bar": {
+                "baseline": {"score": 0.25, "source": "baseline matrix"},
+                "candidate": {"score": 0.75, "source": "candidate matrix"},
+                "claim": "candidate improves tool selection",
+                "minimum_delta": 0.1,
+            },
         }
         html = render_html_report(payload, title="Sample Report")
         comment = render_pr_comment(payload, title="Sample Report")
         self.assertIn("<title>Sample Report</title>", html)
+        self.assertIn("Backing Data", html)
+        self.assertIn("delta=0.500", html)
         self.assertIn("case one", html)
+        self.assertIn("### Backing Data", comment)
+        self.assertIn("baseline=0.250", comment)
         self.assertIn("case one", comment)
 
     def test_cli_report_commands(self):

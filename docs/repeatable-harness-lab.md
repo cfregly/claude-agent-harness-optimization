@@ -126,7 +126,9 @@ python -m claude_agent_harness_optimization pr-comment /tmp/harness-matrix.json 
 ```
 
 Use the HTML report for local review. Use the PR comment output when another agent opens a pull
-request with new matrix results or tool-description changes.
+request with new matrix results or tool-description changes. Summaries should include backing data:
+counts, scores, deltas, baseline and candidate variants, source pins, failed cases, and the command
+or artifact path used.
 
 ## What To Optimize
 

@@ -79,7 +79,7 @@ Claude prompt engineering docs:
 - run import that writes both a normalized trace and an audit bundle for external harness exports
 - surface snapshots for the exact matrix, tool catalog, skill, and prompt files under evaluation
 - read-oriented credentialed E2E specs for service-backed MCP and harness checks
-- static HTML and PR-comment reports from audit, matrix, grind, snapshot, and E2E JSON
+- static HTML and PR-comment reports with backing data from audit, matrix, grind, snapshot, and E2E JSON
 - autoresearch-style harness grinding that turns matrix failures into candidate variants, checks
   held-out cases, logs keep or reject decisions, and promotes only live improvements
 - value-bar enforcement for baseline comparison, minimum improvement, and adversarial confirmation

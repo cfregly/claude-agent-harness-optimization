@@ -93,12 +93,29 @@ human.
 ## Reporting
 
 Lead with the result and score. Then list the highest-impact failed checks and the concrete change
-that would address each one.
+that would address each one. When the user asks for a summary, include backing data instead of only
+conclusions.
+
+Backing data should include the exact evidence available for the claim:
+
+- matrix or bundle name
+- upstream version or commit pin when present
+- baseline and candidate variants
+- pass counts, scores, deltas, and minimum threshold
+- provider, model, harness, instruction variant, and case names for live results
+- failed cases or objections that explain why a change was not promoted
+- command or artifact path used to produce the result
 
 Use this format:
 
 ```text
 Result: pass/fail, score X.XXX
+
+Backing data:
+- baseline: ...
+- candidate: ...
+- signal: ...
+- source: ...
 
 Findings:
 - [category] failed check: evidence from trace. Suggested change.
