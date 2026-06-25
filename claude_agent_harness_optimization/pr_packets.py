@@ -12,6 +12,9 @@ from typing import Any
 from .adapters import load_json
 
 
+PROJECT_EVIDENCE_REPO = "https://github.com/cfregly/claude-agent-harness-optimization"
+
+
 @dataclass(frozen=True)
 class PacketOptions:
     target_name: str
@@ -179,12 +182,13 @@ def render_upstream_pr_body(
             "",
             "## Evidence",
             "",
+            f"- public harness repo: {PROJECT_EVIDENCE_REPO}",
             "- `REPRODUCTION.md` contains the full local reproduction path.",
             "- `evidence.json` contains the matrix result, selected cases, comparison, and source pins.",
         ]
     )
     if options.evidence_url:
-        lines.append(f"- full evidence: {options.evidence_url}")
+        lines.append(f"- reproducible result artifact: {options.evidence_url}")
     return "\n".join(lines).rstrip() + "\n"
 
 

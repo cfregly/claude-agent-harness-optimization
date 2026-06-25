@@ -83,7 +83,8 @@ Claude prompt engineering docs:
 - surface snapshots for the exact matrix, tool catalog, skill, and prompt files under evaluation
 - read-oriented credentialed E2E specs for service-backed MCP and harness checks
 - static HTML and PR-comment reports with backing data from audit, matrix, grind, snapshot, and E2E JSON
-- upstream PR packets with source pins, exact examples, reproduction commands, and result evidence
+- upstream PR packets with source pins, exact examples, reproduction commands, result evidence,
+  and public repo backlinks
 - reusable harness check families for boundary, safety, argument, recovery, output, resource, thinking, parity, and reproducibility failures
 - live headless CLI harness probes for Codex, Claude Code, Gemini CLI, Cursor Agent, and OpenCode,
   with redacted artifacts, version pins, normalized traces, and directed-thinking visibility status

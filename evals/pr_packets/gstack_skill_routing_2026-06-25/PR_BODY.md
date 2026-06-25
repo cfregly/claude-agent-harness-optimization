@@ -100,6 +100,7 @@ python -m claude_agent_harness_optimization model-matrix evals/targets/gstack/gs
 
 ## Evidence
 
+- public harness repo: https://github.com/cfregly/claude-agent-harness-optimization
 - `REPRODUCTION.md` contains the full local reproduction path.
 - `evidence.json` contains the matrix result, selected cases, comparison, and source pins.
-- full evidence: https://github.com/cfregly/claude-agent-harness-optimization/tree/main/evals/results/gstack_skill_matrix_live_2026-06-25.json
+- reproducible result artifact: https://github.com/cfregly/claude-agent-harness-optimization/tree/main/evals/results/gstack_skill_matrix_live_2026-06-25.json

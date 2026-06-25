@@ -41,6 +41,7 @@ class PrPacketTests(unittest.TestCase):
             self.assertIn("passed=1", body)
             self.assertIn("single page extraction", body)
             self.assertIn("python -m claude_agent_harness_optimization model-matrix", body)
+            self.assertIn("public harness repo: https://github.com/cfregly/claude-agent-harness-optimization", body)
 
             written = write_upstream_pr_packet(packet, Path(tmp) / "packet")
             self.assertTrue(Path(written["PR_BODY.md"]).exists())

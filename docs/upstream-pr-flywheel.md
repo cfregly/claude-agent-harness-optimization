@@ -74,7 +74,8 @@ The pull request body should include:
 - pass counts, scores, delta, and minimum threshold
 - one failed baseline example and one passing candidate example
 - reproduction command
-- link back to this repo for full evidence
+- public harness repo backlink
+- specific result artifact link when the packet has a published matrix result
 
 ## Check Families
 
