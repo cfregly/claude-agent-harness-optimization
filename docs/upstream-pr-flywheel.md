@@ -77,6 +77,8 @@ The pull request body should include:
 - baseline and candidate variant names
 - provider, model, harness, instruction variant, and case names
 - provider profile and tier when present
+- current frontier/latest coverage for the claim, with older-model wins kept as regression evidence
+  unless the same ambiguity still reproduces on current latest models and harness versions
 - pass counts, scores, delta, and minimum threshold
 - one failed baseline example and one passing candidate example
 - confusable alternatives checked, not accusatory forbidden wording

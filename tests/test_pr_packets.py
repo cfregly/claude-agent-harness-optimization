@@ -40,6 +40,8 @@ class PrPacketTests(unittest.TestCase):
             self.assertIn("Helps agents choose the intended Example MCP workflow", body)
             self.assertIn("## What Already Works", body)
             self.assertIn("## How This Is Proven Useful", body)
+            self.assertIn("## Current Frontier Coverage", body)
+            self.assertIn("Treat this packet as historical or compatibility evidence", body)
             self.assertIn("## Downside If Not Changed", body)
             self.assertIn("same tasks, providers, harnesses, and instruction variants", body)
             self.assertIn("Retrieval ambiguity can make single-page extraction use a broader multi-page workflow", body)
@@ -62,6 +64,33 @@ class PrPacketTests(unittest.TestCase):
             self.assertTrue(Path(written["PR_BODY.md"]).exists())
             self.assertTrue(Path(written["REPRODUCTION.md"]).exists())
             self.assertTrue(Path(written["evidence.json"]).exists())
+
+    def test_frontier_cells_are_called_out_separately(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = _sample_result()
+            for cell in result["cells"]:
+                cell["tier"] = "frontier"
+                cell["profile"] = "provider-frontier"
+            for item in result["results"]:
+                item["tier"] = "frontier"
+                item["profile"] = "provider-frontier"
+                item["model"] = "example-frontier-model"
+            result_path = Path(tmp) / "result.json"
+            result_path.write_text(json.dumps(result), encoding="utf-8")
+            packet = build_upstream_pr_packet(
+                result_path,
+                options=PacketOptions(
+                    baseline_variant="stock",
+                    candidate_variant="tuned",
+                    target_name="Example MCP",
+                    minimum_delta=0.1,
+                ),
+            )
+
+            body = packet["files"]["PR_BODY.md"]
+            self.assertIn("Frontier-only score moved from 0.000 to 1.000", body)
+            self.assertIn("Frontier profiles covered: provider-frontier", body)
+            self.assertIn("Use frontier cells for upstream-facing claims", body)
 
     def test_cli_upstream_pr_packet(self):
         with tempfile.TemporaryDirectory() as tmp:

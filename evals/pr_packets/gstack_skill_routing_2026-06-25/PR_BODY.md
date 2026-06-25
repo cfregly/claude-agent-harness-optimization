@@ -21,6 +21,13 @@ Suggested title: Tighten gstack browser and safety routing with live evals
 - The run contains 720 matrix cells, with 12 failures preserved as evidence instead of hand-waved examples.
 - The source pin, exact cases, reproduction command, and result artifact are included so the claim can be rerun or challenged.
 
+## Current Frontier Coverage
+
+- This packet's 720-cell result is historical compatibility evidence, not a complete current frontier/latest sweep.
+- Do not present older-model wins as the upstream headline if the same ambiguity no longer reproduces on current latest model and harness versions.
+- The generated gstack matrix now includes `anthropic-fable-frontier`, `openai-gpt55-frontier`, and `gemini-31-pro-customtools-frontier`; use those cells for a stronger upstream-facing claim.
+- Keep the older `claude-sonnet-4-5`, `gpt-4.1`, and `gemini-2.5-pro` cells as regression evidence.
+
 ## Downside If Not Changed
 
 - Ambiguous descriptions let plausible adjacent tools win, so failures look reasonable in transcripts even when the selected workflow is wrong.

@@ -157,6 +157,12 @@ def render_upstream_pr_body(
     lines.extend(f"- {item}" for item in _proof_lines(result, comparison, options))
     lines.extend([
         "",
+        "## Current Frontier Coverage",
+        "",
+    ])
+    lines.extend(f"- {item}" for item in _frontier_coverage_lines(result, comparison, options))
+    lines.extend([
+        "",
         "## Downside If Not Changed",
         "",
     ])
@@ -478,6 +484,63 @@ def _run_surface_lines(result: dict[str, Any]) -> list[str]:
         if len(values) >= 12:
             break
     return values or ["run surface metadata not present"]
+
+
+def _frontier_coverage_lines(
+    result: dict[str, Any],
+    comparison: dict[str, Any],
+    options: PacketOptions,
+) -> list[str]:
+    frontier_cells = [
+        cell
+        for cell in result.get("cells", [])
+        if isinstance(cell, dict) and _is_frontier_surface(cell)
+    ]
+    frontier_results = [
+        item
+        for item in result.get("results", [])
+        if isinstance(item, dict) and _is_frontier_surface(item)
+    ]
+    if not frontier_cells and not frontier_results:
+        return [
+            "No current frontier profile metadata is present in this result.",
+            "Treat this packet as historical or compatibility evidence until rerun on current latest/frontier models and harness versions.",
+            "Older-model wins should not be the headline if the ambiguity is fixed by newer model or harness behavior.",
+        ]
+
+    lines = []
+    baseline = str(comparison.get("baseline_variant") or options.baseline_variant or "baseline")
+    candidate = str(comparison.get("candidate_variant") or options.candidate_variant or "candidate")
+    scores = _variant_scores({"cells": frontier_cells})
+    if baseline in scores and candidate in scores:
+        delta = scores[candidate] - scores[baseline]
+        lines.append(
+            f"Frontier-only score moved from {_format_score(scores[baseline])} to {_format_score(scores[candidate])}, delta {_format_score(delta)}."
+        )
+    elif frontier_cells:
+        lines.append(f"Frontier cells present: {len(frontier_cells)}.")
+    if frontier_results:
+        providers = sorted(
+            {
+                str(item.get("profile") or item.get("provider") or item.get("model"))
+                for item in frontier_results
+                if item.get("profile") or item.get("provider") or item.get("model")
+            }
+        )
+        if providers:
+            lines.append(f"Frontier profiles covered: {', '.join(providers[:8])}.")
+    lines.append(
+        "Use frontier cells for upstream-facing claims; keep high/balanced or older-model cells as regression coverage."
+    )
+    return lines
+
+
+def _is_frontier_surface(item: dict[str, Any]) -> bool:
+    tier = str(item.get("tier", "")).lower()
+    profile = str(item.get("profile", "")).lower()
+    if tier == "frontier" or "frontier" in profile:
+        return True
+    return False
 
 
 def _cell_summary_lines(result: dict[str, Any]) -> list[str]:

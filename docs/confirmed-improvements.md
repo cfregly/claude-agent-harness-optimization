@@ -33,8 +33,10 @@ What produced confirmed value:
 - Supabase needed schema-changing SQL to route to migrations, not ordinary SQL execution.
 - Zymtrace needed resource-first/default-project rules, metrics-first GPU workflows, and bounded
   hot-trace drilldown arguments.
-- gstack needed browser-alias and safety-mode routing tightened, with high-profile smoke checks
-  confirming the sensitive cases on Claude Opus, GPT-5.4, and Gemini 2.5 Pro.
+- gstack needed browser-alias and safety-mode routing tightened. The historical 720-cell run is
+  compatibility evidence, and later high-profile smoke checks covered sensitive cases. A stronger
+  upstream-facing claim should rerun the full matrix on current frontier/latest profiles before those
+  results are used as the headline.
 
 How usefulness is proven:
 
@@ -42,6 +44,9 @@ How usefulness is proven:
   prompts, providers, harnesses, and instruction variants.
 - The useful signal is a live model-call delta that changes the next tool call or required
   arguments in the ambiguous boundary case.
+- Upstream-facing claims should be led by current frontier/latest model and harness results.
+  Historical, high, balanced, or older-model cells are still useful regression coverage, but they
+  should be labeled that way.
 - The packet includes source pins, exact cases, reproduction commands, and result artifacts so an
   upstream maintainer can rerun or challenge the claim.
 
