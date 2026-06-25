@@ -19,12 +19,13 @@ The current sweep covers:
   status polling.
 - Context7 MCP: library ID resolution and documentation queries.
 - Supabase MCP: database metadata, migrations, SQL execution, extensions, and schema changes.
+- ClickHouse MCP: database listing, table metadata, and read-only SELECT queries.
 
 ## What Cleared
 
-GitHub, Playwright, Slack, Filesystem, Postgres MCP Pro, and Context7 did not produce a confirmed
-tuning win on the current slices. Their stock descriptions either passed outright or the apparent
-miss was an unfair verifier/transient issue.
+GitHub, Playwright, Slack, Filesystem, Postgres MCP Pro, Context7, and ClickHouse did not produce a
+confirmed tuning win on the current slices. Their stock descriptions either passed outright or the
+apparent miss was an unfair verifier/transient issue.
 
 Firecrawl produced a confirmed improvement:
 
@@ -73,6 +74,15 @@ Supabase adversarial DDL run:
 - Gemini native tools: terse 0/3, tuned 3/3.
 - Gemini prompt JSON: terse 0/3, tuned 3/3.
 
+ClickHouse adds a safety-oriented prompt-JSON matrix:
+
+- Standard read-only tasks route to `list_databases`, `list_tables`, or `run_select_query`.
+- Mutation tasks route to `NO_TOOL` because the visible official catalog is read-only.
+- Live Anthropic, OpenAI, and Gemini prompt-JSON cells passed 42/42 across stock and tuned
+  descriptions. That means no tuned ClickHouse wording is promoted yet.
+- This is not yet a credentialed database execution result. The ClickHouse Cloud API key proves
+  control-plane access. End-to-end MCP query traces also need database host/user/password.
+
 ## Commands
 
 Dry contract checks:
@@ -99,6 +109,21 @@ python -m claude_agent_harness_optimization model-matrix evals/model_matrix/supa
   --variants terse_supabase_database_mcp,tuned_supabase_database_boundaries \
   --instruction-variants supabase_database_host_rules \
   --cases "ddl create table uses migration,ddl create index uses migration,rls policy uses migration" \
+  --concurrency 3 \
+  --markdown
+```
+
+Live ClickHouse read-only boundary check:
+
+```bash
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/clickhouse_mcp_tool_selection.json \
+  --env-file .env \
+  --live \
+  --require-live \
+  --providers anthropic,openai,gemini \
+  --harnesses prompt_json \
+  --variants stock_clickhouse_mcp,tuned_clickhouse_readonly_boundaries \
+  --instruction-variants clickhouse_host_rules \
   --concurrency 3 \
   --markdown
 ```
@@ -146,3 +171,5 @@ python -m claude_agent_harness_optimization model-matrix evals/model_matrix/fire
 - `https://github.com/upstash/context7`
 - `https://github.com/supabase/mcp`
 - `https://supabase.com/docs/guides/ai-tools/mcp`
+- `https://github.com/clickhouse/mcp-clickhouse`
+- `https://clickhouse.com/docs/use-cases/AI/MCP`

@@ -168,6 +168,11 @@ class ModelMatrixTests(unittest.TestCase):
                 "tuned_supabase_database_boundaries",
                 "supabase_database_host_rules",
             ),
+            (
+                "clickhouse_mcp_tool_selection.json",
+                "tuned_clickhouse_readonly_boundaries",
+                "clickhouse_host_rules",
+            ),
         ]
 
         for filename, variant, instruction_variant in cases:
@@ -187,6 +192,18 @@ class ModelMatrixTests(unittest.TestCase):
                 self.assertFalse(result["live"])
                 self.assertEqual(2, result["summary"]["total"])
                 self.assertEqual("planned", result["results"][0]["status"])
+
+    def test_prompt_json_matrix_can_evaluate_no_tool_safety_case(self):
+        result = evaluate_model_choice(
+            {"arguments": {}, "tool_name": "NO_TOOL"},
+            {
+                "allow_no_tool": True,
+                "expected_tools": [],
+                "forbidden_tools": ["run_select_query"],
+            },
+        )
+
+        self.assertTrue(result["passed"])
 
 
 if __name__ == "__main__":

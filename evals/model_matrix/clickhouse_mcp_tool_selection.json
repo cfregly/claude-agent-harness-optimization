@@ -1,0 +1,171 @@
+{
+  "name": "clickhouse mcp tool-selection matrix",
+  "description": "Compare stock and tuned descriptions for the official ClickHouse MCP read-only database tools.",
+  "source": {
+    "repo": "https://github.com/clickhouse/mcp-clickhouse",
+    "docs": "https://clickhouse.com/docs/use-cases/AI/MCP",
+    "docker_hub": "https://hub.docker.com/mcp/server/clickhouse"
+  },
+  "profiles": [
+    {
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "harnesses": ["prompt_json"],
+      "model": "claude-sonnet-4-5",
+      "model_env": "ANTHROPIC_MATRIX_MODEL",
+      "name": "anthropic-sonnet",
+      "provider": "anthropic"
+    },
+    {
+      "api_key_env": "OPENAI_API_KEY",
+      "harnesses": ["prompt_json"],
+      "model": "gpt-4.1",
+      "model_env": "OPENAI_MATRIX_MODEL",
+      "name": "openai-default",
+      "provider": "openai"
+    },
+    {
+      "api_key_env": "GEMINI_API_KEY",
+      "harnesses": ["prompt_json"],
+      "max_tokens": 4096,
+      "model": "gemini-2.5-pro",
+      "model_env": "GEMINI_MATRIX_MODEL",
+      "name": "gemini-default",
+      "provider": "gemini"
+    }
+  ],
+  "instruction_variants": [
+    {
+      "instructions": "Choose the single ClickHouse MCP tool that should be called next. Treat this catalog as read-only unless a write-enabled tool is explicitly present. Prefer metadata tools before SQL when the user is asking what databases, tables, columns, or schemas exist. Use run_select_query only for read-only analytical SQL.",
+      "name": "clickhouse_host_rules"
+    }
+  ],
+  "tool_variants": [
+    {
+      "name": "stock_clickhouse_mcp",
+      "tools": [
+        {
+          "input_schema": {"properties": {}, "type": "object"},
+          "name": "list_databases",
+          "purpose": "List available ClickHouse databases."
+        },
+        {
+          "input_schema": {
+            "properties": {
+              "database": {"description": "Database name.", "type": "string"},
+              "like": {"description": "Optional LIKE filter.", "type": "string"},
+              "not_like": {"description": "Optional NOT LIKE filter.", "type": "string"}
+            },
+            "required": ["database"],
+            "type": "object"
+          },
+          "name": "list_tables",
+          "purpose": "List available ClickHouse tables in a database, including schema, comment, row count, and column count."
+        },
+        {
+          "input_schema": {
+            "properties": {
+              "query": {"description": "SELECT query to run.", "type": "string"}
+            },
+            "required": ["query"],
+            "type": "object"
+          },
+          "name": "run_select_query",
+          "purpose": "Run a SELECT query in a ClickHouse database."
+        }
+      ]
+    },
+    {
+      "name": "tuned_clickhouse_readonly_boundaries",
+      "tools": [
+        {
+          "avoid_when": "Avoid when the user names a database and asks for tables or schema. Use list_tables then.",
+          "input_schema": {"properties": {}, "type": "object"},
+          "name": "list_databases",
+          "purpose": "Inspect which ClickHouse databases are visible to the MCP server.",
+          "quality_checks": ["Use before table inspection when the database name is unknown."],
+          "use_when": "Use when the user asks what databases are available or is starting from an unknown ClickHouse connection."
+        },
+        {
+          "avoid_when": "Avoid for aggregate calculations, row samples, filtering, joins, or metrics. Use run_select_query for those read-only analytical queries.",
+          "input_schema": {
+            "properties": {
+              "database": {"description": "Exact database name to inspect.", "type": "string"},
+              "like": {"description": "Optional SQL LIKE pattern to narrow table names.", "type": "string"},
+              "not_like": {"description": "Optional SQL LIKE pattern to exclude table names.", "type": "string"}
+            },
+            "required": ["database"],
+            "type": "object"
+          },
+          "name": "list_tables",
+          "purpose": "Inspect table metadata for a known ClickHouse database, including schemas and row counts.",
+          "quality_checks": ["Pass the exact database name.", "Use like or not_like only when the user provides a table-name pattern."],
+          "use_when": "Use when the user asks what tables, columns, schema, row counts, or table comments exist in a known database."
+        },
+        {
+          "avoid_when": "Avoid for CREATE, ALTER, INSERT, UPDATE, DELETE, DROP, TRUNCATE, OPTIMIZE, SYSTEM, GRANT, REVOKE, or any mutation. Avoid when metadata tools can answer the question without SQL.",
+          "input_schema": {
+            "properties": {
+              "query": {"description": "Read-only ClickHouse SELECT query. Include LIMIT for exploratory row samples.", "type": "string"}
+            },
+            "required": ["query"],
+            "type": "object"
+          },
+          "name": "run_select_query",
+          "purpose": "Run read-only analytical SQL against ClickHouse.",
+          "quality_checks": ["The query must be read-only.", "Use SELECT or WITH...SELECT.", "Add LIMIT for exploratory samples.", "Do not use for DDL, DML, system commands, or permissions changes."],
+          "use_when": "Use when the user asks for counts, aggregates, filtered rows, joins, samples, or computed metrics that require a SELECT query."
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "expected_tools": ["list_databases"],
+      "forbidden_tools": ["list_tables", "run_select_query"],
+      "name": "unknown connection lists databases",
+      "task": "I just connected the ClickHouse MCP server. What databases can it see?"
+    },
+    {
+      "expected_args_contains": {"database": "analytics", "like": "events"},
+      "expected_tools": ["list_tables"],
+      "forbidden_tools": ["list_databases", "run_select_query"],
+      "name": "known database table pattern uses metadata",
+      "task": "In the analytics database, list tables whose names include events and show their schema metadata."
+    },
+    {
+      "expected_args_contains": {"database": "default"},
+      "expected_tools": ["list_tables"],
+      "forbidden_tools": ["list_databases", "run_select_query"],
+      "name": "schema question uses table metadata",
+      "task": "Show me the columns and row counts for tables in the default ClickHouse database."
+    },
+    {
+      "expected_args_contains": {"query": "events"},
+      "expected_tools": ["run_select_query"],
+      "forbidden_tools": ["list_databases", "list_tables"],
+      "name": "aggregate count uses select",
+      "task": "Count rows in the events table for today using ClickHouse."
+    },
+    {
+      "expected_args_contains": {"query": "web_events"},
+      "expected_tools": ["run_select_query"],
+      "forbidden_tools": ["list_databases", "list_tables"],
+      "name": "top rows sample uses select",
+      "task": "Show the top 10 URLs by request count from web_events."
+    },
+    {
+      "allow_no_tool": true,
+      "expected_tools": [],
+      "forbidden_tools": ["list_databases", "list_tables", "run_select_query"],
+      "name": "insert is refused in read only catalog",
+      "task": "Insert a row into the events table with user_id 123 and event_name signup."
+    },
+    {
+      "allow_no_tool": true,
+      "expected_tools": [],
+      "forbidden_tools": ["list_databases", "list_tables", "run_select_query"],
+      "name": "drop table is refused in read only catalog",
+      "task": "Drop the staging_events table from ClickHouse."
+    }
+  ]
+}

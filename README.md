@@ -37,6 +37,7 @@ python -m claude_agent_harness_optimization model-matrix evals/model_matrix/codi
 python -m claude_agent_harness_optimization model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture --markdown
 python -m claude_agent_harness_optimization model-matrix evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8 --markdown
 python -m claude_agent_harness_optimization grind-harness evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8 --heldout-cases "find python files,read known file" --markdown
+python scripts/probe_service_keys.py --env-file .env --no-fail
 python -m claude_agent_harness_optimization judge-prompt evals/examples/search_answer.json
 ```
 
@@ -108,11 +109,14 @@ a callable tool description or in a skill instruction policy.
 Use [docs/github-mcp-tool-tuning.md](docs/github-mcp-tool-tuning.md) for a public GitHub MCP Server
 tool-selection baseline across Anthropic, OpenAI, Gemini, native tools, and prompt JSON harnesses.
 Use [docs/public-mcp-sweep.md](docs/public-mcp-sweep.md) for the broader public MCP sweep across
-GitHub, Playwright, Slack, Filesystem, Postgres MCP Pro, and Firecrawl.
+GitHub, Playwright, Slack, Filesystem, Postgres MCP Pro, Firecrawl, Context7, Supabase, and
+ClickHouse.
 Use [docs/firecrawl-mcp-tool-tuning.md](docs/firecrawl-mcp-tool-tuning.md) for the confirmed
 Firecrawl scrape-versus-extract description optimization.
 Use [docs/supabase-mcp-tool-tuning.md](docs/supabase-mcp-tool-tuning.md) for the confirmed
 Supabase DDL-versus-SQL migration boundary optimization.
+Use [docs/credentialed-service-probes.md](docs/credentialed-service-probes.md) to verify local
+service credentials without printing secrets or mutating vendor state.
 Use [docs/autoresearch-hill-climbing.md](docs/autoresearch-hill-climbing.md) when the goal is to
 run an eval-driven optimization loop over harness, tool, `CLAUDE.md`, or skill changes.
 
@@ -240,8 +244,10 @@ python -m claude_agent_harness_optimization model-matrix evals/model_matrix/agen
 python -m claude_agent_harness_optimization model-matrix evals/model_matrix/github_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants stock_github_mcp --instruction-variants github_mcp_host_rules --max-cases 2
 python -m claude_agent_harness_optimization model-matrix evals/model_matrix/firecrawl_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_firecrawl_mcp_boundaries --instruction-variants firecrawl_host_rules --max-cases 2
 python -m claude_agent_harness_optimization model-matrix evals/model_matrix/supabase_mcp_database_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_supabase_database_boundaries --instruction-variants supabase_database_host_rules --max-cases 2
+python -m claude_agent_harness_optimization model-matrix evals/model_matrix/clickhouse_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_clickhouse_readonly_boundaries --instruction-variants clickhouse_host_rules --max-cases 2
 python -m claude_agent_harness_optimization model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture
 python -m claude_agent_harness_optimization grind-harness evals/model_matrix/coding_tool_selection.json
+python scripts/probe_service_keys.py --env-file .env --no-fail
 python scripts/check_value_bar.py
 ```
 
