@@ -15,6 +15,10 @@ The repo turns the main ideas from Anthropic's "Prompting for Agents" talk into 
 The deterministic checks run first, then real semantic audits call Claude through the Messages API
 with `ANTHROPIC_API_KEY`. CI requires a live Claude judge pass.
 
+For a founder using this on a real tool catalog, the loop is: build one narrow tool contract, test it
+with routing and argument evals, avoid broad side-effect tools without policy and trace evidence,
+then widen access only after the held-out cases, logs, fallback, and stop trigger pass.
+
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
