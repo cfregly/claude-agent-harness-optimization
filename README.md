@@ -224,6 +224,7 @@ Run a corpus audit before claiming the matrix is broad enough:
 
 ```bash
 python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --markdown
+python -m claude_agent_harness_opt matrix-coverage-suite evals/model_matrix --markdown
 ```
 
 `matrix-coverage` checks the matrix as an eval corpus before any provider call:
@@ -238,6 +239,12 @@ python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_m
 This does not replace live scoring. It prevents a clean live run from hiding an untested tool,
 untested negative, missing argument boundary, or forgotten family. Store the matrix, coverage
 report, live result, and PR packet together so the same cases can be rerun later as evals.
+
+For the full repository, the coverage suite is intentionally allowed to fail until each matrix has
+been hardened. The current ledger is stored at
+`evals/results/model_matrix_coverage_suite_2026-06-30.md`: it audits 18 matrices, with Zymtrace and
+the Codex trace-adapter matrix currently passing the strict coverage contract. The remaining
+matrices stay in the ledger as a concrete hardening backlog.
 
 After baseline failures repeat, the "hill climb" part starts:
 
@@ -366,6 +373,7 @@ provider, reasoning mode, or harness:
 ```bash
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/coding_tool_selection.json --markdown
 python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --markdown
+python -m claude_agent_harness_opt matrix-coverage-suite evals/model_matrix --markdown --out /tmp/model-matrix-coverage.md
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8 --markdown
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/agent_audit_skill_selection.json --env-file .env --live --require-live --providers anthropic --harnesses prompt_json --variants thin_workflow_tools --instruction-variants no_skill,agent_audit_skill --markdown
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/github_mcp_tool_selection.json --env-file .env --live --require-live --providers anthropic,openai,gemini --harnesses native_tools,prompt_json --variants stock_github_mcp,tuned_github_mcp_boundaries --instruction-variants github_mcp_host_rules --concurrency 4 --markdown
@@ -457,6 +465,7 @@ python -m claude_agent_harness_opt model-matrix evals/model_matrix/firecrawl_mcp
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/supabase_mcp_database_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_supabase_database_boundaries --instruction-variants supabase_database_host_rules --max-cases 2
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/clickhouse_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_clickhouse_readonly_boundaries --instruction-variants clickhouse_host_rules --max-cases 2
 python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --strict --out /tmp/zymtrace-coverage.json
+python -m claude_agent_harness_opt matrix-coverage-suite evals/model_matrix --out /tmp/model-matrix-coverage-suite.json
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/zymtrace_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_zymtrace_mcp_boundaries --instruction-variants zymtrace_host_and_skill_rules --max-cases 2
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/codex_harness_trace_adapter.json --live --require-live --providers trace_fixture

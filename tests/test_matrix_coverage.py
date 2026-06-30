@@ -1,7 +1,9 @@
 import unittest
 
 from claude_agent_harness_opt.matrix_coverage import (
+    audit_matrix_coverage_suite,
     audit_matrix_coverage_data,
+    render_matrix_coverage_suite_markdown,
     render_matrix_coverage_markdown,
 )
 
@@ -103,6 +105,103 @@ class MatrixCoverageTests(unittest.TestCase):
         self.assertIn("# Matrix Coverage: sample matrix", output)
         self.assertIn("Expected tool coverage: 1.000", output)
         self.assertIn("| lookup | 1 | 0 | 0 | yes |", output)
+
+    def test_suite_audit_summarizes_multiple_matrices(self):
+        suite = audit_matrix_coverage_suite(
+            [
+                "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+                "evals/model_matrix/clickhouse_mcp_tool_selection.json",
+            ]
+        )
+
+        self.assertEqual(2, suite["summary"]["matrix_count"])
+        self.assertEqual(1, suite["summary"]["passed_matrices"])
+        self.assertEqual(1, suite["summary"]["failed_matrices"])
+        self.assertFalse(suite["passed"])
+
+    def test_render_suite_markdown_lists_remaining_gaps(self):
+        suite = {
+            "audits": [
+                audit_matrix_coverage_data(
+                    {
+                "cases": [
+                    {
+                        "check_family": "boundary",
+                        "expected_tools": ["lookup"],
+                        "forbidden_tools": ["fallback"],
+                        "name": "lookup case",
+                        "task": "Lookup a value.",
+                    },
+                    {
+                        "check_family": "boundary",
+                        "expected_tools": ["fallback"],
+                        "forbidden_tools": ["lookup"],
+                        "name": "fallback case",
+                        "task": "Use fallback.",
+                    }
+                ],
+                "name": "passing matrix",
+                "profiles": [{"harnesses": ["prompt_json"], "provider": "trace_fixture"}],
+                "tool_variants": [
+                            {
+                                "name": "sample",
+                                "tools": [
+                                    {
+                                        "name": "lookup",
+                                        "purpose": "Lookup values.",
+                                        "quality_checks": ["Use exact ids."],
+                                    },
+                                    {
+                                        "name": "fallback",
+                                        "purpose": "Fallback safely.",
+                                        "quality_checks": ["Use only for fallback."],
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ),
+                audit_matrix_coverage_data(
+                    {
+                        "cases": [
+                            {
+                                "expected_tools": ["search"],
+                                "forbidden_tools": [],
+                                "name": "search case",
+                                "task": "Search.",
+                            }
+                        ],
+                        "name": "failing matrix",
+                        "profiles": [{"harnesses": ["prompt_json"], "provider": "trace_fixture"}],
+                        "tool_variants": [
+                            {
+                                "name": "sample",
+                                "tools": [
+                                    {"name": "search", "purpose": "Search."},
+                                ],
+                            }
+                        ],
+                    }
+                ),
+            ],
+            "passed": False,
+            "summary": {
+                "failed_matrices": 1,
+                "matrix_count": 2,
+                "passed_matrices": 1,
+                "total_argument_cases": 0,
+                "total_boundary_pairs": 2,
+                "total_cases": 3,
+                "total_tools": 3,
+            },
+        }
+
+        output = render_matrix_coverage_suite_markdown(suite)
+
+        self.assertIn("# Matrix Coverage Suite", output)
+        self.assertIn("| passing matrix | yes |", output)
+        self.assertIn("### failing matrix", output)
+        self.assertIn("Cases without forbidden tools: search case", output)
 
 
 if __name__ == "__main__":

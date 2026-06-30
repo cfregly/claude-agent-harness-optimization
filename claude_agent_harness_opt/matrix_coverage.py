@@ -19,6 +19,25 @@ def audit_matrix_coverage(path: str | Path) -> dict[str, Any]:
     return audit
 
 
+def audit_matrix_coverage_suite(paths: list[str | Path]) -> dict[str, Any]:
+    matrix_paths = _expand_matrix_paths(paths)
+    audits = [audit_matrix_coverage(path) for path in matrix_paths]
+    return {
+        "audits": audits,
+        "matrix_paths": [str(path) for path in matrix_paths],
+        "passed": all(audit["passed"] for audit in audits),
+        "summary": {
+            "failed_matrices": sum(1 for audit in audits if not audit["passed"]),
+            "matrix_count": len(audits),
+            "passed_matrices": sum(1 for audit in audits if audit["passed"]),
+            "total_argument_cases": sum(audit["summary"]["argument_case_count"] for audit in audits),
+            "total_boundary_pairs": sum(audit["summary"]["boundary_pair_count"] for audit in audits),
+            "total_cases": sum(audit["summary"]["case_count"] for audit in audits),
+            "total_tools": sum(audit["summary"]["tool_count"] for audit in audits),
+        },
+    }
+
+
 def audit_matrix_coverage_data(
     matrix: dict[str, Any],
     *,
@@ -247,6 +266,67 @@ def render_matrix_coverage_markdown(audit: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def render_matrix_coverage_suite_markdown(suite: dict[str, Any]) -> str:
+    summary = suite["summary"]
+    lines = [
+        "# Matrix Coverage Suite",
+        "",
+        f"Passed: {'yes' if suite['passed'] else 'no'}",
+        f"Matrices: {summary['matrix_count']}",
+        f"Passed matrices: {summary['passed_matrices']}",
+        f"Failed matrices: {summary['failed_matrices']}",
+        f"Total tools: {summary['total_tools']}",
+        f"Total cases: {summary['total_cases']}",
+        f"Total argument cases: {summary['total_argument_cases']}",
+        f"Total boundary pairs: {summary['total_boundary_pairs']}",
+        "",
+        "## Matrix Summary",
+        "",
+        "| Matrix | Passed | Tools | Cases | Expected | Forbidden | Arg Cases | Check Families | Boundary Pairs |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for audit in suite["audits"]:
+        item = audit["summary"]
+        lines.append(
+            "| {matrix} | {passed} | {tools} | {cases} | {expected:.3f} | {forbidden:.3f} | "
+            "{args} | {families} | {pairs} |".format(
+                args=item["argument_case_count"],
+                cases=item["case_count"],
+                expected=item["tool_expected_coverage"],
+                families=item["case_count_with_check_family"],
+                forbidden=item["forbidden_tool_coverage"],
+                matrix=audit["matrix"] or audit["matrix_path"],
+                pairs=item["boundary_pair_count"],
+                passed="yes" if audit["passed"] else "no",
+                tools=item["tool_count"],
+            )
+        )
+
+    failed = [audit for audit in suite["audits"] if not audit["passed"]]
+    if failed:
+        lines.extend(["", "## Remaining Gaps", ""])
+        for audit in failed:
+            lines.append(f"### {audit['matrix'] or audit['matrix_path']}")
+            for label, key in (
+                ("Never expected", "never_expected"),
+                ("Never forbidden", "never_forbidden"),
+                ("Expected without argument checks", "expected_without_argument_check"),
+                ("Missing quality checks", "missing_quality_checks"),
+                ("Cases without forbidden tools", "cases_without_forbidden"),
+                ("Cases without check_family", "cases_without_check_family"),
+                ("Unknown expected tools", "unknown_expected_tools"),
+                ("Unknown forbidden tools", "unknown_forbidden_tools"),
+            ):
+                values = audit["uncovered"].get(key, [])
+                if values:
+                    rendered = ", ".join(values[:20])
+                    suffix = f", plus {len(values) - 20} more" if len(values) > 20 else ""
+                    lines.append(f"- {label}: {rendered}{suffix}")
+            lines.append("")
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def matrix_coverage_json(audit: dict[str, Any]) -> str:
     return json.dumps(audit, indent=2, sort_keys=True)
 
@@ -276,6 +356,20 @@ def _tool_accepts_arguments(variants: list[dict[str, Any]], name: str) -> bool:
     properties = schema.get("properties", {})
     required = schema.get("required", [])
     return bool(properties or required)
+
+
+def _expand_matrix_paths(paths: list[str | Path]) -> list[Path]:
+    expanded: list[Path] = []
+    seen = set()
+    for raw_path in paths:
+        path = Path(raw_path)
+        candidates = sorted(path.glob("*.json")) if path.is_dir() else [path]
+        for candidate in candidates:
+            key = str(candidate)
+            if key not in seen:
+                seen.add(key)
+                expanded.append(candidate)
+    return expanded
 
 
 def _ratio(numerator: int, denominator: int) -> float:

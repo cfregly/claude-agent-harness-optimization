@@ -27,8 +27,10 @@ from .live_harness import (
 )
 from .matrix_coverage import (
     audit_matrix_coverage,
+    audit_matrix_coverage_suite,
     matrix_coverage_json,
     render_matrix_coverage_markdown,
+    render_matrix_coverage_suite_markdown,
 )
 from .model_matrix import (
     MatrixFilters,
@@ -243,6 +245,15 @@ def main(argv: list[str] | None = None) -> int:
     coverage_parser.add_argument("--markdown", action="store_true", help="print a Markdown report")
     coverage_parser.add_argument("--out", type=Path, help="write the JSON or Markdown report to a file")
     coverage_parser.add_argument("--strict", action="store_true", help="return nonzero when coverage gaps remain")
+
+    coverage_suite_parser = subparsers.add_parser(
+        "matrix-coverage-suite",
+        help="audit coverage for multiple model matrices or matrix directories",
+    )
+    coverage_suite_parser.add_argument("paths", nargs="+", type=Path)
+    coverage_suite_parser.add_argument("--markdown", action="store_true", help="print a Markdown report")
+    coverage_suite_parser.add_argument("--out", type=Path, help="write the JSON or Markdown report to a file")
+    coverage_suite_parser.add_argument("--strict", action="store_true", help="return nonzero when any matrix has gaps")
 
     grind_parser = subparsers.add_parser(
         "grind-harness",
@@ -525,6 +536,21 @@ def main(argv: list[str] | None = None) -> int:
         result = audit_matrix_coverage(args.matrix)
         output = (
             render_matrix_coverage_markdown(result)
+            if args.markdown
+            else matrix_coverage_json(result)
+        )
+        if args.out:
+            args.out.write_text(output, encoding="utf-8")
+        else:
+            sys.stdout.write(output)
+            if not output.endswith("\n"):
+                sys.stdout.write("\n")
+        return 1 if args.strict and not result["passed"] else 0
+
+    if args.command == "matrix-coverage-suite":
+        result = audit_matrix_coverage_suite(args.paths)
+        output = (
+            render_matrix_coverage_suite_markdown(result)
             if args.markdown
             else matrix_coverage_json(result)
         )
