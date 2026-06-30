@@ -789,5 +789,20 @@
       "task": "What filesystem directories is this MCP server allowed to access?",
       "check_family": "root_discovery"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "directory_create",
+      "directory_listing",
+      "file_edit",
+      "file_metadata",
+      "file_move",
+      "file_read",
+      "file_search",
+      "file_write",
+      "multi_file_read",
+      "root_discovery",
+      "tree_listing"
+    ]
+  }
 }

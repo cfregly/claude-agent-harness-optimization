@@ -357,5 +357,13 @@
     "claim": "The model matrix adds value when tuned descriptions beat short descriptions across provider harnesses without regressing heldout tool-selection cases.",
     "metric": "model_matrix.score",
     "minimum_delta": 0.1
+  },
+  "coverage": {
+    "required_check_families": [
+      "delegation",
+      "file_glob",
+      "file_read",
+      "text_search"
+    ]
   }
 }

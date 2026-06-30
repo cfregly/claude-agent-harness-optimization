@@ -790,5 +790,20 @@
         "activity-summary"
       ]
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "activity_summary",
+      "content_search",
+      "element_detail",
+      "element_search",
+      "frame_context",
+      "keyword_search",
+      "meeting_inventory",
+      "pipe_create",
+      "pipe_logs",
+      "pipe_run",
+      "video_export"
+    ]
+  }
 }

@@ -464,5 +464,16 @@
       "task": "The model matrix keeps failing the same boundary across harnesses. Use repeated_failures_matrix.json to generate a candidate harness improvement and confirm it with held-out cases.",
       "check_family": "hill_climb"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "bundle_audit",
+      "hill_climb",
+      "model_matrix",
+      "regression_suite",
+      "tool_selection_audit",
+      "trace_normalization",
+      "trace_review"
+    ]
+  }
 }

@@ -45,7 +45,13 @@ def audit_matrix_coverage_data(
 ) -> dict[str, Any]:
     variants = matrix.get("tool_variants", [])
     tools = _tool_names(variants)
-    external_forbidden = set(matrix.get("coverage", {}).get("external_forbidden_tools", []))
+    coverage = matrix.get("coverage", {})
+    external_forbidden = set(coverage.get("external_forbidden_tools", []))
+    required_check_families = {
+        str(family)
+        for family in coverage.get("required_check_families", [])
+        if str(family).strip()
+    }
     cases = matrix.get("cases", [])
     expected_cases = {tool: [] for tool in tools}
     forbidden_cases = {tool: [] for tool in tools}
@@ -132,6 +138,7 @@ def audit_matrix_coverage_data(
         for row in case_rows
         if not row["check_family"]
     ]
+    missing_required_check_families = sorted(required_check_families - set(check_families))
     warnings = []
     if never_expected:
         warnings.append("some catalog tools are never expected by a case")
@@ -145,6 +152,8 @@ def audit_matrix_coverage_data(
         warnings.append("some cases do not name forbidden confusable tools")
     if cases_without_check_family:
         warnings.append("some cases do not name a check_family")
+    if missing_required_check_families:
+        warnings.append("some required check families are not covered")
 
     return {
         "boundary_pairs": [
@@ -164,12 +173,17 @@ def audit_matrix_coverage_data(
         "matrix_path": matrix_path,
         "passed": not bool(warnings),
         "source": matrix.get("source", {}),
-        "coverage": matrix.get("coverage", {}),
+        "coverage": coverage,
         "summary": {
             "argument_case_count": sum(1 for row in case_rows if row["argument_checks"]),
             "boundary_pair_count": len(boundary_pairs),
             "case_count": len(cases),
             "case_count_with_check_family": len(cases) - len(cases_without_check_family),
+            "required_check_family_count": len(required_check_families),
+            "required_check_family_coverage": _ratio(
+                len(required_check_families) - len(missing_required_check_families),
+                len(required_check_families),
+            ),
             "forbidden_tool_coverage": _ratio(
                 len(operational_tools) - len(never_forbidden),
                 len(operational_tools),
@@ -195,6 +209,7 @@ def audit_matrix_coverage_data(
             "cases_without_forbidden": cases_without_forbidden,
             "expected_without_argument_check": expected_without_argument_check,
             "missing_quality_checks": missing_quality_checks,
+            "missing_required_check_families": missing_required_check_families,
             "never_expected": never_expected,
             "never_forbidden": never_forbidden,
             "unknown_expected_tools": sorted(unknown_expected),
@@ -218,6 +233,7 @@ def render_matrix_coverage_markdown(audit: dict[str, Any]) -> str:
         f"Cases with argument checks: {summary['argument_case_count']}",
         f"Boundary pairs: {summary['boundary_pair_count']}",
         f"Cases with check_family: {summary['case_count_with_check_family']}",
+        f"Required check-family coverage: {summary['required_check_family_coverage']:.3f}",
         "",
         "## Gaps",
         "",
@@ -227,6 +243,7 @@ def render_matrix_coverage_markdown(audit: dict[str, Any]) -> str:
         ("Never forbidden", "never_forbidden"),
         ("Expected without argument checks", "expected_without_argument_check"),
         ("Missing quality checks", "missing_quality_checks"),
+        ("Missing required check families", "missing_required_check_families"),
         ("Cases without forbidden tools", "cases_without_forbidden"),
         ("Cases without check_family", "cases_without_check_family"),
         ("Unknown expected tools", "unknown_expected_tools"),
@@ -288,14 +305,14 @@ def render_matrix_coverage_suite_markdown(suite: dict[str, Any]) -> str:
         "",
         "## Matrix Summary",
         "",
-        "| Matrix | Passed | Tools | Cases | Expected | Forbidden | Arg Cases | Check Families | Boundary Pairs |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| Matrix | Passed | Tools | Cases | Expected | Forbidden | Arg Cases | Check Families | Required Families | Boundary Pairs |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for audit in suite["audits"]:
         item = audit["summary"]
         lines.append(
             "| {matrix} | {passed} | {tools} | {cases} | {expected:.3f} | {forbidden:.3f} | "
-            "{args} | {families} | {pairs} |".format(
+            "{args} | {families} | {required:.3f} | {pairs} |".format(
                 args=item["argument_case_count"],
                 cases=item["case_count"],
                 expected=item["tool_expected_coverage"],
@@ -304,6 +321,7 @@ def render_matrix_coverage_suite_markdown(suite: dict[str, Any]) -> str:
                 matrix=audit["matrix"] or audit["matrix_path"],
                 pairs=item["boundary_pair_count"],
                 passed="yes" if audit["passed"] else "no",
+                required=item["required_check_family_coverage"],
                 tools=item["tool_count"],
             )
         )
@@ -318,6 +336,7 @@ def render_matrix_coverage_suite_markdown(suite: dict[str, Any]) -> str:
                 ("Never forbidden", "never_forbidden"),
                 ("Expected without argument checks", "expected_without_argument_check"),
                 ("Missing quality checks", "missing_quality_checks"),
+                ("Missing required check families", "missing_required_check_families"),
                 ("Cases without forbidden tools", "cases_without_forbidden"),
                 ("Cases without check_family", "cases_without_check_family"),
                 ("Unknown expected tools", "unknown_expected_tools"),

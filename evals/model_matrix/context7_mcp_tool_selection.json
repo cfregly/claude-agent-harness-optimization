@@ -297,5 +297,14 @@
       "name": "selected docs id bypasses resolver",
       "task": "The Context7 resolver already selected /reactjs/react.dev. Query that exact docs ID for useEffect cleanup examples."
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "direct_docs_query",
+      "error_recovery",
+      "id_resolution",
+      "output_budget",
+      "resource_vs_tool"
+    ]
+  }
 }

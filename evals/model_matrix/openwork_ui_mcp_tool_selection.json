@@ -262,5 +262,14 @@
       ],
       "check_family": "bridge_status"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "action_discovery",
+      "action_execute",
+      "bridge_status",
+      "no_tool_safety",
+      "ui_snapshot"
+    ]
+  }
 }

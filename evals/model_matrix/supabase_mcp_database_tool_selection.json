@@ -505,5 +505,17 @@
       "name": "schema metadata before select star",
       "task": "For project proj_abc, I need to know which columns exist before writing a SELECT. Inspect the public schema metadata first instead of running SELECT *."
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "error_recovery",
+      "extension_inventory",
+      "migration_apply",
+      "migration_inventory",
+      "output_budget",
+      "resource_vs_tool",
+      "sql_read",
+      "table_inventory"
+    ]
+  }
 }

@@ -1112,5 +1112,22 @@
       "task": "Return browser console errors since the last navigation.",
       "check_family": "console"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "click",
+      "console",
+      "evaluate",
+      "form_fill",
+      "keyboard",
+      "navigation",
+      "network_detail",
+      "network_list",
+      "page_snapshot",
+      "screenshot",
+      "select",
+      "type",
+      "wait"
+    ]
+  }
 }

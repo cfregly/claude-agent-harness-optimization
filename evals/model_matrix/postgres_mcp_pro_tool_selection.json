@@ -559,5 +559,17 @@
       "task": "Run a database-wide operational health review covering connections, vacuum, invalid constraints, duplicate or unused indexes, sequences, and buffer cache.",
       "check_family": "health_check"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "health_check",
+      "index_tuning",
+      "object_details",
+      "object_listing",
+      "query_plan",
+      "schema_discovery",
+      "sql_execution",
+      "workload_ranking"
+    ]
+  }
 }

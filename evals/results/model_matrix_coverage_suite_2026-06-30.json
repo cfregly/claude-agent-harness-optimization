@@ -462,7 +462,17 @@
           "single normalized trace review"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "bundle_audit",
+          "hill_climb",
+          "model_matrix",
+          "regression_suite",
+          "tool_selection_audit",
+          "trace_normalization",
+          "trace_review"
+        ]
+      },
       "matrix": "agent audit skill workflow-selection matrix",
       "matrix_path": "evals/model_matrix/agent_audit_skill_selection.json",
       "passed": true,
@@ -474,6 +484,8 @@
         "case_count_with_check_family": 7,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 7,
+        "required_check_family_coverage": 1.0,
         "tool_count": 7,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -621,6 +633,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -866,7 +879,17 @@
           "schema question uses table metadata"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "database_discovery",
+          "error_recovery",
+          "no_tool_safety",
+          "output_budget",
+          "query_execution",
+          "resource_vs_tool",
+          "table_metadata"
+        ]
+      },
       "matrix": "clickhouse mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/clickhouse_mcp_tool_selection.json",
       "passed": true,
@@ -885,6 +908,8 @@
         "case_count_with_check_family": 10,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 2,
+        "required_check_family_count": 7,
+        "required_check_family_coverage": 1.0,
         "tool_count": 3,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -972,6 +997,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -1036,7 +1062,12 @@
           "codex mcp docs call preserves tool name"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "harness_parity",
+          "resource_vs_tool"
+        ]
+      },
       "matrix": "codex harness trace adapter matrix",
       "matrix_path": "evals/model_matrix/codex_harness_trace_adapter.json",
       "passed": true,
@@ -1048,6 +1079,8 @@
         "case_count_with_check_family": 2,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 2,
+        "required_check_family_coverage": 1.0,
         "tool_count": 2,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 1
@@ -1091,6 +1124,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -1332,7 +1366,14 @@
           "find todos"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "delegation",
+          "file_glob",
+          "file_read",
+          "text_search"
+        ]
+      },
       "matrix": "coding file-tool selection matrix",
       "matrix_path": "evals/model_matrix/coding_tool_selection.json",
       "passed": true,
@@ -1344,6 +1385,8 @@
         "case_count_with_check_family": 7,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 4,
+        "required_check_family_coverage": 1.0,
         "tool_count": 4,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -1440,6 +1483,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -1638,7 +1682,15 @@
           "selected docs id bypasses resolver"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "direct_docs_query",
+          "error_recovery",
+          "id_resolution",
+          "output_budget",
+          "resource_vs_tool"
+        ]
+      },
       "matrix": "context7 mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/context7_mcp_tool_selection.json",
       "passed": true,
@@ -1658,6 +1710,8 @@
         "case_count_with_check_family": 9,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 5,
+        "required_check_family_coverage": 1.0,
         "tool_count": 2,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -1726,6 +1780,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -2807,7 +2862,21 @@
           "recursive tree view"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "directory_create",
+          "directory_listing",
+          "file_edit",
+          "file_metadata",
+          "file_move",
+          "file_read",
+          "file_search",
+          "file_write",
+          "multi_file_read",
+          "root_discovery",
+          "tree_listing"
+        ]
+      },
       "matrix": "filesystem mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/filesystem_mcp_tool_selection.json",
       "passed": true,
@@ -2823,6 +2892,8 @@
         "case_count_with_check_family": 11,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 11,
+        "required_check_family_coverage": 1.0,
         "tool_count": 11,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -3084,6 +3155,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -3674,7 +3746,23 @@
           "unknown source web search"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "agent_research",
+          "batch_scrape",
+          "error_recovery",
+          "monitor_create",
+          "output_budget",
+          "page_interaction",
+          "resource_vs_tool",
+          "single_page_scrape",
+          "site_crawl",
+          "status_polling",
+          "structured_extraction",
+          "url_mapping",
+          "web_search"
+        ]
+      },
       "matrix": "firecrawl mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/firecrawl_mcp_tool_selection.json",
       "passed": true,
@@ -3694,6 +3782,8 @@
         "case_count_with_check_family": 15,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 13,
+        "required_check_family_coverage": 1.0,
         "tool_count": 12,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -3910,6 +4000,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -5358,7 +5449,25 @@
           "workflow metadata avoids log download"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "ci_log_read",
+          "ci_metadata",
+          "code_search",
+          "error_recovery",
+          "issue_mutation",
+          "issue_read",
+          "issue_search",
+          "no_tool_safety",
+          "output_budget",
+          "pull_request_create",
+          "pull_request_list",
+          "pull_request_read",
+          "pull_request_search",
+          "repo_file_read",
+          "resource_vs_tool"
+        ]
+      },
       "matrix": "github mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/github_mcp_tool_selection.json",
       "passed": true,
@@ -5378,6 +5487,8 @@
         "case_count_with_check_family": 16,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 1,
+        "required_check_family_count": 15,
+        "required_check_family_coverage": 1.0,
         "tool_count": 12,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -5726,6 +5837,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -5807,6 +5919,9 @@
           "Glob",
           "Grep",
           "Read"
+        ],
+        "required_check_families": [
+          "delegation_trace"
         ]
       },
       "matrix": "trace-adapter harness matrix",
@@ -5820,6 +5935,8 @@
         "case_count_with_check_family": 2,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 1,
+        "required_check_family_coverage": 1.0,
         "tool_count": 1,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 1
@@ -5850,6 +5967,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -6145,7 +6263,16 @@
           "secrets request avoids external chat"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "expert_close",
+          "expert_message",
+          "expert_rating",
+          "expert_read",
+          "expert_start",
+          "no_tool_safety"
+        ]
+      },
       "matrix": "humwork mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/humwork_mcp_tool_selection.json",
       "passed": true,
@@ -6164,6 +6291,8 @@
         "case_count_with_check_family": 7,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 2,
+        "required_check_family_count": 6,
+        "required_check_family_coverage": 1.0,
         "tool_count": 5,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -6275,6 +6404,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -7003,7 +7133,29 @@
           "new app bootstrap uses template"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "backend_metadata",
+          "bulk_import",
+          "client_token",
+          "deployment_prepare",
+          "deployment_start",
+          "function_create",
+          "function_delete",
+          "function_read",
+          "function_update",
+          "no_tool_safety",
+          "product_docs",
+          "runtime_logs",
+          "sdk_docs",
+          "sql_execution",
+          "storage_create",
+          "storage_delete",
+          "storage_list",
+          "table_schema",
+          "template_bootstrap"
+        ]
+      },
       "matrix": "insforge mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/insforge_mcp_tool_selection.json",
       "passed": true,
@@ -7022,6 +7174,8 @@
         "case_count_with_check_family": 19,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 1,
+        "required_check_family_count": 19,
+        "required_check_family_coverage": 1.0,
         "tool_count": 18,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -7307,6 +7461,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -7532,7 +7687,15 @@
           "unknown current screen uses snapshot"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "action_discovery",
+          "action_execute",
+          "bridge_status",
+          "no_tool_safety",
+          "ui_snapshot"
+        ]
+      },
       "matrix": "openwork ui mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/openwork_ui_mcp_tool_selection.json",
       "passed": true,
@@ -7551,6 +7714,8 @@
         "case_count_with_check_family": 7,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 1,
+        "required_check_family_count": 5,
+        "required_check_family_coverage": 1.0,
         "tool_count": 4,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -7637,6 +7802,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -9121,7 +9287,23 @@
           "wait for success text"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "click",
+          "console",
+          "evaluate",
+          "form_fill",
+          "keyboard",
+          "navigation",
+          "network_detail",
+          "network_list",
+          "page_snapshot",
+          "screenshot",
+          "select",
+          "type",
+          "wait"
+        ]
+      },
       "matrix": "playwright mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/playwright_mcp_tool_selection.json",
       "passed": true,
@@ -9140,6 +9322,8 @@
         "case_count_with_check_family": 13,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 13,
+        "required_check_family_coverage": 1.0,
         "tool_count": 13,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -9473,6 +9657,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -9827,7 +10012,18 @@
           "rank slow workload queries"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "health_check",
+          "index_tuning",
+          "object_details",
+          "object_listing",
+          "query_plan",
+          "schema_discovery",
+          "sql_execution",
+          "workload_ranking"
+        ]
+      },
       "matrix": "postgres mcp pro tool-selection matrix",
       "matrix_path": "evals/model_matrix/postgres_mcp_pro_tool_selection.json",
       "passed": true,
@@ -9843,6 +10039,8 @@
         "case_count_with_check_family": 9,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 8,
+        "required_check_family_coverage": 1.0,
         "tool_count": 9,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -9992,6 +10190,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -10530,7 +10729,21 @@
           "export video uses video export"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "activity_summary",
+          "content_search",
+          "element_detail",
+          "element_search",
+          "frame_context",
+          "keyword_search",
+          "meeting_inventory",
+          "pipe_create",
+          "pipe_logs",
+          "pipe_run",
+          "video_export"
+        ]
+      },
       "matrix": "screenpipe mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/screenpipe_mcp_tool_selection.json",
       "passed": true,
@@ -10549,6 +10762,8 @@
         "case_count_with_check_family": 11,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 11,
+        "required_check_family_coverage": 1.0,
         "tool_count": 11,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -10744,6 +10959,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -11348,7 +11564,18 @@
           "list users to find id"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "channel_discovery",
+          "channel_history",
+          "message_post",
+          "profile_read",
+          "reaction",
+          "thread_history",
+          "thread_reply",
+          "user_discovery"
+        ]
+      },
       "matrix": "slack mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/slack_mcp_tool_selection.json",
       "passed": true,
@@ -11364,6 +11591,8 @@
         "case_count_with_check_family": 8,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 8,
+        "required_check_family_coverage": 1.0,
         "tool_count": 8,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -11537,6 +11766,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -11905,7 +12135,18 @@
           "inspect table columns"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "error_recovery",
+          "extension_inventory",
+          "migration_apply",
+          "migration_inventory",
+          "output_budget",
+          "resource_vs_tool",
+          "sql_read",
+          "table_inventory"
+        ]
+      },
       "matrix": "supabase mcp database tool-selection matrix",
       "matrix_path": "evals/model_matrix/supabase_mcp_database_tool_selection.json",
       "passed": true,
@@ -11925,6 +12166,8 @@
         "case_count_with_check_family": 12,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 8,
+        "required_check_family_coverage": 1.0,
         "tool_count": 5,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -12051,6 +12294,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],
@@ -13335,7 +13579,29 @@
           "relative time needs date helper"
         ]
       },
-      "coverage": {},
+      "coverage": {
+        "required_check_families": [
+          "bounded_discovery",
+          "default_project",
+          "dimension_ranking",
+          "drilldown_boundary",
+          "entity_ranking",
+          "error_recovery",
+          "event_aggregate",
+          "filter_discovery",
+          "gpu_workflow",
+          "host_metadata",
+          "metric_discovery",
+          "metric_query",
+          "output_budget",
+          "project_selection",
+          "rank_first",
+          "raw_payload",
+          "recommendation",
+          "resource_vs_tool",
+          "time_window"
+        ]
+      },
       "matrix": "zymtrace mcp tool-selection matrix",
       "matrix_path": "evals/model_matrix/zymtrace_mcp_tool_selection.json",
       "passed": true,
@@ -13368,6 +13634,8 @@
         "case_count_with_check_family": 34,
         "forbidden_tool_coverage": 1.0,
         "no_tool_case_count": 0,
+        "required_check_family_count": 19,
+        "required_check_family_coverage": 1.0,
         "tool_count": 25,
         "tool_expected_coverage": 1.0,
         "tool_variant_count": 2
@@ -13810,6 +14078,7 @@
         "cases_without_forbidden": [],
         "expected_without_argument_check": [],
         "missing_quality_checks": [],
+        "missing_required_check_families": [],
         "never_expected": [],
         "never_forbidden": [],
         "unknown_expected_tools": [],

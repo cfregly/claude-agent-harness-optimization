@@ -124,6 +124,9 @@
       "Glob",
       "Grep",
       "Read"
+    ],
+    "required_check_families": [
+      "delegation_trace"
     ]
   }
 }

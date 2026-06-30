@@ -106,6 +106,52 @@ class MatrixCoverageTests(unittest.TestCase):
         self.assertIn("Expected tool coverage: 1.000", output)
         self.assertIn("| lookup | 1 | 0 | 0 | yes |", output)
 
+    def test_audit_reports_missing_required_check_family(self):
+        audit = audit_matrix_coverage_data(
+            {
+                "cases": [
+                    {
+                        "check_family": "lookup",
+                        "expected_tools": ["lookup"],
+                        "forbidden_tools": ["fallback"],
+                        "name": "lookup case",
+                        "task": "Lookup a value.",
+                    },
+                    {
+                        "check_family": "fallback",
+                        "expected_tools": ["fallback"],
+                        "forbidden_tools": ["lookup"],
+                        "name": "fallback case",
+                        "task": "Fallback.",
+                    },
+                ],
+                "coverage": {"required_check_families": ["lookup", "fallback", "no_tool_safety"]},
+                "name": "required family matrix",
+                "profiles": [{"harnesses": ["prompt_json"], "provider": "trace_fixture"}],
+                "tool_variants": [
+                    {
+                        "name": "sample",
+                        "tools": [
+                            {
+                                "name": "lookup",
+                                "purpose": "Lookup values.",
+                                "quality_checks": ["Use exact ids."],
+                            },
+                            {
+                                "name": "fallback",
+                                "purpose": "Fallback safely.",
+                                "quality_checks": ["Use only for fallback."],
+                            },
+                        ],
+                    }
+                ],
+            }
+        )
+
+        self.assertFalse(audit["passed"])
+        self.assertEqual(["no_tool_safety"], audit["uncovered"]["missing_required_check_families"])
+        self.assertEqual(0.667, audit["summary"]["required_check_family_coverage"])
+
     def test_suite_audit_summarizes_multiple_matrices(self):
         suite = audit_matrix_coverage_suite(
             [

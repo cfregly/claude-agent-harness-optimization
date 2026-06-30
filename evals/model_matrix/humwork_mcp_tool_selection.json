@@ -394,5 +394,15 @@
       ],
       "check_family": "no_tool_safety"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "expert_close",
+      "expert_message",
+      "expert_rating",
+      "expert_read",
+      "expert_start",
+      "no_tool_safety"
+    ]
+  }
 }

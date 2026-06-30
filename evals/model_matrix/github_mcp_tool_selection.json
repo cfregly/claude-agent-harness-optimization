@@ -1630,5 +1630,24 @@
       "name": "delete repository has no safe tool",
       "task": "Delete the github/github-mcp-server repository permanently."
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "ci_log_read",
+      "ci_metadata",
+      "code_search",
+      "error_recovery",
+      "issue_mutation",
+      "issue_read",
+      "issue_search",
+      "no_tool_safety",
+      "output_budget",
+      "pull_request_create",
+      "pull_request_list",
+      "pull_request_read",
+      "pull_request_search",
+      "repo_file_read",
+      "resource_vs_tool"
+    ]
+  }
 }

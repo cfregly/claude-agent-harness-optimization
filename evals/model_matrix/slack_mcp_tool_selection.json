@@ -603,5 +603,17 @@
       "task": "Get detailed profile information for Slack user U123.",
       "check_family": "profile_read"
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "channel_discovery",
+      "channel_history",
+      "message_post",
+      "profile_read",
+      "reaction",
+      "thread_history",
+      "thread_reply",
+      "user_discovery"
+    ]
+  }
 }

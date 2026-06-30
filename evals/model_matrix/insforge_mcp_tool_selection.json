@@ -1066,5 +1066,28 @@
         "update-function"
       ]
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "backend_metadata",
+      "bulk_import",
+      "client_token",
+      "deployment_prepare",
+      "deployment_start",
+      "function_create",
+      "function_delete",
+      "function_read",
+      "function_update",
+      "no_tool_safety",
+      "product_docs",
+      "runtime_logs",
+      "sdk_docs",
+      "sql_execution",
+      "storage_create",
+      "storage_delete",
+      "storage_list",
+      "table_schema",
+      "template_bootstrap"
+    ]
+  }
 }

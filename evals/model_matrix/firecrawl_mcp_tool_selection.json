@@ -919,5 +919,22 @@
       "name": "url index before content fetch",
       "task": "Use Firecrawl to find which URLs under https://docs.example.com contain API reference pages. I only need the URL candidates right now, not page content."
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "agent_research",
+      "batch_scrape",
+      "error_recovery",
+      "monitor_create",
+      "output_budget",
+      "page_interaction",
+      "resource_vs_tool",
+      "single_page_scrape",
+      "site_crawl",
+      "status_polling",
+      "structured_extraction",
+      "url_mapping",
+      "web_search"
+    ]
+  }
 }

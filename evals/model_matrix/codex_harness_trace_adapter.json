@@ -4,7 +4,9 @@
   "profiles": [
     {
       "adapter": "codex_jsonl",
-      "harnesses": ["codex_exec_jsonl"],
+      "harnesses": [
+        "codex_exec_jsonl"
+      ],
       "model": "exported-codex-run",
       "name": "codex-cli-export",
       "provider": "trace_fixture",
@@ -35,12 +37,16 @@
                 "type": "string"
               }
             },
-            "required": ["command"],
+            "required": [
+              "command"
+            ],
             "type": "object"
           },
           "name": "Bash",
           "purpose": "Run shell commands from Codex CLI or app-server traces.",
-          "quality_checks": ["Commands should be scoped to the task and produce verifiable evidence."],
+          "quality_checks": [
+            "Commands should be scoped to the task and produce verifiable evidence."
+          ],
           "use_when": "Use when a Codex trace uses a local shell command for repository inspection or verification."
         },
         {
@@ -60,12 +66,17 @@
                 "type": "string"
               }
             },
-            "required": ["context7CompatibleLibraryID"],
+            "required": [
+              "context7CompatibleLibraryID"
+            ],
             "type": "object"
           },
           "name": "mcp__context7__get-library-docs",
           "purpose": "Read focused Context7 documentation from a Codex MCP tool call.",
-          "quality_checks": ["Use an exact selected library ID.", "Bound the output with a focused topic and token limit."],
+          "quality_checks": [
+            "Use an exact selected library ID.",
+            "Bound the output with a focused topic and token limit."
+          ],
           "use_when": "Use when a Codex trace calls Context7 for package documentation."
         }
       ]
@@ -77,8 +88,12 @@
       "expected_args_contains": {
         "command": "rg"
       },
-      "expected_tools": ["Bash"],
-      "forbidden_tools": ["mcp__context7__get-library-docs"],
+      "expected_tools": [
+        "Bash"
+      ],
+      "forbidden_tools": [
+        "mcp__context7__get-library-docs"
+      ],
       "name": "codex repo inspection uses shell search",
       "task": "Inspect the repo to find the harness optimization docs."
     },
@@ -87,8 +102,12 @@
       "expected_args_contains": {
         "context7CompatibleLibraryID": "/upstash/context7"
       },
-      "expected_tools": ["mcp__context7__get-library-docs"],
-      "forbidden_tools": ["Bash"],
+      "expected_tools": [
+        "mcp__context7__get-library-docs"
+      ],
+      "forbidden_tools": [
+        "Bash"
+      ],
       "name": "codex mcp docs call preserves tool name",
       "task": "Use Codex's MCP trace export to confirm the exact Context7 docs call is preserved."
     }
@@ -110,5 +129,11 @@
       "failed_to_disprove": true,
       "open_objections": []
     }
+  },
+  "coverage": {
+    "required_check_families": [
+      "harness_parity",
+      "resource_vs_tool"
+    ]
   }
 }

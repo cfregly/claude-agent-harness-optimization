@@ -320,5 +320,16 @@
       "name": "table metadata before analytical sql",
       "task": "Before writing an analytical query, inspect schemas and row counts in the analytics database for tables whose names include orders."
     }
-  ]
+  ],
+  "coverage": {
+    "required_check_families": [
+      "database_discovery",
+      "error_recovery",
+      "no_tool_safety",
+      "output_budget",
+      "query_execution",
+      "resource_vs_tool",
+      "table_metadata"
+    ]
+  }
 }
