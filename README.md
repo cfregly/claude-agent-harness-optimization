@@ -129,6 +129,11 @@ private-key blocks and provider token patterns, verifies `.env` remains ignored,
 `.env.example`, rejects duplicate sample keys, and requires credential-like sample values to stay
 blank or placeholder-only.
 
+`scripts/check_docs_navigation.py` protects the public navigation surface. It verifies repo-local
+GitHub links point at existing files or folders, every docs page is reachable from the README,
+README layout entries still exist, Makefile help covers public targets, and the package console
+script target imports cleanly from `pyproject.toml`.
+
 | Target | Result | Packet |
 |---|---|---|
 | InsForge | Confirmed improvement | [InsForge](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge) |
@@ -148,6 +153,9 @@ blank or placeholder-only.
 | Supabase finding | [Supabase MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/supabase-mcp-tool-tuning.md) |
 | Screenpipe finding | [Screenpipe MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/screenpipe-mcp-tool-tuning.md) |
 | InsForge finding | [InsForge MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/insforge-mcp-tool-tuning.md) |
+| Tool-selection optimizer | [Tool Selection Optimization](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/tool-selection-optimization.md) |
+| Trace review | [Trace Review](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/trace-review.md) |
+| Model matrix | [Model Matrix](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/model-matrix.md) |
 | Upstream PR packets | [Upstream PR Flywheel](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/upstream-pr-flywheel.md) |
 | Harness grinding | [Autoresearch Hill Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/autoresearch-hill-climbing.md) |
 | Harness imports | [Repeatable Harness Lab](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/repeatable-harness-lab.md) |
@@ -520,6 +528,7 @@ python scripts/check_prompt_recipe_surfaces.py
 python scripts/check_skill_surfaces.py
 python scripts/check_command_surfaces.py
 python scripts/check_secret_hygiene.py
+python scripts/check_docs_navigation.py
 python -m claude_agent_harness_opt judge-prompt evals/examples/search_answer.json > /tmp/judge-prompt.txt
 python -m claude_agent_harness_opt eval evals/examples/search_answer.json
 python -m claude_agent_harness_opt review-trace evals/examples/agent_trace_good.json
