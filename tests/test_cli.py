@@ -54,6 +54,17 @@ class CliTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertIn('"matrix": "coding file-tool selection matrix"', result.stdout)
 
+    def test_matrix_coverage_command(self):
+        result = self.run_cli(
+            "matrix-coverage",
+            "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+            "--markdown",
+        )
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("# Matrix Coverage: zymtrace mcp tool-selection matrix", result.stdout)
+        self.assertIn("Expected tool coverage:", result.stdout)
+
     def test_grind_harness_command(self):
         result = self.run_cli(
             "grind-harness",

@@ -210,10 +210,34 @@ safety, correctness, or recoverability. Common boundaries are:
 - no-tool safety cases where any tool call is wrong
 - workflow rules supplied by a skill or `CLAUDE.md`
 
+Skills are one input, not the whole descent. They are useful because they encode expert workflow
+rules, but the descent also uses live MCP inventories, generated schemas, resource lists, upstream
+docs, source pins, trace failures, support reports, and smoke-call output. A case is stronger when
+at least two of those sources agree that a boundary matters.
+
 That is the "hill descent" part. We deliberately walk toward likely failure valleys by writing
 adversarial prompts that make one boundary measurable. Each case names the expected tool,
-confusable alternatives, and any required argument checks. The point is to find a small prompt where
-the transcript can be judged without taste.
+confusable alternatives, a `check_family`, and any required argument checks. The point is to find a
+small prompt where the transcript can be judged without taste.
+
+Run a corpus audit before claiming the matrix is broad enough:
+
+```bash
+python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --markdown
+```
+
+`matrix-coverage` checks the matrix as an eval corpus before any provider call:
+
+- every catalog tool is expected by at least one case
+- every catalog tool appears as a forbidden confusable somewhere
+- expected tools with arguments have at least one argument assertion
+- every tuned tool has quality checks
+- every case has forbidden tools and a `check_family`
+- unknown expected or forbidden tool names are surfaced
+
+This does not replace live scoring. It prevents a clean live run from hiding an untested tool,
+untested negative, missing argument boundary, or forgotten family. Store the matrix, coverage
+report, live result, and PR packet together so the same cases can be rerun later as evals.
 
 After baseline failures repeat, the "hill climb" part starts:
 
@@ -257,6 +281,11 @@ the installed skills added CPU, GPU, allocation, resource-first, default-project
 - use MCP resources first for `topfunctions`, `topentities`, and `flamegraph`
 - use `hot_traces` metadata first with `meta_only=true` and a small limit
 - fetch a full trace only with a selected `prefix_hash`, `meta_only=false`, and `limit=1`
+
+The first Zymtrace matrix proved an improvement but the coverage audit found untouched generated
+REST helpers. The hardened matrix now has 34 cases, covers 25 of 25 tools as expected tools, covers
+25 of 25 tools as forbidden confusables, carries 85 boundary pairs, and labels every case with a
+`check_family`.
 
 The expanded Zymtrace live run used those boundaries across Anthropic, OpenAI, and Gemini:
 
@@ -336,6 +365,7 @@ provider, reasoning mode, or harness:
 
 ```bash
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/coding_tool_selection.json --markdown
+python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --markdown
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/coding_tool_selection.json --env-file .env --live --concurrency 8 --markdown
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/agent_audit_skill_selection.json --env-file .env --live --require-live --providers anthropic --harnesses prompt_json --variants thin_workflow_tools --instruction-variants no_skill,agent_audit_skill --markdown
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/github_mcp_tool_selection.json --env-file .env --live --require-live --providers anthropic,openai,gemini --harnesses native_tools,prompt_json --variants stock_github_mcp,tuned_github_mcp_boundaries --instruction-variants github_mcp_host_rules --concurrency 4 --markdown
@@ -426,6 +456,7 @@ python -m claude_agent_harness_opt model-matrix evals/model_matrix/github_mcp_to
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/firecrawl_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_firecrawl_mcp_boundaries --instruction-variants firecrawl_host_rules --max-cases 2
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/supabase_mcp_database_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_supabase_database_boundaries --instruction-variants supabase_database_host_rules --max-cases 2
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/clickhouse_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_clickhouse_readonly_boundaries --instruction-variants clickhouse_host_rules --max-cases 2
+python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --strict --out /tmp/zymtrace-coverage.json
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/zymtrace_mcp_tool_selection.json --providers anthropic --harnesses prompt_json --variants tuned_zymtrace_mcp_boundaries --instruction-variants zymtrace_host_and_skill_rules --max-cases 2
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/harness_trace_adapters.json --live --require-live --providers trace_fixture
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/codex_harness_trace_adapter.json --live --require-live --providers trace_fixture

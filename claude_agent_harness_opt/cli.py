@@ -25,6 +25,11 @@ from .live_harness import (
     render_live_harness_markdown,
     run_live_harness_spec,
 )
+from .matrix_coverage import (
+    audit_matrix_coverage,
+    matrix_coverage_json,
+    render_matrix_coverage_markdown,
+)
 from .model_matrix import (
     MatrixFilters,
     render_model_matrix_markdown,
@@ -229,6 +234,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     matrix_parser.add_argument("--markdown", action="store_true", help="print a Markdown report")
     matrix_parser.add_argument("--out", type=Path, help="write the JSON or Markdown report to a file")
+
+    coverage_parser = subparsers.add_parser(
+        "matrix-coverage",
+        help="audit model-matrix surface coverage without live provider calls",
+    )
+    coverage_parser.add_argument("matrix", type=Path)
+    coverage_parser.add_argument("--markdown", action="store_true", help="print a Markdown report")
+    coverage_parser.add_argument("--out", type=Path, help="write the JSON or Markdown report to a file")
+    coverage_parser.add_argument("--strict", action="store_true", help="return nonzero when coverage gaps remain")
 
     grind_parser = subparsers.add_parser(
         "grind-harness",
@@ -506,6 +520,21 @@ def main(argv: list[str] | None = None) -> int:
             if not output.endswith("\n"):
                 sys.stdout.write("\n")
         return 0 if result["passed"] else 1
+
+    if args.command == "matrix-coverage":
+        result = audit_matrix_coverage(args.matrix)
+        output = (
+            render_matrix_coverage_markdown(result)
+            if args.markdown
+            else matrix_coverage_json(result)
+        )
+        if args.out:
+            args.out.write_text(output, encoding="utf-8")
+        else:
+            sys.stdout.write(output)
+            if not output.endswith("\n"):
+                sys.stdout.write("\n")
+        return 1 if args.strict and not result["passed"] else 0
 
     if args.command == "grind-harness":
         result = run_harness_grind(

@@ -12,8 +12,14 @@ The expanded held-out prompt JSON run moved from 4/8 to 8/8 on Anthropic, 5/8 to
 The new result is packaged here:
 
 - matrix result: `evals/results/zymtrace_mcp_matrix_live_2026-06-30.json`
+- coverage audit: `evals/results/zymtrace_mcp_coverage_2026-06-30.md`
 - upstream PR packet: `evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30/`
 - generated title: `Tighten Zymtrace MCP retrieval routing with live evals`
+
+After the first live result, `matrix-coverage` exposed untested generated REST helpers. The hardened
+matrix now has 34 cases, 25 of 25 expected-tool coverage, 25 of 25 forbidden-tool coverage, 85
+boundary pairs, argument checks for every argument-taking expected tool, and `check_family` labels
+for every case.
 
 ## GPU Verification
 
@@ -93,6 +99,7 @@ Consider these MCP behavior changes:
 
 - Source: [Zymtrace MCP docs](https://docs.zymtrace.com/category/model-context-protocol-mcp/)
 - Matrix: [zymtrace_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/zymtrace_mcp_tool_selection.json)
+- Coverage: [zymtrace_mcp_coverage_2026-06-30.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_coverage_2026-06-30.md)
 - Result: [zymtrace_mcp_matrix_live_2026-06-30.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_matrix_live_2026-06-30.json)
 - PR packet: [zymtrace_mcp_tool_tuning_2026-06-30](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30)
 - Ledger: [Confirmed Improvements](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/confirmed-improvements.md)
@@ -101,6 +108,8 @@ Consider these MCP behavior changes:
 ## Reproduce
 
 ```bash
+python -m claude_agent_harness_opt matrix-coverage evals/model_matrix/zymtrace_mcp_tool_selection.json --strict --out /tmp/zymtrace-coverage.json
+
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/zymtrace_mcp_tool_selection.json \
   --env-file .env \
   --live \

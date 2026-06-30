@@ -1,0 +1,1758 @@
+{
+  "boundary_pairs": [
+    {
+      "cases": [
+        "high level flamegraph"
+      ],
+      "expected_tool": "flamegraph",
+      "forbidden_tool": "project_flamegraph_json"
+    },
+    {
+      "cases": [
+        "high level flamegraph"
+      ],
+      "expected_tool": "flamegraph",
+      "forbidden_tool": "topentities"
+    },
+    {
+      "cases": [
+        "high level flamegraph"
+      ],
+      "expected_tool": "flamegraph",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "relative time needs date helper"
+      ],
+      "expected_tool": "get_date_time",
+      "forbidden_tool": "project_metrics_query"
+    },
+    {
+      "cases": [
+        "relative time needs date helper"
+      ],
+      "expected_tool": "get_date_time",
+      "forbidden_tool": "projects_events_aggregate"
+    },
+    {
+      "cases": [
+        "relative time needs date helper"
+      ],
+      "expected_tool": "get_date_time",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "first trace discovery is meta only",
+        "gpu call tree uses hot traces",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded"
+      ],
+      "expected_tool": "hot_traces",
+      "forbidden_tool": "flamegraph"
+    },
+    {
+      "cases": [
+        "first trace discovery is meta only",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded"
+      ],
+      "expected_tool": "hot_traces",
+      "forbidden_tool": "project_events_raw"
+    },
+    {
+      "cases": [
+        "gpu call tree uses hot traces"
+      ],
+      "expected_tool": "hot_traces",
+      "forbidden_tool": "project_flamegraph_json"
+    },
+    {
+      "cases": [
+        "first trace discovery is meta only",
+        "gpu call tree uses hot traces",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded"
+      ],
+      "expected_tool": "hot_traces",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "raw events are explicit",
+        "default project raw sample skips search"
+      ],
+      "expected_tool": "project_events_raw",
+      "forbidden_tool": "hot_traces"
+    },
+    {
+      "cases": [
+        "default project raw sample skips search"
+      ],
+      "expected_tool": "project_events_raw",
+      "forbidden_tool": "projects_search"
+    },
+    {
+      "cases": [
+        "raw events are explicit"
+      ],
+      "expected_tool": "project_events_raw",
+      "forbidden_tool": "recommendations"
+    },
+    {
+      "cases": [
+        "raw events are explicit",
+        "default project raw sample skips search"
+      ],
+      "expected_tool": "project_events_raw",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project json flamegraph stays project scoped"
+      ],
+      "expected_tool": "project_flamegraph_json",
+      "forbidden_tool": "flamegraph"
+    },
+    {
+      "cases": [
+        "project json flamegraph stays project scoped"
+      ],
+      "expected_tool": "project_flamegraph_json",
+      "forbidden_tool": "hot_traces"
+    },
+    {
+      "cases": [
+        "project json flamegraph stays project scoped"
+      ],
+      "expected_tool": "project_flamegraph_json",
+      "forbidden_tool": "project_events_raw"
+    },
+    {
+      "cases": [
+        "gpu inference workflow starts with metrics"
+      ],
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "flamegraph"
+    },
+    {
+      "cases": [
+        "gpu inference workflow starts with metrics"
+      ],
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "hot_traces"
+    },
+    {
+      "cases": [
+        "discover metrics before query",
+        "default project metrics discovery skips search"
+      ],
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "project_metrics_query"
+    },
+    {
+      "cases": [
+        "discover metrics before query"
+      ],
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "projects_events_aggregate"
+    },
+    {
+      "cases": [
+        "default project metrics discovery skips search"
+      ],
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "projects_search"
+    },
+    {
+      "cases": [
+        "discover metrics before query",
+        "default project metrics discovery skips search",
+        "gpu inference workflow starts with metrics"
+      ],
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "known metric query"
+      ],
+      "expected_tool": "project_metrics_query",
+      "forbidden_tool": "project_metrics_activity_aggr"
+    },
+    {
+      "cases": [
+        "known metric query"
+      ],
+      "expected_tool": "project_metrics_query",
+      "forbidden_tool": "projects_events_aggregate"
+    },
+    {
+      "cases": [
+        "known metric query"
+      ],
+      "expected_tool": "project_metrics_query",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project event aggregate counts"
+      ],
+      "expected_tool": "projects_events_aggregate",
+      "forbidden_tool": "project_events_raw"
+    },
+    {
+      "cases": [
+        "project event aggregate counts"
+      ],
+      "expected_tool": "projects_events_aggregate",
+      "forbidden_tool": "projects_events_aggregate_top_field_values"
+    },
+    {
+      "cases": [
+        "project event aggregate counts"
+      ],
+      "expected_tool": "projects_events_aggregate",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "host metadata aggregation"
+      ],
+      "expected_tool": "projects_events_aggregate_host_metadata",
+      "forbidden_tool": "projects_stats_aggregate_top_architectures"
+    },
+    {
+      "cases": [
+        "host metadata aggregation"
+      ],
+      "expected_tool": "projects_events_aggregate_host_metadata",
+      "forbidden_tool": "projects_stats_aggregate_top_hosts"
+    },
+    {
+      "cases": [
+        "host metadata aggregation"
+      ],
+      "expected_tool": "projects_events_aggregate_host_metadata",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "discover common filter fields"
+      ],
+      "expected_tool": "projects_events_aggregate_top_field_values",
+      "forbidden_tool": "projects_stats_aggregate_top_containers"
+    },
+    {
+      "cases": [
+        "discover common filter fields"
+      ],
+      "expected_tool": "projects_events_aggregate_top_field_values",
+      "forbidden_tool": "projects_stats_aggregate_top_user_tags"
+    },
+    {
+      "cases": [
+        "discover common filter fields"
+      ],
+      "expected_tool": "projects_events_aggregate_top_field_values",
+      "forbidden_tool": "topentities"
+    },
+    {
+      "cases": [
+        "discover common filter fields"
+      ],
+      "expected_tool": "projects_events_aggregate_top_field_values",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "unknown project id uses search"
+      ],
+      "expected_tool": "projects_search",
+      "forbidden_tool": "project_events_raw"
+    },
+    {
+      "cases": [
+        "unknown project id uses search"
+      ],
+      "expected_tool": "projects_search",
+      "forbidden_tool": "project_metrics_query"
+    },
+    {
+      "cases": [
+        "unknown project id uses search"
+      ],
+      "expected_tool": "projects_search",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top architectures endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_architectures",
+      "forbidden_tool": "projects_events_aggregate_host_metadata"
+    },
+    {
+      "cases": [
+        "project top architectures endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_architectures",
+      "forbidden_tool": "projects_stats_aggregate_top_hosts"
+    },
+    {
+      "cases": [
+        "project top architectures endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_architectures",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top clusters endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_clusters",
+      "forbidden_tool": "projects_stats_aggregate_top_deployments"
+    },
+    {
+      "cases": [
+        "project top clusters endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_clusters",
+      "forbidden_tool": "projects_stats_aggregate_top_namespaces"
+    },
+    {
+      "cases": [
+        "project top clusters endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_clusters",
+      "forbidden_tool": "projects_stats_aggregate_top_pods"
+    },
+    {
+      "cases": [
+        "project top containers endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_containers",
+      "forbidden_tool": "projects_stats_aggregate_top_main_exes"
+    },
+    {
+      "cases": [
+        "project top containers endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_containers",
+      "forbidden_tool": "projects_stats_aggregate_top_pods"
+    },
+    {
+      "cases": [
+        "project top containers endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_containers",
+      "forbidden_tool": "topentities"
+    },
+    {
+      "cases": [
+        "project top deployments endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_deployments",
+      "forbidden_tool": "projects_stats_aggregate_top_containers"
+    },
+    {
+      "cases": [
+        "project top deployments endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_deployments",
+      "forbidden_tool": "projects_stats_aggregate_top_namespaces"
+    },
+    {
+      "cases": [
+        "project top deployments endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_deployments",
+      "forbidden_tool": "projects_stats_aggregate_top_pods"
+    },
+    {
+      "cases": [
+        "project top hosts endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_hosts",
+      "forbidden_tool": "projects_events_aggregate_host_metadata"
+    },
+    {
+      "cases": [
+        "project top hosts endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_hosts",
+      "forbidden_tool": "projects_stats_aggregate_top_architectures"
+    },
+    {
+      "cases": [
+        "project top hosts endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_hosts",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top executables endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_main_exes",
+      "forbidden_tool": "projects_stats_aggregate_top_script_names"
+    },
+    {
+      "cases": [
+        "project top executables endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_main_exes",
+      "forbidden_tool": "topentities"
+    },
+    {
+      "cases": [
+        "project top executables endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_main_exes",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top namespaces endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_namespaces",
+      "forbidden_tool": "projects_stats_aggregate_top_clusters"
+    },
+    {
+      "cases": [
+        "project top namespaces endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_namespaces",
+      "forbidden_tool": "projects_stats_aggregate_top_deployments"
+    },
+    {
+      "cases": [
+        "project top namespaces endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_namespaces",
+      "forbidden_tool": "projects_stats_aggregate_top_pods"
+    },
+    {
+      "cases": [
+        "project top pods endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_pods",
+      "forbidden_tool": "projects_stats_aggregate_top_containers"
+    },
+    {
+      "cases": [
+        "project top pods endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_pods",
+      "forbidden_tool": "projects_stats_aggregate_top_namespaces"
+    },
+    {
+      "cases": [
+        "project top pods endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_pods",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top scripts endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_script_names",
+      "forbidden_tool": "projects_stats_aggregate_top_main_exes"
+    },
+    {
+      "cases": [
+        "project top scripts endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_script_names",
+      "forbidden_tool": "projects_stats_aggregate_top_thread_names"
+    },
+    {
+      "cases": [
+        "project top scripts endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_script_names",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top threads endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_thread_names",
+      "forbidden_tool": "hot_traces"
+    },
+    {
+      "cases": [
+        "project top threads endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_thread_names",
+      "forbidden_tool": "projects_stats_aggregate_top_script_names"
+    },
+    {
+      "cases": [
+        "project top threads endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_thread_names",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "project top user tags endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_user_tags",
+      "forbidden_tool": "projects_events_aggregate_top_field_values"
+    },
+    {
+      "cases": [
+        "project top user tags endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_user_tags",
+      "forbidden_tool": "projects_stats_aggregate_top_containers"
+    },
+    {
+      "cases": [
+        "project top user tags endpoint"
+      ],
+      "expected_tool": "projects_stats_aggregate_top_user_tags",
+      "forbidden_tool": "projects_stats_aggregate_top_hosts"
+    },
+    {
+      "cases": [
+        "generated optimization advice"
+      ],
+      "expected_tool": "recommendations",
+      "forbidden_tool": "project_events_raw"
+    },
+    {
+      "cases": [
+        "generated optimization advice"
+      ],
+      "expected_tool": "recommendations",
+      "forbidden_tool": "topentities"
+    },
+    {
+      "cases": [
+        "generated optimization advice"
+      ],
+      "expected_tool": "recommendations",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "hot containers use entities",
+        "cpu rank first containerized apps"
+      ],
+      "expected_tool": "topentities",
+      "forbidden_tool": "flamegraph"
+    },
+    {
+      "cases": [
+        "hot containers use entities",
+        "cpu rank first containerized apps"
+      ],
+      "expected_tool": "topentities",
+      "forbidden_tool": "hot_traces"
+    },
+    {
+      "cases": [
+        "cpu rank first containerized apps"
+      ],
+      "expected_tool": "topentities",
+      "forbidden_tool": "recommendations"
+    },
+    {
+      "cases": [
+        "hot containers use entities"
+      ],
+      "expected_tool": "topentities",
+      "forbidden_tool": "topfunctions"
+    },
+    {
+      "cases": [
+        "cpu hot functions",
+        "resource fallback hot functions"
+      ],
+      "expected_tool": "topfunctions",
+      "forbidden_tool": "flamegraph"
+    },
+    {
+      "cases": [
+        "cpu hot functions"
+      ],
+      "expected_tool": "topfunctions",
+      "forbidden_tool": "get_date_time"
+    },
+    {
+      "cases": [
+        "cpu hot functions",
+        "resource fallback hot functions"
+      ],
+      "expected_tool": "topfunctions",
+      "forbidden_tool": "hot_traces"
+    },
+    {
+      "cases": [
+        "resource fallback hot functions"
+      ],
+      "expected_tool": "topfunctions",
+      "forbidden_tool": "project_metrics_query"
+    },
+    {
+      "cases": [
+        "cpu hot functions"
+      ],
+      "expected_tool": "topfunctions",
+      "forbidden_tool": "recommendations"
+    },
+    {
+      "cases": [
+        "cpu hot functions"
+      ],
+      "expected_tool": "topfunctions",
+      "forbidden_tool": "topentities"
+    }
+  ],
+  "cases": [
+    {
+      "allow_no_tool": false,
+      "argument_checks": [],
+      "check_family": "time_window",
+      "expected_tools": [
+        "get_date_time"
+      ],
+      "forbidden_tools": [
+        "topfunctions",
+        "project_metrics_query",
+        "projects_events_aggregate"
+      ],
+      "name": "relative time needs date helper",
+      "task": "For the last 30 minutes of Zymtrace data, prepare the time range I should use for generated project metrics API calls."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "request_body"
+      ],
+      "check_family": "project_selection",
+      "expected_tools": [
+        "projects_search"
+      ],
+      "forbidden_tools": [
+        "topfunctions",
+        "project_metrics_query",
+        "project_events_raw"
+      ],
+      "name": "unknown project id uses search",
+      "task": "Find the Zymtrace project named llama-inference before we inspect its metrics."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "profile_type"
+      ],
+      "check_family": "rank_first",
+      "expected_tools": [
+        "topfunctions"
+      ],
+      "forbidden_tools": [
+        "topentities",
+        "hot_traces",
+        "flamegraph",
+        "recommendations",
+        "get_date_time"
+      ],
+      "name": "cpu hot functions",
+      "task": "Show the hottest CPU functions from 2026-06-25T04:00:00+00:00 to 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "entity"
+      ],
+      "check_family": "entity_ranking",
+      "expected_tools": [
+        "topentities"
+      ],
+      "forbidden_tools": [
+        "topfunctions",
+        "hot_traces",
+        "flamegraph"
+      ],
+      "name": "hot containers use entities",
+      "task": "Which containers consumed the most CPU between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00?"
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "meta_only"
+      ],
+      "check_family": "bounded_discovery",
+      "expected_tools": [
+        "hot_traces"
+      ],
+      "forbidden_tools": [
+        "flamegraph",
+        "topfunctions",
+        "project_events_raw"
+      ],
+      "name": "first trace discovery is meta only",
+      "task": "Find the hottest stack traces for python workers in the last hour, but do not dump full stacks yet."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "profile_type"
+      ],
+      "check_family": "resource_vs_tool",
+      "expected_tools": [
+        "flamegraph"
+      ],
+      "forbidden_tools": [
+        "topfunctions",
+        "topentities",
+        "project_flamegraph_json"
+      ],
+      "name": "high level flamegraph",
+      "task": "Give me a CPU flamegraph for the vllm executable from 2026-06-25T04:00:00+00:00 to 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "metric_discovery",
+      "expected_tools": [
+        "project_metrics_activity_aggr"
+      ],
+      "forbidden_tools": [
+        "project_metrics_query",
+        "projects_events_aggregate",
+        "topfunctions"
+      ],
+      "name": "discover metrics before query",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, what metric names and attributes are active?"
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "metric_query",
+      "expected_tools": [
+        "project_metrics_query"
+      ],
+      "forbidden_tools": [
+        "project_metrics_activity_aggr",
+        "projects_events_aggregate",
+        "topfunctions"
+      ],
+      "name": "known metric query",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, query the known request_latency histogram for service api over this time window."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "profile_type"
+      ],
+      "check_family": "recommendation",
+      "expected_tools": [
+        "recommendations"
+      ],
+      "forbidden_tools": [
+        "topfunctions",
+        "topentities",
+        "project_events_raw"
+      ],
+      "name": "generated optimization advice",
+      "task": "Show already-generated Zymtrace optimization recommendations for CPU traces from 2026-06-25T04:00:00+00:00 to 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "raw_payload",
+      "expected_tools": [
+        "project_events_raw"
+      ],
+      "forbidden_tools": [
+        "topfunctions",
+        "hot_traces",
+        "recommendations"
+      ],
+      "name": "raw events are explicit",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, fetch a small raw event sample for debugging the event payload shape."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "filter_discovery",
+      "expected_tools": [
+        "projects_events_aggregate_top_field_values"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_containers",
+        "projects_stats_aggregate_top_user_tags",
+        "topentities",
+        "topfunctions"
+      ],
+      "name": "discover common filter fields",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, show the most common available filter field values across profiling events."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_pods"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_containers",
+        "projects_stats_aggregate_top_namespaces",
+        "topfunctions"
+      ],
+      "name": "project top pods endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank the hottest Kubernetes pods."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "default_project",
+      "expected_tools": [
+        "project_metrics_activity_aggr"
+      ],
+      "forbidden_tools": [
+        "projects_search",
+        "project_metrics_query",
+        "topfunctions"
+      ],
+      "name": "default project metrics discovery skips search",
+      "task": "For the default Zymtrace project, discover active GPU, CPU, model, service, token, and latency metric names between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "default_project",
+      "expected_tools": [
+        "project_events_raw"
+      ],
+      "forbidden_tools": [
+        "projects_search",
+        "topfunctions",
+        "hot_traces"
+      ],
+      "name": "default project raw sample skips search",
+      "task": "For the default Zymtrace project, fetch a small raw event sample between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00 to inspect payload shape."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "entity"
+      ],
+      "check_family": "rank_first",
+      "expected_tools": [
+        "topentities"
+      ],
+      "forbidden_tools": [
+        "hot_traces",
+        "flamegraph",
+        "recommendations"
+      ],
+      "name": "cpu rank first containerized apps",
+      "task": "Which containerized app should I optimize first by CPU cost from 2026-06-25T04:00:00+00:00 to 2026-06-25T05:00:00+00:00?"
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "gpu_workflow",
+      "expected_tools": [
+        "project_metrics_activity_aggr"
+      ],
+      "forbidden_tools": [
+        "hot_traces",
+        "flamegraph",
+        "topfunctions"
+      ],
+      "name": "gpu inference workflow starts with metrics",
+      "task": "For the default Zymtrace project, start investigating why the vLLM inference workload has low GPU utilization between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00 by finding the relevant GPU, CPU, and framework metrics."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "meta_only",
+        "profile_type"
+      ],
+      "check_family": "gpu_workflow",
+      "expected_tools": [
+        "hot_traces"
+      ],
+      "forbidden_tools": [
+        "flamegraph",
+        "topfunctions",
+        "project_flamegraph_json"
+      ],
+      "name": "gpu call tree uses hot traces",
+      "task": "Pull the GPU call tree for the vLLM workload from 2026-06-25T04:00:00+00:00 to 2026-06-25T05:00:00+00:00, but only do first-pass discovery."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "limit",
+        "meta_only",
+        "prefix_hash"
+      ],
+      "check_family": "drilldown_boundary",
+      "expected_tools": [
+        "hot_traces"
+      ],
+      "forbidden_tools": [
+        "flamegraph",
+        "topfunctions",
+        "project_events_raw"
+      ],
+      "name": "selected trace drilldown is bounded",
+      "task": "Drill into hot trace prefix_hash 981237 and fetch exactly that full trace for the CPU profile from 2026-06-25T04:00:00+00:00 to 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "meta_only"
+      ],
+      "check_family": "error_recovery",
+      "expected_tools": [
+        "hot_traces"
+      ],
+      "forbidden_tools": [
+        "flamegraph",
+        "topfunctions",
+        "project_events_raw"
+      ],
+      "name": "full trace error recovers to discovery",
+      "task": "The previous Zymtrace hot_traces call failed because meta_only=false was requested without a selected prefix_hash. Recover by doing first-pass CPU hot trace discovery for the default project between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "limit",
+        "meta_only"
+      ],
+      "check_family": "output_budget",
+      "expected_tools": [
+        "hot_traces"
+      ],
+      "forbidden_tools": [
+        "flamegraph",
+        "topfunctions",
+        "project_events_raw"
+      ],
+      "name": "hot trace discovery is bounded",
+      "task": "Show only the top 3 hot trace candidates as metadata for CPU between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00. Do not return full stacks yet."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "profile_type"
+      ],
+      "check_family": "resource_vs_tool",
+      "expected_tools": [
+        "topfunctions"
+      ],
+      "forbidden_tools": [
+        "hot_traces",
+        "flamegraph",
+        "project_metrics_query"
+      ],
+      "name": "resource fallback hot functions",
+      "task": "In this tool-only Zymtrace matrix, choose the fallback call for the topfunctions MCP resource to rank hottest CPU functions between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "resource_vs_tool",
+      "expected_tools": [
+        "project_flamegraph_json"
+      ],
+      "forbidden_tools": [
+        "flamegraph",
+        "hot_traces",
+        "project_events_raw"
+      ],
+      "name": "project json flamegraph stays project scoped",
+      "task": "For the default Zymtrace project, generate JSON flamegraph data for downstream processing between 2026-06-25T04:00:00+00:00 and 2026-06-25T05:00:00+00:00."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "event_aggregate",
+      "expected_tools": [
+        "projects_events_aggregate"
+      ],
+      "forbidden_tools": [
+        "project_events_raw",
+        "projects_events_aggregate_top_field_values",
+        "topfunctions"
+      ],
+      "name": "project event aggregate counts",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, aggregate profiling event counts by kind for the selected time window."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "host_metadata",
+      "expected_tools": [
+        "projects_events_aggregate_host_metadata"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_architectures",
+        "projects_stats_aggregate_top_hosts",
+        "topfunctions"
+      ],
+      "name": "host metadata aggregation",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, aggregate host metadata to see OS, GPU, and architecture attributes."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_architectures"
+      ],
+      "forbidden_tools": [
+        "projects_events_aggregate_host_metadata",
+        "projects_stats_aggregate_top_hosts",
+        "topfunctions"
+      ],
+      "name": "project top architectures endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank the CPU architectures present in the profiling data."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_clusters"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_deployments",
+        "projects_stats_aggregate_top_namespaces",
+        "projects_stats_aggregate_top_pods"
+      ],
+      "name": "project top clusters endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank the Kubernetes clusters contributing the most profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_containers"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_main_exes",
+        "projects_stats_aggregate_top_pods",
+        "topentities"
+      ],
+      "name": "project top containers endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, use the generated project stats endpoint to rank containers by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_deployments"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_containers",
+        "projects_stats_aggregate_top_namespaces",
+        "projects_stats_aggregate_top_pods"
+      ],
+      "name": "project top deployments endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank Kubernetes deployments by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_hosts"
+      ],
+      "forbidden_tools": [
+        "projects_events_aggregate_host_metadata",
+        "projects_stats_aggregate_top_architectures",
+        "topfunctions"
+      ],
+      "name": "project top hosts endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank hosts by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_main_exes"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_script_names",
+        "topentities",
+        "topfunctions"
+      ],
+      "name": "project top executables endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank main executable names by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_namespaces"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_clusters",
+        "projects_stats_aggregate_top_deployments",
+        "projects_stats_aggregate_top_pods"
+      ],
+      "name": "project top namespaces endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank Kubernetes namespaces by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_script_names"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_main_exes",
+        "projects_stats_aggregate_top_thread_names",
+        "topfunctions"
+      ],
+      "name": "project top scripts endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank script names by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_thread_names"
+      ],
+      "forbidden_tools": [
+        "projects_stats_aggregate_top_script_names",
+        "hot_traces",
+        "topfunctions"
+      ],
+      "name": "project top threads endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank thread names by profiling activity."
+    },
+    {
+      "allow_no_tool": false,
+      "argument_checks": [
+        "project_id"
+      ],
+      "check_family": "dimension_ranking",
+      "expected_tools": [
+        "projects_stats_aggregate_top_user_tags"
+      ],
+      "forbidden_tools": [
+        "projects_events_aggregate_top_field_values",
+        "projects_stats_aggregate_top_containers",
+        "projects_stats_aggregate_top_hosts"
+      ],
+      "name": "project top user tags endpoint",
+      "task": "For project 123e4567-e89b-12d3-a456-426614174000, rank custom user tags by profiling activity."
+    }
+  ],
+  "check_families": {
+    "bounded_discovery": [
+      "first trace discovery is meta only"
+    ],
+    "default_project": [
+      "default project metrics discovery skips search",
+      "default project raw sample skips search"
+    ],
+    "dimension_ranking": [
+      "project top pods endpoint",
+      "project top architectures endpoint",
+      "project top clusters endpoint",
+      "project top containers endpoint",
+      "project top deployments endpoint",
+      "project top hosts endpoint",
+      "project top executables endpoint",
+      "project top namespaces endpoint",
+      "project top scripts endpoint",
+      "project top threads endpoint",
+      "project top user tags endpoint"
+    ],
+    "drilldown_boundary": [
+      "selected trace drilldown is bounded"
+    ],
+    "entity_ranking": [
+      "hot containers use entities"
+    ],
+    "error_recovery": [
+      "full trace error recovers to discovery"
+    ],
+    "event_aggregate": [
+      "project event aggregate counts"
+    ],
+    "filter_discovery": [
+      "discover common filter fields"
+    ],
+    "gpu_workflow": [
+      "gpu inference workflow starts with metrics",
+      "gpu call tree uses hot traces"
+    ],
+    "host_metadata": [
+      "host metadata aggregation"
+    ],
+    "metric_discovery": [
+      "discover metrics before query"
+    ],
+    "metric_query": [
+      "known metric query"
+    ],
+    "output_budget": [
+      "hot trace discovery is bounded"
+    ],
+    "project_selection": [
+      "unknown project id uses search"
+    ],
+    "rank_first": [
+      "cpu hot functions",
+      "cpu rank first containerized apps"
+    ],
+    "raw_payload": [
+      "raw events are explicit"
+    ],
+    "recommendation": [
+      "generated optimization advice"
+    ],
+    "resource_vs_tool": [
+      "high level flamegraph",
+      "resource fallback hot functions",
+      "project json flamegraph stays project scoped"
+    ],
+    "time_window": [
+      "relative time needs date helper"
+    ]
+  },
+  "matrix": "zymtrace mcp tool-selection matrix",
+  "matrix_path": "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+  "passed": true,
+  "source": {
+    "default_project_id": "00000000-0000-0000-0000-000000000000",
+    "docs": [
+      "https://docs.zymtrace.com/getting-started/",
+      "https://docs.zymtrace.com/category/model-context-protocol-mcp/"
+    ],
+    "local_mcp_server": "zymtrace-mcp 26.6.1",
+    "local_mcp_url": "http://localhost:8080/mcp",
+    "resource_count": 3,
+    "resources": [
+      "flamegraph",
+      "topfunctions",
+      "topentities"
+    ],
+    "skills": [
+      "configure-zymtrace-mcp",
+      "optimize-cpu-workloads",
+      "optimize-gpu-workloads",
+      "optimize-memory-allocation"
+    ],
+    "tool_count": 25
+  },
+  "summary": {
+    "argument_case_count": 33,
+    "boundary_pair_count": 85,
+    "case_count": 34,
+    "case_count_with_check_family": 34,
+    "forbidden_tool_coverage": 1.0,
+    "no_tool_case_count": 0,
+    "tool_count": 25,
+    "tool_expected_coverage": 1.0,
+    "tool_variant_count": 2
+  },
+  "tool_variants": [
+    {
+      "name": "stock_zymtrace_mcp",
+      "tool_count": 25
+    },
+    {
+      "name": "tuned_zymtrace_mcp_boundaries",
+      "tool_count": 25
+    }
+  ],
+  "tools": [
+    {
+      "argument_cases": [
+        "high level flamegraph"
+      ],
+      "expected_cases": [
+        "high level flamegraph"
+      ],
+      "forbidden_cases": [
+        "cpu hot functions",
+        "hot containers use entities",
+        "first trace discovery is meta only",
+        "cpu rank first containerized apps",
+        "gpu inference workflow starts with metrics",
+        "gpu call tree uses hot traces",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded",
+        "resource fallback hot functions",
+        "project json flamegraph stays project scoped"
+      ],
+      "has_quality_checks": true,
+      "name": "flamegraph"
+    },
+    {
+      "argument_cases": [],
+      "expected_cases": [
+        "relative time needs date helper"
+      ],
+      "forbidden_cases": [
+        "cpu hot functions"
+      ],
+      "has_quality_checks": true,
+      "name": "get_date_time"
+    },
+    {
+      "argument_cases": [
+        "first trace discovery is meta only",
+        "gpu call tree uses hot traces",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded"
+      ],
+      "expected_cases": [
+        "first trace discovery is meta only",
+        "gpu call tree uses hot traces",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded"
+      ],
+      "forbidden_cases": [
+        "cpu hot functions",
+        "hot containers use entities",
+        "raw events are explicit",
+        "default project raw sample skips search",
+        "cpu rank first containerized apps",
+        "gpu inference workflow starts with metrics",
+        "resource fallback hot functions",
+        "project json flamegraph stays project scoped",
+        "project top threads endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "hot_traces"
+    },
+    {
+      "argument_cases": [
+        "raw events are explicit",
+        "default project raw sample skips search"
+      ],
+      "expected_cases": [
+        "raw events are explicit",
+        "default project raw sample skips search"
+      ],
+      "forbidden_cases": [
+        "unknown project id uses search",
+        "first trace discovery is meta only",
+        "generated optimization advice",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded",
+        "project json flamegraph stays project scoped",
+        "project event aggregate counts"
+      ],
+      "has_quality_checks": true,
+      "name": "project_events_raw"
+    },
+    {
+      "argument_cases": [
+        "project json flamegraph stays project scoped"
+      ],
+      "expected_cases": [
+        "project json flamegraph stays project scoped"
+      ],
+      "forbidden_cases": [
+        "high level flamegraph",
+        "gpu call tree uses hot traces"
+      ],
+      "has_quality_checks": true,
+      "name": "project_flamegraph_json"
+    },
+    {
+      "argument_cases": [
+        "discover metrics before query",
+        "default project metrics discovery skips search",
+        "gpu inference workflow starts with metrics"
+      ],
+      "expected_cases": [
+        "discover metrics before query",
+        "default project metrics discovery skips search",
+        "gpu inference workflow starts with metrics"
+      ],
+      "forbidden_cases": [
+        "known metric query"
+      ],
+      "has_quality_checks": true,
+      "name": "project_metrics_activity_aggr"
+    },
+    {
+      "argument_cases": [
+        "known metric query"
+      ],
+      "expected_cases": [
+        "known metric query"
+      ],
+      "forbidden_cases": [
+        "relative time needs date helper",
+        "unknown project id uses search",
+        "discover metrics before query",
+        "default project metrics discovery skips search",
+        "resource fallback hot functions"
+      ],
+      "has_quality_checks": true,
+      "name": "project_metrics_query"
+    },
+    {
+      "argument_cases": [
+        "project event aggregate counts"
+      ],
+      "expected_cases": [
+        "project event aggregate counts"
+      ],
+      "forbidden_cases": [
+        "relative time needs date helper",
+        "discover metrics before query",
+        "known metric query"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_events_aggregate"
+    },
+    {
+      "argument_cases": [
+        "host metadata aggregation"
+      ],
+      "expected_cases": [
+        "host metadata aggregation"
+      ],
+      "forbidden_cases": [
+        "project top architectures endpoint",
+        "project top hosts endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_events_aggregate_host_metadata"
+    },
+    {
+      "argument_cases": [
+        "discover common filter fields"
+      ],
+      "expected_cases": [
+        "discover common filter fields"
+      ],
+      "forbidden_cases": [
+        "project event aggregate counts",
+        "project top user tags endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_events_aggregate_top_field_values"
+    },
+    {
+      "argument_cases": [
+        "unknown project id uses search"
+      ],
+      "expected_cases": [
+        "unknown project id uses search"
+      ],
+      "forbidden_cases": [
+        "default project metrics discovery skips search",
+        "default project raw sample skips search"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_search"
+    },
+    {
+      "argument_cases": [
+        "project top architectures endpoint"
+      ],
+      "expected_cases": [
+        "project top architectures endpoint"
+      ],
+      "forbidden_cases": [
+        "host metadata aggregation",
+        "project top hosts endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_architectures"
+    },
+    {
+      "argument_cases": [
+        "project top clusters endpoint"
+      ],
+      "expected_cases": [
+        "project top clusters endpoint"
+      ],
+      "forbidden_cases": [
+        "project top namespaces endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_clusters"
+    },
+    {
+      "argument_cases": [
+        "project top containers endpoint"
+      ],
+      "expected_cases": [
+        "project top containers endpoint"
+      ],
+      "forbidden_cases": [
+        "discover common filter fields",
+        "project top pods endpoint",
+        "project top deployments endpoint",
+        "project top user tags endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_containers"
+    },
+    {
+      "argument_cases": [
+        "project top deployments endpoint"
+      ],
+      "expected_cases": [
+        "project top deployments endpoint"
+      ],
+      "forbidden_cases": [
+        "project top clusters endpoint",
+        "project top namespaces endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_deployments"
+    },
+    {
+      "argument_cases": [
+        "project top hosts endpoint"
+      ],
+      "expected_cases": [
+        "project top hosts endpoint"
+      ],
+      "forbidden_cases": [
+        "host metadata aggregation",
+        "project top architectures endpoint",
+        "project top user tags endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_hosts"
+    },
+    {
+      "argument_cases": [
+        "project top executables endpoint"
+      ],
+      "expected_cases": [
+        "project top executables endpoint"
+      ],
+      "forbidden_cases": [
+        "project top containers endpoint",
+        "project top scripts endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_main_exes"
+    },
+    {
+      "argument_cases": [
+        "project top namespaces endpoint"
+      ],
+      "expected_cases": [
+        "project top namespaces endpoint"
+      ],
+      "forbidden_cases": [
+        "project top pods endpoint",
+        "project top clusters endpoint",
+        "project top deployments endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_namespaces"
+    },
+    {
+      "argument_cases": [
+        "project top pods endpoint"
+      ],
+      "expected_cases": [
+        "project top pods endpoint"
+      ],
+      "forbidden_cases": [
+        "project top clusters endpoint",
+        "project top containers endpoint",
+        "project top deployments endpoint",
+        "project top namespaces endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_pods"
+    },
+    {
+      "argument_cases": [
+        "project top scripts endpoint"
+      ],
+      "expected_cases": [
+        "project top scripts endpoint"
+      ],
+      "forbidden_cases": [
+        "project top executables endpoint",
+        "project top threads endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_script_names"
+    },
+    {
+      "argument_cases": [
+        "project top threads endpoint"
+      ],
+      "expected_cases": [
+        "project top threads endpoint"
+      ],
+      "forbidden_cases": [
+        "project top scripts endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_thread_names"
+    },
+    {
+      "argument_cases": [
+        "project top user tags endpoint"
+      ],
+      "expected_cases": [
+        "project top user tags endpoint"
+      ],
+      "forbidden_cases": [
+        "discover common filter fields"
+      ],
+      "has_quality_checks": true,
+      "name": "projects_stats_aggregate_top_user_tags"
+    },
+    {
+      "argument_cases": [
+        "generated optimization advice"
+      ],
+      "expected_cases": [
+        "generated optimization advice"
+      ],
+      "forbidden_cases": [
+        "cpu hot functions",
+        "raw events are explicit",
+        "cpu rank first containerized apps"
+      ],
+      "has_quality_checks": true,
+      "name": "recommendations"
+    },
+    {
+      "argument_cases": [
+        "hot containers use entities",
+        "cpu rank first containerized apps"
+      ],
+      "expected_cases": [
+        "hot containers use entities",
+        "cpu rank first containerized apps"
+      ],
+      "forbidden_cases": [
+        "cpu hot functions",
+        "high level flamegraph",
+        "generated optimization advice",
+        "discover common filter fields",
+        "project top containers endpoint",
+        "project top executables endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "topentities"
+    },
+    {
+      "argument_cases": [
+        "cpu hot functions",
+        "resource fallback hot functions"
+      ],
+      "expected_cases": [
+        "cpu hot functions",
+        "resource fallback hot functions"
+      ],
+      "forbidden_cases": [
+        "relative time needs date helper",
+        "unknown project id uses search",
+        "hot containers use entities",
+        "first trace discovery is meta only",
+        "high level flamegraph",
+        "discover metrics before query",
+        "known metric query",
+        "generated optimization advice",
+        "raw events are explicit",
+        "discover common filter fields",
+        "project top pods endpoint",
+        "default project metrics discovery skips search",
+        "default project raw sample skips search",
+        "gpu inference workflow starts with metrics",
+        "gpu call tree uses hot traces",
+        "selected trace drilldown is bounded",
+        "full trace error recovers to discovery",
+        "hot trace discovery is bounded",
+        "project event aggregate counts",
+        "host metadata aggregation",
+        "project top architectures endpoint",
+        "project top hosts endpoint",
+        "project top executables endpoint",
+        "project top scripts endpoint",
+        "project top threads endpoint"
+      ],
+      "has_quality_checks": true,
+      "name": "topfunctions"
+    }
+  ],
+  "uncovered": {
+    "cases_without_check_family": [],
+    "cases_without_forbidden": [],
+    "expected_without_argument_check": [],
+    "missing_quality_checks": [],
+    "never_expected": [],
+    "never_forbidden": [],
+    "unknown_expected_tools": [],
+    "unknown_forbidden_tools": []
+  },
+  "warnings": []
+}
