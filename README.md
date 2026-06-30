@@ -278,6 +278,57 @@ The stock Zymtrace surface passed 14 of 24 selected cells. The tuned surface pas
 is why the Zymtrace finding was promoted and packaged under
 [docs/findings/zymtrace](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/zymtrace).
 
+### Abbreviated Diff Examples
+
+These are shortened examples of the kind of change the loop promotes. The full packets live under
+[docs/findings](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings).
+
+Firecrawl fixed a scrape-versus-extract boundary:
+
+```diff
+- Use firecrawl_extract for structured fields from a page.
++ Use firecrawl_scrape when the exact page URL is known and the task needs that page's content,
++ metadata, screenshot, branding, or structured fields.
++ Use firecrawl_extract when the user asks for fields across several pages or a broader structured
++ extraction job. Avoid for one known URL.
+```
+
+Supabase fixed a migration-safety boundary:
+
+```diff
+- Use execute_sql for SQL statements.
++ Use apply_migration for DDL and schema-changing SQL.
++ Use execute_sql only for regular SQL that does not change database schema.
+```
+
+Zymtrace fixed workflow and argument boundaries:
+
+```diff
+- Use project tools for the requested project.
+- Use hot_traces for call-tree analysis.
++ Use default project 00000000-0000-0000-0000-000000000000 unless the user names another project.
++ Discover metrics with project_metrics_activity_aggr before querying metric values.
++ First hot_traces calls use meta_only=true and limit<=5.
++ Full trace fetches require prefix_hash, meta_only=false, and limit=1.
+```
+
+Screenpipe fixed exact keyword lookup:
+
+```diff
+- Use search-content for screen or transcript search.
++ Use keyword-search for literal terms and exact phrases.
++ Use search-content for transcript lines, screen text, speaker or window filters, tags, memories,
++ and broader content search.
+```
+
+InsForge fixed a no-tool safety case:
+
+```diff
+- Use create-deployment when the user asks to deploy a local source tree.
++ Use create-deployment only when the user provides an absolute sourceDirectory path.
++ Return NO_TOOL for relative paths like "." until the path is resolved.
+```
+
 ## Model Matrix
 
 Use `model-matrix` when tuning tool descriptions or `CLAUDE.md` style instructions for a new model,
