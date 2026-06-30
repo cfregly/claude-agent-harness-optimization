@@ -45,6 +45,7 @@ def audit_matrix_coverage_data(
 ) -> dict[str, Any]:
     variants = matrix.get("tool_variants", [])
     tools = _tool_names(variants)
+    external_forbidden = set(matrix.get("coverage", {}).get("external_forbidden_tools", []))
     cases = matrix.get("cases", [])
     expected_cases = {tool: [] for tool in tools}
     forbidden_cases = {tool: [] for tool in tools}
@@ -73,7 +74,7 @@ def audit_matrix_coverage_data(
         for tool in forbidden:
             if tool in forbidden_cases:
                 forbidden_cases[tool].append(name)
-            elif tool not in SPECIAL_TOOLS:
+            elif tool not in SPECIAL_TOOLS and tool not in external_forbidden:
                 unknown_forbidden.add(tool)
         for expected_tool in expected:
             for forbidden_tool in forbidden:
@@ -106,7 +107,11 @@ def audit_matrix_coverage_data(
 
     operational_tools = [tool for tool in tools if tool not in SPECIAL_TOOLS]
     never_expected = [tool for tool in operational_tools if not expected_cases[tool]]
-    never_forbidden = [tool for tool in operational_tools if not forbidden_cases[tool]]
+    never_forbidden = [
+        tool
+        for tool in operational_tools
+        if len(operational_tools) > 1 and not forbidden_cases[tool]
+    ]
     expected_without_argument_check = [
         tool
         for tool in operational_tools
@@ -159,6 +164,7 @@ def audit_matrix_coverage_data(
         "matrix_path": matrix_path,
         "passed": not bool(warnings),
         "source": matrix.get("source", {}),
+        "coverage": matrix.get("coverage", {}),
         "summary": {
             "argument_case_count": sum(1 for row in case_rows if row["argument_checks"]),
             "boundary_pair_count": len(boundary_pairs),

@@ -115,9 +115,9 @@ class MatrixCoverageTests(unittest.TestCase):
         )
 
         self.assertEqual(2, suite["summary"]["matrix_count"])
-        self.assertEqual(1, suite["summary"]["passed_matrices"])
-        self.assertEqual(1, suite["summary"]["failed_matrices"])
-        self.assertFalse(suite["passed"])
+        self.assertEqual(2, suite["summary"]["passed_matrices"])
+        self.assertEqual(0, suite["summary"]["failed_matrices"])
+        self.assertTrue(suite["passed"])
 
     def test_render_suite_markdown_lists_remaining_gaps(self):
         suite = {

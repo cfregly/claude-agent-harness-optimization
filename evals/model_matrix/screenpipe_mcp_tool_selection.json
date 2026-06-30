@@ -12,7 +12,9 @@
   "profiles": [
     {
       "api_key_env": "ANTHROPIC_API_KEY",
-      "harnesses": ["prompt_json"],
+      "harnesses": [
+        "prompt_json"
+      ],
       "model": "claude-sonnet-4-5",
       "model_env": "ANTHROPIC_MATRIX_MODEL",
       "name": "anthropic-sonnet",
@@ -20,7 +22,9 @@
     },
     {
       "api_key_env": "OPENAI_API_KEY",
-      "harnesses": ["prompt_json"],
+      "harnesses": [
+        "prompt_json"
+      ],
       "model": "gpt-4.1",
       "model_env": "OPENAI_MATRIX_MODEL",
       "name": "openai-default",
@@ -28,7 +32,9 @@
     },
     {
       "api_key_env": "GEMINI_API_KEY",
-      "harnesses": ["prompt_json"],
+      "harnesses": [
+        "prompt_json"
+      ],
       "max_tokens": 4096,
       "model": "gemini-2.5-pro",
       "model_env": "GEMINI_MATRIX_MODEL",
@@ -46,42 +52,743 @@
     {
       "name": "readme_screenpipe_mcp",
       "tools": [
-        {"name": "search-content", "purpose": "Search through recorded content with content type filtering.", "input_schema": {"type": "object", "properties": {"q": {"type": "string"}, "content_type": {"type": "string"}, "start_time": {"type": "string"}, "end_time": {"type": "string"}, "app_name": {"type": "string"}, "speaker_name": {"type": "string"}, "limit": {"type": "integer"}}}},
-        {"name": "export-video", "purpose": "Export screen recordings as video files.", "input_schema": {"type": "object", "properties": {"start_time": {"type": "string"}, "end_time": {"type": "string"}, "output_path": {"type": "string"}}, "required": ["start_time", "end_time"]}},
-        {"name": "activity-summary", "purpose": "Get a lightweight compressed activity overview for a time range.", "input_schema": {"type": "object", "properties": {"start_time": {"type": "string"}, "end_time": {"type": "string"}, "app_name": {"type": "string"}}, "required": ["start_time", "end_time"]}},
-        {"name": "list-meetings", "purpose": "List detected meetings with duration, app, and attendees.", "input_schema": {"type": "object", "properties": {"start_time": {"type": "string"}, "end_time": {"type": "string"}, "q": {"type": "string"}}}},
-        {"name": "search-elements", "purpose": "Search structured UI elements.", "input_schema": {"type": "object", "properties": {"q": {"type": "string"}, "role": {"type": "string"}, "app_name": {"type": "string"}, "start_time": {"type": "string"}, "end_time": {"type": "string"}}}},
-        {"name": "get-frame-elements", "purpose": "The whole element tree for one frame, as a compact outline.", "input_schema": {"type": "object", "properties": {"frame_id": {"type": "integer"}}, "required": ["frame_id"]}},
-        {"name": "frame-context", "purpose": "Get accessibility text, parsed tree nodes, and extracted URLs for a specific frame.", "input_schema": {"type": "object", "properties": {"frame_id": {"type": "integer"}}, "required": ["frame_id"]}},
-        {"name": "keyword-search", "purpose": "Fast keyword search across OCR and audio.", "input_schema": {"type": "object", "properties": {"q": {"type": "string"}, "start_time": {"type": "string"}, "end_time": {"type": "string"}, "app_name": {"type": "string"}}, "required": ["q"]}},
-        {"name": "create-pipe", "purpose": "Create a scheduled AI automation.", "input_schema": {"type": "object", "properties": {"name": {"type": "string"}, "prompt": {"type": "string"}, "schedule": {"type": "string"}, "run_now": {"type": "boolean"}}, "required": ["name", "prompt", "schedule"]}},
-        {"name": "run-pipe", "purpose": "Run a pipe once immediately.", "input_schema": {"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}},
-        {"name": "pipe-logs", "purpose": "Get a pipe's recent execution logs or output.", "input_schema": {"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}}
+        {
+          "name": "search-content",
+          "purpose": "Search through recorded content with content type filtering.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "content_type": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              },
+              "speaker_name": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "name": "export-video",
+          "purpose": "Export screen recordings as video files.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "output_path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "start_time",
+              "end_time"
+            ]
+          }
+        },
+        {
+          "name": "activity-summary",
+          "purpose": "Get a lightweight compressed activity overview for a time range.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "start_time",
+              "end_time"
+            ]
+          }
+        },
+        {
+          "name": "list-meetings",
+          "purpose": "List detected meetings with duration, app, and attendees.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "q": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "search-elements",
+          "purpose": "Search structured UI elements.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "name": "get-frame-elements",
+          "purpose": "The whole element tree for one frame, as a compact outline.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "frame_id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "frame_id"
+            ]
+          }
+        },
+        {
+          "name": "frame-context",
+          "purpose": "Get accessibility text, parsed tree nodes, and extracted URLs for a specific frame.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "frame_id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "frame_id"
+            ]
+          }
+        },
+        {
+          "name": "keyword-search",
+          "purpose": "Fast keyword search across OCR and audio.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "q"
+            ]
+          }
+        },
+        {
+          "name": "create-pipe",
+          "purpose": "Create a scheduled AI automation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "schedule": {
+                "type": "string"
+              },
+              "run_now": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "prompt",
+              "schedule"
+            ]
+          }
+        },
+        {
+          "name": "run-pipe",
+          "purpose": "Run a pipe once immediately.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "pipe-logs",
+          "purpose": "Get a pipe's recent execution logs or output.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        }
       ]
     },
     {
       "name": "source_tuned_screenpipe_mcp",
       "tools": [
-        {"name": "search-content", "purpose": "Search screen text, audio transcriptions, input events, and memories. Returns timestamped results with app context.", "use_when": "Use when you need actual text/content of a moment: quotes, OCR or accessibility snippets, transcript lines, speaker/window filters, tags, or memories.", "avoid_when": "Avoid for broad questions like what was I doing; use activity-summary. Avoid for targeted UI controls; use search-elements. Avoid for fastest exact keyword lookup; use keyword-search.", "input_schema": {"type": "object", "properties": {"q": {"type": "string"}, "content_type": {"type": "string", "enum": ["all", "ocr", "audio", "input", "accessibility", "memory"]}, "start_time": {"type": "string"}, "end_time": {"type": "string"}, "app_name": {"type": "string"}, "speaker_name": {"type": "string"}, "limit": {"type": "integer"}, "max_content_length": {"type": "integer"}}}, "quality_checks": ["Always provide start_time for bounded search.", "Start with limit=5 for exploration.", "Use max_content_length to keep responses compact."]},
-        {"name": "activity-summary", "purpose": "Rich activity overview with app usage, windows and tabs, key text, and audio transcriptions.", "use_when": "Use first for broad time-range questions such as what was I doing, recap my morning, how long on X, or which apps.", "avoid_when": "Avoid for finding a specific keyword or UI control.", "input_schema": {"type": "object", "properties": {"start_time": {"type": "string"}, "end_time": {"type": "string"}, "app_name": {"type": "string"}}, "required": ["start_time", "end_time"]}, "quality_checks": ["Requires bounded start_time and end_time.", "Usually sufficient before follow-up searches."]},
-        {"name": "keyword-search", "purpose": "Fast FTS5 keyword search across OCR plus audio combined.", "use_when": "Use when the user gives a specific keyword or exact phrase and wants the fastest hit list.", "avoid_when": "Avoid for structured filtering by content type, speaker, window, or broad activity questions.", "input_schema": {"type": "object", "properties": {"q": {"type": "string"}, "start_time": {"type": "string"}, "end_time": {"type": "string"}, "app_name": {"type": "string"}, "limit": {"type": "integer"}}, "required": ["q"]}, "quality_checks": ["Use quoted phrases for exact text.", "Keep time bounded where possible."]},
-        {"name": "search-elements", "purpose": "Search UI elements such as buttons, links, and text fields from accessibility tree or OCR blocks.", "use_when": "Use for specific UI controls or page-structure questions.", "avoid_when": "Avoid for general content, transcript text, broad activity recaps, or keyword lookup.", "input_schema": {"type": "object", "properties": {"q": {"type": "string"}, "role": {"type": "string"}, "source": {"type": "string", "enum": ["accessibility", "ocr"]}, "app_name": {"type": "string"}, "start_time": {"type": "string"}, "end_time": {"type": "string"}, "limit": {"type": "integer"}}}, "quality_checks": ["Prefer accessibility source when available.", "Start with limit 10-20."]},
-        {"name": "frame-context", "purpose": "Get full accessibility text, parsed tree nodes, and URLs for a specific frame ID.", "use_when": "Use after search-content when you need detailed context for a specific moment.", "avoid_when": "Avoid before a frame_id is known.", "input_schema": {"type": "object", "properties": {"frame_id": {"type": "integer"}}, "required": ["frame_id"]}, "quality_checks": ["Use only real frame IDs from prior results."]},
-        {"name": "get-frame-elements", "purpose": "Get all UI elements for one known frame.", "use_when": "Use when the user already has frame_id and asks for UI elements or element tree.", "avoid_when": "Avoid for full moment context or unknown frame lookup.", "input_schema": {"type": "object", "properties": {"frame_id": {"type": "integer"}}, "required": ["frame_id"]}, "quality_checks": ["Use only real frame IDs from prior results."]},
-        {"name": "list-meetings", "purpose": "List detected meetings with duration, app, attendees, and optional substring filtering.", "use_when": "Use to find meetings in a time range or by attendee/title substring.", "avoid_when": "Avoid when a specific meeting ID is already known and details are needed.", "input_schema": {"type": "object", "properties": {"start_time": {"type": "string"}, "end_time": {"type": "string"}, "q": {"type": "string"}, "limit": {"type": "integer"}}}, "quality_checks": ["Use q for attendee/title filters.", "Use get-meeting for known meeting IDs."]},
-        {"name": "create-pipe", "purpose": "Create a scheduled AI automation that runs a markdown prompt on a schedule.", "use_when": "Use when the user wants to automate a recurring task such as a daily summary, report, monitor, or sync.", "avoid_when": "Avoid before reading the screenpipe://guide/pipes resource in a resource-capable host. Avoid for just running or reading an existing pipe.", "input_schema": {"type": "object", "properties": {"name": {"type": "string"}, "prompt": {"type": "string"}, "schedule": {"type": "string"}, "run_now": {"type": "boolean"}}, "required": ["name", "prompt", "schedule"]}, "quality_checks": ["Use kebab-case name.", "Write one bounded job.", "Run once and then inspect pipe-logs."]},
-        {"name": "run-pipe", "purpose": "Run an existing pipe once immediately for a test.", "use_when": "Use after creating or editing a pipe, or when the user asks to run a pipe now.", "avoid_when": "Avoid for creating a new scheduled automation.", "input_schema": {"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}, "quality_checks": ["Read pipe-logs after running."]},
-        {"name": "pipe-logs", "purpose": "Get recent execution logs and output for a pipe.", "use_when": "Use to verify a new test run or debug a misbehaving pipe.", "avoid_when": "Avoid before a pipe exists or before a run has started.", "input_schema": {"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}, "quality_checks": ["Use after create-pipe or run-pipe."]}
+        {
+          "name": "search-content",
+          "purpose": "Search screen text, audio transcriptions, input events, and memories. Returns timestamped results with app context.",
+          "use_when": "Use when you need actual text/content of a moment: quotes, OCR or accessibility snippets, transcript lines, speaker/window filters, tags, or memories.",
+          "avoid_when": "Avoid for broad questions like what was I doing; use activity-summary. Avoid for targeted UI controls; use search-elements. Avoid for fastest exact keyword lookup; use keyword-search.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "content_type": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "ocr",
+                  "audio",
+                  "input",
+                  "accessibility",
+                  "memory"
+                ]
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              },
+              "speaker_name": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "max_content_length": {
+                "type": "integer"
+              }
+            }
+          },
+          "quality_checks": [
+            "Always provide start_time for bounded search.",
+            "Start with limit=5 for exploration.",
+            "Use max_content_length to keep responses compact."
+          ]
+        },
+        {
+          "name": "export-video",
+          "purpose": "Export bounded screen recording ranges as video files.",
+          "use_when": "Use when the user explicitly asks to export or save a screen recording clip.",
+          "avoid_when": "Avoid for summaries, searches, meeting inventory, frame context, or screenshots.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "output_path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "start_time",
+              "end_time"
+            ]
+          },
+          "quality_checks": [
+            "Require a bounded time range.",
+            "Use output_path when the user names the destination."
+          ]
+        },
+        {
+          "name": "activity-summary",
+          "purpose": "Rich activity overview with app usage, windows and tabs, key text, and audio transcriptions.",
+          "use_when": "Use first for broad time-range questions such as what was I doing, recap my morning, how long on X, or which apps.",
+          "avoid_when": "Avoid for finding a specific keyword or UI control.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "start_time",
+              "end_time"
+            ]
+          },
+          "quality_checks": [
+            "Requires bounded start_time and end_time.",
+            "Usually sufficient before follow-up searches."
+          ]
+        },
+        {
+          "name": "keyword-search",
+          "purpose": "Fast FTS5 keyword search across OCR plus audio combined.",
+          "use_when": "Use when the user gives a specific keyword or exact phrase and wants the fastest hit list.",
+          "avoid_when": "Avoid for structured filtering by content type, speaker, window, or broad activity questions.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "app_name": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "q"
+            ]
+          },
+          "quality_checks": [
+            "Use quoted phrases for exact text.",
+            "Keep time bounded where possible."
+          ]
+        },
+        {
+          "name": "search-elements",
+          "purpose": "Search UI elements such as buttons, links, and text fields from accessibility tree or OCR blocks.",
+          "use_when": "Use for specific UI controls or page-structure questions.",
+          "avoid_when": "Avoid for general content, transcript text, broad activity recaps, or keyword lookup.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "q": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "accessibility",
+                  "ocr"
+                ]
+              },
+              "app_name": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          },
+          "quality_checks": [
+            "Prefer accessibility source when available.",
+            "Start with limit 10-20."
+          ]
+        },
+        {
+          "name": "frame-context",
+          "purpose": "Get full accessibility text, parsed tree nodes, and URLs for a specific frame ID.",
+          "use_when": "Use after search-content when you need detailed context for a specific moment.",
+          "avoid_when": "Avoid before a frame_id is known.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "frame_id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "frame_id"
+            ]
+          },
+          "quality_checks": [
+            "Use only real frame IDs from prior results."
+          ]
+        },
+        {
+          "name": "get-frame-elements",
+          "purpose": "Get all UI elements for one known frame.",
+          "use_when": "Use when the user already has frame_id and asks for UI elements or element tree.",
+          "avoid_when": "Avoid for full moment context or unknown frame lookup.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "frame_id": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "frame_id"
+            ]
+          },
+          "quality_checks": [
+            "Use only real frame IDs from prior results."
+          ]
+        },
+        {
+          "name": "list-meetings",
+          "purpose": "List detected meetings with duration, app, attendees, and optional substring filtering.",
+          "use_when": "Use to find meetings in a time range or by attendee/title substring.",
+          "avoid_when": "Avoid when a specific meeting ID is already known and details are needed.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "q": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "integer"
+              }
+            }
+          },
+          "quality_checks": [
+            "Use q for attendee/title filters.",
+            "Use get-meeting for known meeting IDs."
+          ]
+        },
+        {
+          "name": "create-pipe",
+          "purpose": "Create a scheduled AI automation that runs a markdown prompt on a schedule.",
+          "use_when": "Use when the user wants to automate a recurring task such as a daily summary, report, monitor, or sync.",
+          "avoid_when": "Avoid before reading the screenpipe://guide/pipes resource in a resource-capable host. Avoid for just running or reading an existing pipe.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "schedule": {
+                "type": "string"
+              },
+              "run_now": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "prompt",
+              "schedule"
+            ]
+          },
+          "quality_checks": [
+            "Use kebab-case name.",
+            "Write one bounded job.",
+            "Run once and then inspect pipe-logs."
+          ]
+        },
+        {
+          "name": "run-pipe",
+          "purpose": "Run an existing pipe once immediately for a test.",
+          "use_when": "Use after creating or editing a pipe, or when the user asks to run a pipe now.",
+          "avoid_when": "Avoid for creating a new scheduled automation.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "quality_checks": [
+            "Read pipe-logs after running."
+          ]
+        },
+        {
+          "name": "pipe-logs",
+          "purpose": "Get recent execution logs and output for a pipe.",
+          "use_when": "Use to verify a new test run or debug a misbehaving pipe.",
+          "avoid_when": "Avoid before a pipe exists or before a run has started.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "quality_checks": [
+            "Use after create-pipe or run-pipe."
+          ]
+        }
       ]
     }
   ],
   "cases": [
-    {"name": "broad morning recap starts summary", "task": "What was I doing this morning across apps and meetings?", "expected_tools": ["activity-summary"], "forbidden_tools": ["search-content", "keyword-search", "search-elements"]},
-    {"name": "exact keyword uses keyword search", "task": "Find every screen or transcript where I typed or saw the exact phrase \"Stripe webhook\" yesterday.", "expected_tools": ["keyword-search"], "forbidden_tools": ["activity-summary", "search-elements"]},
-    {"name": "speaker transcript uses content search", "task": "Find what John said about the database in audio transcripts from the last hour.", "expected_tools": ["search-content"], "forbidden_tools": ["activity-summary", "keyword-search", "search-elements"]},
-    {"name": "ui button lookup uses elements", "task": "Find submit buttons I saw in Chrome today.", "expected_tools": ["search-elements"], "forbidden_tools": ["search-content", "activity-summary", "keyword-search"]},
-    {"name": "known frame detail uses frame context", "task": "For frame_id 91234, get the full context: visible text, parsed tree nodes, and URLs.", "expected_tools": ["frame-context"], "forbidden_tools": ["search-content", "get-frame-elements", "activity-summary"]},
-    {"name": "create recurring automation uses pipe", "task": "Create a daily 6pm automation that summarizes today's work and sends me a notification.", "expected_tools": ["create-pipe"], "forbidden_tools": ["run-pipe", "pipe-logs", "activity-summary"]},
-    {"name": "verify pipe output uses logs", "task": "I just ran the daily-time-report pipe. Show me its recent output and errors.", "expected_tools": ["pipe-logs"], "forbidden_tools": ["create-pipe", "run-pipe", "activity-summary"]}
+    {
+      "name": "broad morning recap starts summary",
+      "task": "What was I doing from 2026-06-30T08:00:00Z to 2026-06-30T12:00:00Z across apps and meetings?",
+      "expected_tools": [
+        "activity-summary"
+      ],
+      "forbidden_tools": [
+        "search-content",
+        "keyword-search",
+        "search-elements",
+        "export-video",
+        "list-meetings"
+      ],
+      "check_family": "activity_summary",
+      "expected_args_contains": {
+        "start_time": "2026-06-30T08:00:00Z"
+      }
+    },
+    {
+      "name": "exact keyword uses keyword search",
+      "task": "Find every screen or transcript where I typed or saw the exact phrase \"Stripe webhook\" yesterday.",
+      "expected_tools": [
+        "keyword-search"
+      ],
+      "forbidden_tools": [
+        "activity-summary",
+        "search-elements",
+        "export-video",
+        "list-meetings"
+      ],
+      "check_family": "keyword_search",
+      "expected_args_contains": {
+        "q": "Stripe webhook"
+      }
+    },
+    {
+      "name": "speaker transcript uses content search",
+      "task": "Find what John said about the database in audio transcripts from the last hour.",
+      "expected_tools": [
+        "search-content"
+      ],
+      "forbidden_tools": [
+        "activity-summary",
+        "keyword-search",
+        "search-elements",
+        "export-video",
+        "list-meetings"
+      ],
+      "check_family": "content_search",
+      "expected_args_contains": {
+        "speaker_name": "John"
+      }
+    },
+    {
+      "name": "ui button lookup uses elements",
+      "task": "Find submit buttons I saw in Chrome today.",
+      "expected_tools": [
+        "search-elements"
+      ],
+      "forbidden_tools": [
+        "search-content",
+        "activity-summary",
+        "keyword-search",
+        "frame-context",
+        "export-video"
+      ],
+      "check_family": "element_search",
+      "expected_args_contains": {
+        "q": "submit"
+      }
+    },
+    {
+      "name": "known frame detail uses frame context",
+      "task": "For frame_id 91234, get the full context: visible text, parsed tree nodes, and URLs.",
+      "expected_tools": [
+        "frame-context"
+      ],
+      "forbidden_tools": [
+        "search-content",
+        "get-frame-elements",
+        "activity-summary",
+        "export-video",
+        "list-meetings"
+      ],
+      "check_family": "frame_context",
+      "expected_args_contains": {
+        "frame_id": "91234"
+      }
+    },
+    {
+      "name": "create recurring automation uses pipe",
+      "task": "Create a daily 6pm automation that summarizes today's work and sends me a notification.",
+      "expected_tools": [
+        "create-pipe"
+      ],
+      "forbidden_tools": [
+        "run-pipe",
+        "pipe-logs",
+        "activity-summary"
+      ],
+      "check_family": "pipe_create",
+      "expected_args_contains": {
+        "name": "daily-work-summary"
+      }
+    },
+    {
+      "name": "verify pipe output uses logs",
+      "task": "I just ran the daily-time-report pipe. Show me its recent output and errors.",
+      "expected_tools": [
+        "pipe-logs"
+      ],
+      "forbidden_tools": [
+        "create-pipe",
+        "run-pipe",
+        "activity-summary"
+      ],
+      "check_family": "pipe_logs",
+      "expected_args_contains": {
+        "name": "daily-time-report"
+      }
+    },
+    {
+      "name": "export video uses video export",
+      "task": "Export screen recording video from 2026-06-30T09:00:00Z to 2026-06-30T09:15:00Z into /tmp/demo.mp4.",
+      "check_family": "video_export",
+      "expected_args_contains": {
+        "output_path": "/tmp/demo.mp4",
+        "start_time": "2026-06-30T09:00:00Z"
+      },
+      "expected_tools": [
+        "export-video"
+      ],
+      "forbidden_tools": [
+        "activity-summary",
+        "search-content",
+        "list-meetings"
+      ]
+    },
+    {
+      "name": "meeting inventory uses list meetings",
+      "task": "List meetings with John from 2026-06-30T08:00:00Z to 2026-06-30T12:00:00Z.",
+      "check_family": "meeting_inventory",
+      "expected_args_contains": {
+        "q": "John"
+      },
+      "expected_tools": [
+        "list-meetings"
+      ],
+      "forbidden_tools": [
+        "activity-summary",
+        "search-content",
+        "frame-context"
+      ]
+    },
+    {
+      "name": "known frame elements use element tree",
+      "task": "For known frame_id 91234, return only the UI element tree.",
+      "check_family": "element_detail",
+      "expected_args_contains": {
+        "frame_id": "91234"
+      },
+      "expected_tools": [
+        "get-frame-elements"
+      ],
+      "forbidden_tools": [
+        "frame-context",
+        "search-elements",
+        "search-content"
+      ]
+    },
+    {
+      "name": "manual pipe run uses run pipe",
+      "task": "Run the existing daily-time-report pipe once now.",
+      "check_family": "pipe_run",
+      "expected_args_contains": {
+        "name": "daily-time-report"
+      },
+      "expected_tools": [
+        "run-pipe"
+      ],
+      "forbidden_tools": [
+        "create-pipe",
+        "pipe-logs",
+        "activity-summary"
+      ]
+    }
   ]
 }

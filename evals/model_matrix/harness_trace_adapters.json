@@ -4,7 +4,9 @@
   "profiles": [
     {
       "adapter": "runtime_events",
-      "harnesses": ["agent_sdk_trace"],
+      "harnesses": [
+        "agent_sdk_trace"
+      ],
       "model": "exported-run",
       "name": "agent-sdk-export",
       "provider": "trace_fixture",
@@ -17,7 +19,9 @@
     },
     {
       "adapter": "runtime_events",
-      "harnesses": ["cursor_trace"],
+      "harnesses": [
+        "cursor_trace"
+      ],
       "model": "exported-run",
       "name": "cursor-export",
       "provider": "trace_fixture",
@@ -48,12 +52,16 @@
                 "type": "string"
               }
             },
-            "required": ["description"],
+            "required": [
+              "description"
+            ],
             "type": "object"
           },
           "name": "Task",
           "purpose": "Delegate broad multi-step repository investigation.",
-          "quality_checks": ["Use when the exported run needs multi-file synthesis."],
+          "quality_checks": [
+            "Use when the exported run needs multi-file synthesis."
+          ],
           "use_when": "Use for broad investigation, mapping, summarization, or synthesis across unknown files."
         }
       ]
@@ -64,19 +72,33 @@
       "expected_args_contains": {
         "description": "trace review"
       },
-      "expected_tools": ["Task"],
-      "forbidden_tools": ["Glob", "Grep", "Read"],
+      "expected_tools": [
+        "Task"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Grep",
+        "Read"
+      ],
       "name": "investigate trace review flow",
-      "task": "Investigate how trace review scoring works across this repository and summarize the key files and control flow."
+      "task": "Investigate how trace review scoring works across this repository and summarize the key files and control flow.",
+      "check_family": "delegation_trace"
     },
     {
       "expected_args_contains": {
         "description": "model matrix"
       },
-      "expected_tools": ["Task"],
-      "forbidden_tools": ["Glob", "Grep", "Read"],
+      "expected_tools": [
+        "Task"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Grep",
+        "Read"
+      ],
       "name": "map model matrix implementation",
-      "task": "Map how the model matrix runner is implemented across the repository and summarize the main extension points."
+      "task": "Map how the model matrix runner is implemented across the repository and summarize the main extension points.",
+      "check_family": "delegation_trace"
     }
   ],
   "value_bar": {
@@ -96,5 +118,12 @@
       "failed_to_disprove": true,
       "open_objections": []
     }
+  },
+  "coverage": {
+    "external_forbidden_tools": [
+      "Glob",
+      "Grep",
+      "Read"
+    ]
   }
 }

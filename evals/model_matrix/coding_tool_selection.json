@@ -4,7 +4,10 @@
   "profiles": [
     {
       "api_key_env": "ANTHROPIC_API_KEY",
-      "harnesses": ["native_tools", "prompt_json"],
+      "harnesses": [
+        "native_tools",
+        "prompt_json"
+      ],
       "model": "claude-sonnet-4-5",
       "model_env": "ANTHROPIC_MATRIX_MODEL",
       "name": "anthropic-sonnet",
@@ -12,7 +15,10 @@
     },
     {
       "api_key_env": "OPENAI_API_KEY",
-      "harnesses": ["native_tools", "prompt_json"],
+      "harnesses": [
+        "native_tools",
+        "prompt_json"
+      ],
       "model": "gpt-4.1",
       "model_env": "OPENAI_MATRIX_MODEL",
       "name": "openai-default",
@@ -20,7 +26,10 @@
     },
     {
       "api_key_env": "GEMINI_API_KEY",
-      "harnesses": ["native_tools", "prompt_json"],
+      "harnesses": [
+        "native_tools",
+        "prompt_json"
+      ],
       "max_tokens": 4096,
       "model": "gemini-2.5-pro",
       "model_env": "GEMINI_MATRIX_MODEL",
@@ -51,12 +60,16 @@
                 "type": "string"
               }
             },
-            "required": ["pattern"],
+            "required": [
+              "pattern"
+            ],
             "type": "object"
           },
           "name": "Glob",
           "purpose": "Find files.",
-          "quality_checks": ["Check matching paths."],
+          "quality_checks": [
+            "Check matching paths."
+          ],
           "use_when": "Use for files."
         },
         {
@@ -72,12 +85,16 @@
                 "type": "string"
               }
             },
-            "required": ["pattern"],
+            "required": [
+              "pattern"
+            ],
             "type": "object"
           },
           "name": "Grep",
           "purpose": "Search files.",
-          "quality_checks": ["Check matching lines."],
+          "quality_checks": [
+            "Check matching lines."
+          ],
           "use_when": "Use for search."
         },
         {
@@ -89,12 +106,16 @@
                 "type": "string"
               }
             },
-            "required": ["path"],
+            "required": [
+              "path"
+            ],
             "type": "object"
           },
           "name": "Read",
           "purpose": "Read files.",
-          "quality_checks": ["Check file contents."],
+          "quality_checks": [
+            "Check file contents."
+          ],
           "use_when": "Use for reading."
         },
         {
@@ -106,12 +127,16 @@
                 "type": "string"
               }
             },
-            "required": ["description"],
+            "required": [
+              "description"
+            ],
             "type": "object"
           },
           "name": "Task",
           "purpose": "Do a task.",
-          "quality_checks": ["Check task result."],
+          "quality_checks": [
+            "Check task result."
+          ],
           "use_when": "Use for tasks."
         }
       ]
@@ -128,7 +153,9 @@
                 "type": "string"
               }
             },
-            "required": ["pattern"],
+            "required": [
+              "pattern"
+            ],
             "type": "object"
           },
           "name": "Glob",
@@ -152,7 +179,9 @@
                 "type": "string"
               }
             },
-            "required": ["pattern"],
+            "required": [
+              "pattern"
+            ],
             "type": "object"
           },
           "name": "Grep",
@@ -172,7 +201,9 @@
                 "type": "string"
               }
             },
-            "required": ["path"],
+            "required": [
+              "path"
+            ],
             "type": "object"
           },
           "name": "Read",
@@ -192,7 +223,9 @@
                 "type": "string"
               }
             },
-            "required": ["description"],
+            "required": [
+              "description"
+            ],
             "type": "object"
           },
           "name": "Task",
@@ -211,64 +244,113 @@
       "expected_args_contains": {
         "pattern": "*.py"
       },
-      "expected_tools": ["Glob"],
-      "forbidden_tools": ["Grep", "Read", "Task"],
+      "expected_tools": [
+        "Glob"
+      ],
+      "forbidden_tools": [
+        "Grep",
+        "Read",
+        "Task"
+      ],
       "name": "find python files",
-      "task": "Find all Python files under the repository."
+      "task": "Find all Python files under the repository.",
+      "check_family": "file_glob"
     },
     {
       "expected_args_contains": {
         "pattern": "def review_tool_selection"
       },
-      "expected_tools": ["Grep"],
-      "forbidden_tools": ["Glob", "Read", "Task"],
+      "expected_tools": [
+        "Grep"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Read",
+        "Task"
+      ],
       "name": "find function definition",
-      "task": "Find where the function named def review_tool_selection is defined."
+      "task": "Find where the function named def review_tool_selection is defined.",
+      "check_family": "text_search"
     },
     {
       "expected_args_contains": {
         "path": "README.md"
       },
-      "expected_tools": ["Read"],
-      "forbidden_tools": ["Glob", "Grep", "Task"],
+      "expected_tools": [
+        "Read"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Grep",
+        "Task"
+      ],
       "name": "read known file",
-      "task": "Open README.md and inspect its setup instructions."
+      "task": "Open README.md and inspect its setup instructions.",
+      "check_family": "file_read"
     },
     {
       "expected_args_contains": {
         "pattern": "TODO"
       },
-      "expected_tools": ["Grep"],
-      "forbidden_tools": ["Glob", "Read", "Task"],
+      "expected_tools": [
+        "Grep"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Read",
+        "Task"
+      ],
       "name": "find todos",
-      "task": "Find all TODO comments in this codebase."
+      "task": "Find all TODO comments in this codebase.",
+      "check_family": "text_search"
     },
     {
       "expected_args_contains": {
         "pattern": "docs/*.md"
       },
-      "expected_tools": ["Glob"],
-      "forbidden_tools": ["Grep", "Read", "Task"],
+      "expected_tools": [
+        "Glob"
+      ],
+      "forbidden_tools": [
+        "Grep",
+        "Read",
+        "Task"
+      ],
       "name": "list markdown docs",
-      "task": "List the Markdown files directly under the docs directory."
+      "task": "List the Markdown files directly under the docs directory.",
+      "check_family": "file_glob"
     },
     {
       "expected_args_contains": {
         "description": "trace review"
       },
-      "expected_tools": ["Task"],
-      "forbidden_tools": ["Glob", "Grep", "Read"],
+      "expected_tools": [
+        "Task"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Grep",
+        "Read"
+      ],
       "name": "investigate trace review flow",
-      "task": "Investigate how trace review scoring works across this repository and summarize the key files and control flow."
+      "task": "Investigate how trace review scoring works across this repository and summarize the key files and control flow.",
+      "check_family": "delegation"
     },
     {
       "expected_args_contains": {
         "description": "model matrix"
       },
-      "expected_tools": ["Task"],
-      "forbidden_tools": ["Glob", "Grep", "Read"],
+      "expected_tools": [
+        "Task"
+      ],
+      "forbidden_tools": [
+        "Glob",
+        "Grep",
+        "Read"
+      ],
       "name": "map model matrix implementation",
-      "task": "Map how the model matrix runner is implemented across the repository and summarize the main extension points."
+      "task": "Map how the model matrix runner is implemented across the repository and summarize the main extension points.",
+      "check_family": "delegation"
     }
   ],
   "value_bar": {

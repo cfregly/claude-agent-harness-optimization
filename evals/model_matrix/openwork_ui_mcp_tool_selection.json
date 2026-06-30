@@ -12,7 +12,9 @@
   "profiles": [
     {
       "api_key_env": "ANTHROPIC_API_KEY",
-      "harnesses": ["prompt_json"],
+      "harnesses": [
+        "prompt_json"
+      ],
       "model": "claude-sonnet-4-5",
       "model_env": "ANTHROPIC_MATRIX_MODEL",
       "name": "anthropic-sonnet",
@@ -20,7 +22,9 @@
     },
     {
       "api_key_env": "OPENAI_API_KEY",
-      "harnesses": ["prompt_json"],
+      "harnesses": [
+        "prompt_json"
+      ],
       "model": "gpt-4.1",
       "model_env": "OPENAI_MATRIX_MODEL",
       "name": "openai-default",
@@ -28,7 +32,9 @@
     },
     {
       "api_key_env": "GEMINI_API_KEY",
-      "harnesses": ["prompt_json"],
+      "harnesses": [
+        "prompt_json"
+      ],
       "max_tokens": 4096,
       "model": "gemini-2.5-pro",
       "model_env": "GEMINI_MATRIX_MODEL",
@@ -49,27 +55,43 @@
         {
           "name": "ui_status",
           "purpose": "Check if OpenWork is running and reachable. Returns connection status and app info.",
-          "input_schema": {"properties": {}, "type": "object"}
+          "input_schema": {
+            "properties": {},
+            "type": "object"
+          }
         },
         {
           "name": "ui_snapshot",
           "purpose": "Get current UI state: route, narration, visible actions, and status.",
-          "input_schema": {"properties": {}, "type": "object"}
+          "input_schema": {
+            "properties": {},
+            "type": "object"
+          }
         },
         {
           "name": "ui_list_actions",
           "purpose": "List all UI control actions available. Each action id can be passed to ui_execute_action.",
-          "input_schema": {"properties": {}, "type": "object"}
+          "input_schema": {
+            "properties": {},
+            "type": "object"
+          }
         },
         {
           "name": "ui_execute_action",
           "purpose": "Execute an OpenWork UI action by id.",
           "input_schema": {
             "properties": {
-              "actionId": {"type": "string"},
-              "args": {"additionalProperties": true, "type": "object"}
+              "actionId": {
+                "type": "string"
+              },
+              "args": {
+                "additionalProperties": true,
+                "type": "object"
+              }
             },
-            "required": ["actionId"],
+            "required": [
+              "actionId"
+            ],
             "type": "object"
           }
         }
@@ -83,24 +105,39 @@
           "purpose": "Check whether the OpenWork desktop app and local UI-control bridge are reachable.",
           "use_when": "Use for connectivity checks, app-not-running uncertainty, or before diagnosing bridge errors.",
           "avoid_when": "Avoid when the user needs the current route, visible actions, transcript, or screen state. Use ui_snapshot for current UI state.",
-          "input_schema": {"properties": {}, "type": "object"},
-          "quality_checks": ["Use before trying to execute actions when the user says OpenWork may not be running."]
+          "input_schema": {
+            "properties": {},
+            "type": "object"
+          },
+          "quality_checks": [
+            "Use before trying to execute actions when the user says OpenWork may not be running."
+          ]
         },
         {
           "name": "ui_snapshot",
           "purpose": "Read the current OpenWork route, narration, visible actions, busy status, and on-screen state.",
           "use_when": "Use before taking an action when the current UI state is unknown, when the user asks what screen they are on, or when you need visible action context.",
           "avoid_when": "Avoid for a pure connectivity check. Avoid when the user already provided the exact action id and arguments to execute.",
-          "input_schema": {"properties": {}, "type": "object"},
-          "quality_checks": ["Start with a snapshot before acting on unknown UI state."]
+          "input_schema": {
+            "properties": {},
+            "type": "object"
+          },
+          "quality_checks": [
+            "Start with a snapshot before acting on unknown UI state."
+          ]
         },
         {
           "name": "ui_list_actions",
           "purpose": "List executable semantic OpenWork UI actions, including action ids and required arguments.",
           "use_when": "Use when you need to discover valid action ids or required args before executing.",
           "avoid_when": "Avoid when the current screen state is the main unknown. Use ui_snapshot first for route and visible actions.",
-          "input_schema": {"properties": {}, "type": "object"},
-          "quality_checks": ["Use before ui_execute_action when action id or args are not known."]
+          "input_schema": {
+            "properties": {},
+            "type": "object"
+          },
+          "quality_checks": [
+            "Use before ui_execute_action when action id or args are not known."
+          ]
         },
         {
           "name": "ui_execute_action",
@@ -109,10 +146,17 @@
           "avoid_when": "Avoid for coordinate clicks, direct DOM operations, unknown action ids, unknown required args, or when OpenWork bridge reachability is unknown.",
           "input_schema": {
             "properties": {
-              "actionId": {"type": "string"},
-              "args": {"additionalProperties": true, "type": "object"}
+              "actionId": {
+                "type": "string"
+              },
+              "args": {
+                "additionalProperties": true,
+                "type": "object"
+              }
             },
-            "required": ["actionId"],
+            "required": [
+              "actionId"
+            ],
             "type": "object"
           },
           "quality_checks": [
@@ -128,46 +172,95 @@
     {
       "name": "bridge check uses status",
       "task": "I am not sure whether OpenWork is running. Check whether the desktop bridge is reachable.",
-      "expected_tools": ["ui_status"],
-      "forbidden_tools": ["ui_snapshot", "ui_list_actions", "ui_execute_action"]
+      "expected_tools": [
+        "ui_status"
+      ],
+      "forbidden_tools": [
+        "ui_snapshot",
+        "ui_list_actions",
+        "ui_execute_action"
+      ],
+      "check_family": "bridge_status"
     },
     {
       "name": "unknown current screen uses snapshot",
       "task": "Before doing anything in OpenWork, tell me what screen I am on and which visible actions are available.",
-      "expected_tools": ["ui_snapshot"],
-      "forbidden_tools": ["ui_status", "ui_list_actions", "ui_execute_action"]
+      "expected_tools": [
+        "ui_snapshot"
+      ],
+      "forbidden_tools": [
+        "ui_status",
+        "ui_list_actions",
+        "ui_execute_action"
+      ],
+      "check_family": "ui_snapshot"
     },
     {
       "name": "action discovery uses list actions",
       "task": "List every OpenWork UI action id I can execute and show the arguments each one needs.",
-      "expected_tools": ["ui_list_actions"],
-      "forbidden_tools": ["ui_status", "ui_snapshot", "ui_execute_action"]
+      "expected_tools": [
+        "ui_list_actions"
+      ],
+      "forbidden_tools": [
+        "ui_status",
+        "ui_snapshot",
+        "ui_execute_action"
+      ],
+      "check_family": "action_discovery"
     },
     {
       "name": "known action id executes action",
       "task": "Execute the known OpenWork UI action composer.submit with args {\"confirm\": true}.",
-      "expected_tools": ["ui_execute_action"],
-      "forbidden_tools": ["ui_status", "ui_snapshot", "ui_list_actions"],
-      "expected_args_contains": {"actionId": "composer.submit"}
+      "expected_tools": [
+        "ui_execute_action"
+      ],
+      "forbidden_tools": [
+        "ui_status",
+        "ui_snapshot",
+        "ui_list_actions"
+      ],
+      "expected_args_contains": {
+        "actionId": "composer.submit"
+      },
+      "check_family": "action_execute"
     },
     {
       "name": "unknown action id lists actions first",
       "task": "Type the text 'Draft the customer note' into the OpenWork composer, but I do not know the action id or argument shape.",
-      "expected_tools": ["ui_list_actions"],
-      "forbidden_tools": ["ui_status", "ui_execute_action"]
+      "expected_tools": [
+        "ui_list_actions"
+      ],
+      "forbidden_tools": [
+        "ui_status",
+        "ui_execute_action"
+      ],
+      "check_family": "action_discovery"
     },
     {
       "name": "coordinate click avoids semantic bridge",
       "task": "Click pixel coordinate 400,300 in OpenWork. Do not use a semantic action id.",
       "allow_no_tool": true,
       "expected_tools": [],
-      "forbidden_tools": ["ui_status", "ui_snapshot", "ui_list_actions", "ui_execute_action"]
+      "forbidden_tools": [
+        "ui_status",
+        "ui_snapshot",
+        "ui_list_actions",
+        "ui_execute_action"
+      ],
+      "check_family": "no_tool_safety"
     },
     {
       "name": "app maybe closed checks status before action",
       "task": "OpenWork may have quit, but if it is running I want to send the current composer. Check the bridge before doing anything else.",
-      "expected_tools": ["ui_status"],
-      "forbidden_tools": ["ui_snapshot", "ui_list_actions", "ui_execute_action"]
+      "expected_tools": [
+        "ui_status"
+      ],
+      "forbidden_tools": [
+        "ui_snapshot",
+        "ui_list_actions",
+        "ui_execute_action"
+      ],
+      "check_family": "bridge_status"
     }
   ]
 }

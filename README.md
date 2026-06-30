@@ -240,11 +240,12 @@ This does not replace live scoring. It prevents a clean live run from hiding an 
 untested negative, missing argument boundary, or forgotten family. Store the matrix, coverage
 report, live result, and PR packet together so the same cases can be rerun later as evals.
 
-For the full repository, the coverage suite is intentionally allowed to fail until each matrix has
-been hardened. The current ledger is stored at
-`evals/results/model_matrix_coverage_suite_2026-06-30.md`: it audits 18 matrices, with Zymtrace and
-the Codex trace-adapter matrix currently passing the strict coverage contract. The remaining
-matrices stay in the ledger as a concrete hardening backlog.
+For the full repository, the current ledger is stored at
+`evals/results/model_matrix_coverage_suite_2026-06-30.md`: it audits 18 matrices, 152 tools, 199
+cases, and 805 boundary pairs. All stored matrices now pass the strict structural coverage contract.
+That proves catalog coverage, negative coverage, argument assertions, quality checks, and family
+labels are present. It does not prove every live model will choose correctly, so promoted behavioral
+claims still need live `model-matrix` results.
 
 After baseline failures repeat, the "hill climb" part starts:
 
