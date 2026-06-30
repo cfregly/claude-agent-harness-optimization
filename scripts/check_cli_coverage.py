@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import ast
 from pathlib import Path
 import re
 import subprocess
@@ -31,6 +32,7 @@ def check_cli_coverage(root: Path = ROOT, cli_commands: set[str] | None = None) 
 
     ci_text = ci_path.read_text(encoding="utf-8")
     ci_commands = set(CLI_COMMAND_RE.findall(ci_text))
+    unit_commands = _unit_test_commands(root)
     failures = [
         f".github/workflows/ci.yml: missing direct CLI smoke for {command}"
         for command in sorted(commands - ci_commands)
@@ -38,6 +40,14 @@ def check_cli_coverage(root: Path = ROOT, cli_commands: set[str] | None = None) 
     failures.extend(
         f".github/workflows/ci.yml: unknown CLI command {command}"
         for command in sorted(ci_commands - commands)
+    )
+    failures.extend(
+        f"tests/test_cli.py: missing direct CLI unit smoke for {command}"
+        for command in sorted(commands - unit_commands)
+    )
+    failures.extend(
+        f"tests/test_cli.py: unknown CLI command {command}"
+        for command in sorted(unit_commands - commands)
     )
     return failures
 
@@ -54,6 +64,48 @@ def _load_cli_commands(root: Path = ROOT) -> set[str]:
     if not match:
         raise RuntimeError("could not parse CLI command list from --help")
     return {command.strip() for command in match.group(1).split(",") if command.strip()}
+
+
+def _unit_test_commands(root: Path = ROOT) -> set[str]:
+    path = root / "tests" / "test_cli.py"
+    if not path.exists():
+        return set()
+    text = path.read_text(encoding="utf-8")
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        return set()
+    commands: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and _is_run_cli_call(node):
+            if node.args and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str):
+                commands.add(node.args[0].value)
+        if isinstance(node, ast.Assign):
+            if any(isinstance(target, ast.Name) and target.id == "cases" for target in node.targets):
+                commands.update(_commands_from_cases_literal(node.value))
+    return commands
+
+
+def _is_run_cli_call(node: ast.Call) -> bool:
+    func = node.func
+    if isinstance(func, ast.Name):
+        return func.id == "run_cli"
+    if isinstance(func, ast.Attribute):
+        return func.attr == "run_cli"
+    return False
+
+
+def _commands_from_cases_literal(node: ast.AST) -> set[str]:
+    if not isinstance(node, (ast.List, ast.Tuple)):
+        return set()
+    commands: set[str] = set()
+    for item in node.elts:
+        if not isinstance(item, (ast.List, ast.Tuple)) or not item.elts:
+            continue
+        first = item.elts[0]
+        if isinstance(first, ast.Constant) and isinstance(first.value, str):
+            commands.add(first.value)
+    return commands
 
 
 if __name__ == "__main__":

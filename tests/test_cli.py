@@ -36,6 +36,87 @@ class CliTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertIn('"passed": true', result.stdout)
 
+    def test_keyless_cli_command_surface(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            imported_dir = temp_path / "imported"
+            packet_dir = temp_path / "packet"
+            cases = [
+                ("lint-tools", ["recipes/agentic_search.json"], '"passed": true'),
+                ("judge-prompt", ["evals/examples/search_answer.json"], "Return JSON with keys passed"),
+                ("review-trace", ["evals/examples/agent_trace_good.json"], '"passed": true'),
+                (
+                    "trace-judge-prompt",
+                    ["evals/examples/agent_trace_good.json"],
+                    "You are reviewing an agent trace",
+                ),
+                ("normalize-claude", ["evals/examples/claude_messages.json"], '"name": "claude_messages_trace"'),
+                (
+                    "normalize-runtime",
+                    ["evals/examples/cursor_trace_review_events.json"],
+                    '"name": "cursor_trace_review_events"',
+                ),
+                (
+                    "import-run",
+                    [
+                        "evals/examples/import_run_cursor_export.json",
+                        "--adapter",
+                        "cursor",
+                        "--out-dir",
+                        str(imported_dir),
+                    ],
+                    '"trace_steps"',
+                ),
+                (
+                    "snapshot-surface",
+                    ["--matrix", "evals/model_matrix/harness_trace_adapters.json"],
+                    '"surface_hash"',
+                ),
+                (
+                    "mcp-e2e",
+                    ["evals/e2e/github_readonly.json", "--dry-run"],
+                    '"status": "planned"',
+                ),
+                (
+                    "render-report",
+                    ["evals/results/zymtrace_mcp_coverage_2026-06-30.json"],
+                    "<!doctype html>",
+                ),
+                (
+                    "pr-comment",
+                    ["evals/results/zymtrace_mcp_coverage_2026-06-30.json"],
+                    "## Harness Report",
+                ),
+                (
+                    "upstream-pr-packet",
+                    [
+                        "evals/results/zymtrace_mcp_matrix_live_2026-06-30.json",
+                        "--matrix",
+                        "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+                        "--target-name",
+                        "Zymtrace",
+                        "--baseline-variant",
+                        "stock_zymtrace_mcp",
+                        "--candidate-variant",
+                        "tuned_zymtrace_mcp_boundaries",
+                        "--out-dir",
+                        str(packet_dir),
+                        "--markdown",
+                    ],
+                    "## Value Proposition",
+                ),
+                ("harness-checks", ["--markdown"], "# Harness Optimization Checks"),
+                ("trace-suite", ["evals/suites/agent_trace_suite.json"], '"passed": true'),
+                ("audit-agent", ["evals/examples/agent_audit_bundle.json"], '"overall_score": 1.0'),
+                ("optimize-tools", ["evals/examples/agent_audit_bundle.json"], '"passed": true'),
+            ]
+
+            for command, args, expected in cases:
+                with self.subTest(command=command):
+                    result = self.run_cli(command, *args)
+                    self.assertEqual(0, result.returncode, result.stderr)
+                    self.assertIn(expected, result.stdout)
+
     def test_model_matrix_command(self):
         result = self.run_cli(
             "model-matrix",

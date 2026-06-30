@@ -28,6 +28,8 @@ class CheckCliCoverageScriptTests(unittest.TestCase):
             root = Path(temp_dir)
             workflow = root / ".github" / "workflows"
             workflow.mkdir(parents=True)
+            tests = root / "tests"
+            tests.mkdir()
             (workflow / "ci.yml").write_text(
                 "\n".join(
                     [
@@ -38,12 +40,20 @@ class CheckCliCoverageScriptTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            (tests / "test_cli.py").write_text(
+                "def test_known():\n"
+                "    result = self.run_cli('known')\n"
+                "    result = self.run_cli('stale')\n",
+                encoding="utf-8",
+            )
 
             failures = check_cli_coverage(root, cli_commands={"known", "missing"})
 
         joined = "\n".join(failures)
         self.assertIn("missing direct CLI smoke for missing", joined)
         self.assertIn("unknown CLI command stale", joined)
+        self.assertIn("missing direct CLI unit smoke for missing", joined)
+        self.assertIn("tests/test_cli.py: unknown CLI command stale", joined)
 
 
 if __name__ == "__main__":
