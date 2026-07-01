@@ -2,6 +2,10 @@
 
 Checked on 2026-06-25.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Target
 
 This audit treats the generated `gstack` Codex-compatible skills as a skills-as-tools catalog.
@@ -15,6 +19,9 @@ This audit treats the generated `gstack` Codex-compatible skills as a skills-as-
 | Surface hash | `68d60eeefdde254818b03ee310bf1c4c9aaf0efee8d6db35141fe9cb7da8ae12` |
 | Target surface dirty | `false` |
 | Worktree dirty | `true`, from unrelated local files outside the evaluated generated skill surface |
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Commands
 
@@ -194,3 +201,5 @@ Gemini harness budget:
 - Upstream PR packet: `evals/pr_packets/gstack_skill_routing_2026-06-25/`
 - High-profile smoke result: `evals/results/gstack_high_profile_smoke_2026-06-25.json`
 - Native high-profile smoke result: `evals/results/gstack_high_profile_native_smoke_2026-06-25.json`
+
+</details>

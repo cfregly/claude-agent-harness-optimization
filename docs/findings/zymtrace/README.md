@@ -2,6 +2,13 @@
 
 Share link: [Zymtrace packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/zymtrace)
 
+## Human Summary
+
+Send this to Zymtrace maintainers when discussing MCP tool and skill routing. The confirmed changes
+clarify default project usage, metrics discovery, resource-first analysis, GPU investigation, and
+bounded hot-trace drilldown enough to move the retained live matrix from 14/24 stock passes to 24/24
+tuned passes.
+
 ## Full Bundle
 
 Bundle folder: [Zymtrace full PR/evidence bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30)

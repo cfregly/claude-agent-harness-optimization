@@ -2,6 +2,11 @@
 
 Share link: [gstack full PR/evidence bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/gstack_skill_routing_2026-06-25)
 
+## Human Summary
+
+Send this packet when discussing gstack skill routing. The retained evidence shows that tighter
+skill descriptions improved browser, safety, and action-routing choices across the live matrix.
+
 ## Full Bundle
 
 Bundle folder: [gstack_skill_routing_2026-06-25](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/gstack_skill_routing_2026-06-25)

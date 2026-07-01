@@ -2,6 +2,12 @@
 
 Share link: [Zymtrace full PR/evidence bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30)
 
+## Human Summary
+
+Send this packet to Zymtrace as the full upstream review bundle. It contains the matrix, live result,
+coverage receipt, reproduction command, and PR body for the tuned MCP routing rules that moved the
+selected held-out cells from 14/24 stock passes to 24/24 tuned passes.
+
 ## Full Bundle
 
 Bundle folder: [zymtrace_mcp_tool_tuning_2026-06-30](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30)

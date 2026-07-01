@@ -12,9 +12,11 @@ import shlex
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 DEMO_GIF = "demo.gif"
+DEMO_MP4 = "demo.mp4"
 DEMO_TAPE = "demo.tape"
 DEMO_RENDERER = "scripts/render_demo_gif.py"
 MIN_DEMO_GIF_BYTES = 50_000
+MIN_DEMO_MP4_BYTES = 50_000
 MIN_DEMO_FRAMES = 5
 FORBIDDEN_DEMO_RE = re.compile(
     r"(?i)(?:\bsed\b|\bcat\b|<<|ANTHROPIC_API_KEY|OPENAI_API_KEY|GEMINI_API_KEY|STATSIG_API_KEY|ZYMTRACE_LICENSE_KEY|github_rsa|\.env)"
@@ -49,16 +51,22 @@ def _check_demo_assets(root: Path = ROOT) -> list[str]:
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     tape_path = root / DEMO_TAPE
     gif_path = root / DEMO_GIF
+    mp4_path = root / DEMO_MP4
     renderer_path = root / DEMO_RENDERER
 
     if DEMO_GIF not in readme:
         failures.append(f"README.md: missing public reference to {DEMO_GIF}")
+    if DEMO_MP4 not in readme:
+        failures.append(f"README.md: missing public reference to {DEMO_MP4}")
     missing_required_file = False
     if not tape_path.is_file():
         failures.append(f"{DEMO_TAPE}: missing")
         missing_required_file = True
     if not gif_path.is_file():
         failures.append(f"{DEMO_GIF}: missing")
+        missing_required_file = True
+    if not mp4_path.is_file():
+        failures.append(f"{DEMO_MP4}: missing")
         missing_required_file = True
     if not renderer_path.is_file():
         failures.append(f"{DEMO_RENDERER}: missing")
@@ -70,7 +78,9 @@ def _check_demo_assets(root: Path = ROOT) -> list[str]:
     renderer = renderer_path.read_text(encoding="utf-8")
     if f"Output {DEMO_GIF}" not in tape:
         failures.append(f"{DEMO_TAPE}: missing Output {DEMO_GIF}")
-    if f"python {DEMO_RENDERER} --out {DEMO_GIF}" not in tape:
+    if f"Output {DEMO_MP4}" not in tape:
+        failures.append(f"{DEMO_TAPE}: missing Output {DEMO_MP4}")
+    if f"python {DEMO_RENDERER} --out {DEMO_GIF} --mp4-out {DEMO_MP4}" not in tape:
         failures.append(f"{DEMO_TAPE}: missing renderer regeneration command")
     failures.extend(_check_forbidden_demo_surface(DEMO_TAPE, tape))
     failures.extend(_check_forbidden_demo_surface(DEMO_RENDERER, renderer))
@@ -78,6 +88,9 @@ def _check_demo_assets(root: Path = ROOT) -> list[str]:
     gif_size = gif_path.stat().st_size
     if gif_size < MIN_DEMO_GIF_BYTES:
         failures.append(f"{DEMO_GIF}: too small to be a useful demo artifact")
+    mp4_size = mp4_path.stat().st_size
+    if mp4_size < MIN_DEMO_MP4_BYTES:
+        failures.append(f"{DEMO_MP4}: too small to be a useful video artifact")
 
     try:
         gif = _parse_gif(gif_path)

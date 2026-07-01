@@ -7,6 +7,10 @@ wrapper, approval mode, sandbox, tool registry, output format, and trace exporte
 model. Tool descriptions can be good and still fail if the harness hides reasoning, mis-shapes tool
 arguments, drops tool results, blocks auth, or exports traces that cannot be reviewed.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Command
 
 ```bash
@@ -47,6 +51,9 @@ Summary from `/tmp/aho-live-suite-v3/result.json`:
   "planned": 0
 }
 ```
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Backing Data
 
@@ -136,3 +143,5 @@ be normalized or explicitly recorded as a measured install/auth failure.
 - [Cursor CLI headless mode](https://cursor.com/docs/cli/headless)
 - [Cursor CLI output format](https://cursor.com/docs/cli/reference/output-format)
 - [OpenCode CLI docs](https://opencode.ai/docs/cli/)
+
+</details>

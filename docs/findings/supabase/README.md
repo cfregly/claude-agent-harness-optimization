@@ -2,6 +2,12 @@
 
 Share link: [Supabase packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase)
 
+## Human Summary
+
+Send this to Supabase MCP maintainers when discussing database tool boundaries. The confirmed fix is
+to route DDL, schema changes, and RLS policy creation to `apply_migration`, while reserving
+`execute_sql` for non-schema-changing SQL.
+
 ## Full Bundle
 
 Bundle folder: [Supabase finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase)

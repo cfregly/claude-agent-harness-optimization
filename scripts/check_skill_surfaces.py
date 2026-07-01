@@ -11,6 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = ROOT / ".claude" / "skills"
 VALUE_PHRASE = "adversarially-confirmed to add value"
+LLM_DETAILS_GUIDANCE = "<details><summary>LLM / Machine-readable details</summary>"
 
 ALLOWED_CLI_COMMANDS = {
     "audit-agent",
@@ -59,6 +60,12 @@ REQUIRED_AGENT_AUDIT_HEADINGS = (
     "## Review Method",
     "## What To Look For",
     "## Reporting",
+)
+
+REQUIRED_HUMAN_DOCS_HEADINGS = (
+    "## Workflow",
+    "## Page Shape",
+    "## Quality Bar",
 )
 
 REQUIRED_LOOK_FOR_CATEGORIES = (
@@ -129,7 +136,26 @@ def _check_skill(path: Path) -> list[str]:
 
     if path.parent.name == "agent-audit":
         failures.extend(_check_agent_audit_skill(rel, body))
+    if path.parent.name == "human-docs-readability":
+        failures.extend(_check_human_docs_skill(path, rel, body))
 
+    return failures
+
+
+def _check_human_docs_skill(path: Path, rel: Path, body: str) -> list[str]:
+    failures: list[str] = []
+    for heading in REQUIRED_HUMAN_DOCS_HEADINGS:
+        if heading not in body:
+            failures.append(f"{rel}: missing heading {heading}")
+    if LLM_DETAILS_GUIDANCE not in body:
+        failures.append(f"{rel}: missing LLM disclosure guidance")
+    reference = path.parent / "references" / "markdown-style.md"
+    if not reference.is_file():
+        failures.append(f"{_rel(reference)}: missing human docs checklist")
+    elif "Machine-readable bottom" not in reference.read_text(encoding="utf-8"):
+        failures.append(f"{_rel(reference)}: missing machine-readable bottom checklist")
+    if VALUE_PHRASE not in body:
+        failures.append(f"{rel}: body missing '{VALUE_PHRASE}'")
     return failures
 
 

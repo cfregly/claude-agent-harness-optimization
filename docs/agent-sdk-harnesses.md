@@ -6,6 +6,10 @@ This page is a public reference for how the current Claude, OpenAI, and Google
 agent SDK harnesses work. It is meant to be maintained as the packages evolve.
 It separates documented behavior from source-inspection findings.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Version Snapshot
 
 | Vendor | Package | Latest version checked | How checked | Harness role |
@@ -56,6 +60,9 @@ The current SDK families put that boundary in different places.
 | Claude Managed Agents | Anthropic-hosted runtime or self-hosted worker | Managed environment executes tools and streams events | Server-side sessions, environments, and event stream |
 | OpenAI Agents SDK | Native Python or TypeScript `Runner` | Host process runs function tools. OpenAI API runs hosted tools | Run history, sessions, Conversations API, previous response ids |
 | Google ADK | ADK `Runner`, `App`, `SessionService`, and flow runtime | ADK tool layer, MCP, Google tools, app functions, workflow nodes | Event sessions, memory services, artifact services |
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Claude Agent SDK
 
@@ -868,3 +875,5 @@ Google:
 - [Google ADK event loop](https://adk.dev/runtime/event-loop/)
 - [Google ADK Python source](https://github.com/google/adk-python)
 - [Google ADK JS source](https://github.com/google/adk-js)
+
+</details>

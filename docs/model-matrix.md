@@ -15,6 +15,10 @@ Use it when changing:
 - skills
 - system prompts
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Why It Exists
 
 Models do not read tool descriptions the same way. A description that works for one model can fail
@@ -51,6 +55,9 @@ file tools.
 
 This matrix proves that exported harness runs can enter the same tool-selection contract as live
 provider calls. It is also the smoke test for adapter changes.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Commands
 
@@ -236,3 +243,5 @@ Result:
 The repeated failure was that short descriptions made models choose `Grep` for broad repository
 investigation. The generated candidate sharpened the `Task` boundary and passed all selected live
 provider and harness cells.
+
+</details>

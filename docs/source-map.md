@@ -2,6 +2,10 @@
 
 Checked on 2026-06-25.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Public Video
 
 - [Prompting for Agents | Code w/ Claude](https://www.youtube.com/watch?v=XSZP9GhhuAc)
@@ -56,6 +60,9 @@ Checked on 2026-06-25.
     it, what it returns, and argument meaning.
 - [Claude Code skills](https://code.claude.com/docs/en/skills)
   - Used for Claude Code skill migration coverage and the custom-command-to-skill transition.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## OpenAI Codex Docs
 
@@ -213,3 +220,5 @@ The initial implementation also used user-provided screenshots of these slides:
 - tips for evaluating agentic systems
 - examples of evals for agents
 - the agentic search demo prompt
+
+</details>

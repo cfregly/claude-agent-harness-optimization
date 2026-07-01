@@ -10,6 +10,10 @@ Use both for real audits. The deterministic layer catches structure and regressi
 judges semantic quality, tool-output use, tool-description quality, and whether the trace adds value
 over the baseline.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Install
 
 ```bash
@@ -33,6 +37,9 @@ python -m claude_agent_harness_opt grind-harness evals/model_matrix/coding_tool_
 
 Do not commit `.env` files or API keys. The repo ignores local environment files. Commit only
 `.env.example`.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## GitHub Actions
 
@@ -178,3 +185,5 @@ python -m claude_agent_harness_opt optimize-tools evals/examples/agent_audit_bun
 
 Use `docs/harness-optimization.md` when adding a new Agent SDK, IDE agent, or Cursor-like harness.
 The new harness should export the trace contract first, then enter the matrix as a named harness.
+
+</details>

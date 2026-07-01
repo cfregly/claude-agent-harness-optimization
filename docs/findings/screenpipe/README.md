@@ -2,6 +2,12 @@
 
 Share link: [Screenpipe packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/screenpipe)
 
+## Human Summary
+
+Send this to Screenpipe maintainers when discussing exact phrase lookup. The confirmed fix is to
+route literal term and phrase searches to `keyword-search`, while keeping broader transcript and
+screen-content filtering on `search-content`.
+
 ## Full Bundle
 
 Bundle folder: [Screenpipe finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/screenpipe)

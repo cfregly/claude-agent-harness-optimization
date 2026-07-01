@@ -2,6 +2,12 @@
 
 Share link: [InsForge packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge)
 
+## Human Summary
+
+Send this to InsForge maintainers when discussing deployment safety. The confirmed fix is to reject
+relative deployment paths before `create-deployment`, because that tool requires an absolute
+`sourceDirectory`.
+
 ## Full Bundle
 
 Bundle folder: [InsForge finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge)

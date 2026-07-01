@@ -7,6 +7,10 @@ Every audit must clear the value bar: adversarially-confirmed to add value. Trac
 not enough. The audit bundle must show a value claim, a baseline, a candidate, a minimum improvement,
 and an adversarial review with no open objections.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Event Schema
 
 Each trace has a `steps` array. The supported event types are:
@@ -21,6 +25,9 @@ For parallel tool calls, give each call and result the same `parallel_group`. Th
 the group as one evidence batch and requires reasoning after the batch before the next action. This
 matches the agent demo pattern where independent searches run in parallel, then the agent reflects
 on the combined results.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 Run:
 
@@ -229,3 +236,5 @@ For real audits, require the Claude judge:
 export ANTHROPIC_API_KEY=...
 python -m claude_agent_harness_opt audit-agent evals/examples/agent_audit_bundle.json --claude-judge --markdown
 ```
+
+</details>

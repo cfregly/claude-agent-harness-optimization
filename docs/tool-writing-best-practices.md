@@ -4,6 +4,10 @@ This guide maps Anthropic's tool-writing guidance into repo checks and review ha
 is still adversarially-confirmed to add value: a tool change must beat a baseline on realistic
 evals and survive an adversarial review with no open objections.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Prototype First
 
 Start with a quick tool prototype, connect it to a local agent loop, then test it yourself before
@@ -37,6 +41,9 @@ exact text.
 Expected tools are useful diagnostics, but they should not overfit the strategy. Prefer
 `valid_tool_paths` when several routes can solve the task. Use exact required sequences only when
 the order is part of the real contract.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Held-Out Cases
 
@@ -130,3 +137,5 @@ python -m claude_agent_harness_opt model-matrix evals/model_matrix/coding_tool_s
 python -m claude_agent_harness_opt grind-harness evals/model_matrix/coding_tool_selection.json --env-file .env --live --heldout-cases "find python files,read known file" --min-improvement 0.05 --markdown
 python -m claude_agent_harness_opt harness-checks --markdown
 ```
+
+</details>

@@ -95,6 +95,7 @@ def _valid_ci() -> str:
               - run: python scripts/check_ci_surface.py
               - run: python scripts/check_surface_inventory.py
               - run: python scripts/check_regression_ownership.py
+              - run: python scripts/check_human_docs.py
               - run: python scripts/check_artifact_format.py
               - run: python scripts/check_makefile_surface.py
               - run: python -m compileall claude_agent_harness_opt scripts

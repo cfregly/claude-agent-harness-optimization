@@ -3,6 +3,10 @@
 This repo implements these techniques as recipes, rendered prompts, linters, local evals, and a live
 Claude judge for semantic trace review.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## 1. Fit The Task Before Prompting
 
 Agents are best for tasks where the path is not fully known in advance. Score the task before
@@ -27,6 +31,9 @@ not accepted because it looks cleaner or passes an easy case. It must:
 - meet a minimum improvement threshold
 - include an adversarial challenge
 - leave no open adversarial objections
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## 3. Start Simple
 
@@ -144,3 +151,5 @@ criteria, and quality checks before adding a long demonstration.
 Claude judge rubrics are useful because agent outputs vary in structure. They do not replace looking
 at real transcripts, checking rough edges, and testing with real users. Use `--claude-judge` for
 real agent audits, and keep the local deterministic checks visible beside it.
+
+</details>

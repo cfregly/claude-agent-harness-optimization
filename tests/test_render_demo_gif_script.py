@@ -21,6 +21,7 @@ class RenderDemoGifScriptTests(unittest.TestCase):
 
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         self.assertIn("--out", result.stdout)
+        self.assertIn("--mp4-out", result.stdout)
 
     def test_kept_output_lines_summarizes_middle(self):
         lines = render_demo_gif._kept_output_lines("\n".join(f"line {index}" for index in range(10)), 5)

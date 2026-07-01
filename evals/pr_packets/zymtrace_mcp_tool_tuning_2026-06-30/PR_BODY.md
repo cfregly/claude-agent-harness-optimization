@@ -1,5 +1,9 @@
 Suggested title: Tighten Zymtrace MCP retrieval routing with live evals
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Value Proposition
 
 - Helps agents choose the intended Zymtrace MCP workflow instead of adjacent tools that look plausible.
@@ -13,6 +17,9 @@ Suggested title: Tighten Zymtrace MCP retrieval routing with live evals
 - The tested Zymtrace MCP surface is already strong: 38/48 live cells passed with 0 errors.
 - The candidate score is 1.000, so this is a boundary tightening, not a broad rewrite.
 - The packet keeps passing behavior visible so maintainers can see what does not need to change.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## How This Is Proven Useful
 
@@ -129,3 +136,5 @@ python -m claude_agent_harness_opt model-matrix evals/model_matrix/zymtrace_mcp_
 - `REPRODUCTION.md` contains the full local reproduction path.
 - `evidence.json` contains the matrix result, selected cases, comparison, and source pins.
 - reproducible result artifact: https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_matrix_live_2026-06-30.json
+
+</details>

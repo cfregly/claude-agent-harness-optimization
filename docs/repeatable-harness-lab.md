@@ -8,6 +8,10 @@ outputs, and final answers.
 The promotion bar is still adversarially-confirmed to add value. A candidate change needs a
 baseline, metric, minimum improvement, and adversarial check before it should be kept.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Import A Run
 
 Export the raw run from the harness, then normalize it:
@@ -54,6 +58,9 @@ python -m claude_agent_harness_opt audit-agent /tmp/imported-run/agent_audit_bun
 
 The judge can review visible reasoning summaries, provider reasoning blocks when exposed, tool
 calls, tool outputs, and final grounding. It does not claim hidden chain-of-thought access.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Pin The Tested Surface
 
@@ -185,3 +192,5 @@ python -m claude_agent_harness_opt harness-checks --markdown
 The catalog covers adjacent tool boundaries, no-tool safety, argument quality, error recovery,
 output budget, resource versus tool routing, directed thinking, harness parity, and
 reproducibility.
+
+</details>

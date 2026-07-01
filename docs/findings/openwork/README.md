@@ -2,6 +2,12 @@
 
 Share link: [OpenWork packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork)
 
+## Human Summary
+
+Send this as a guardrail packet for OpenWork. The tested UI bridge flow already selected the right
+tools on the retained slice, so the useful artifact is the coverage case set rather than an upstream
+change request.
+
 ## Full Bundle
 
 Bundle folder: [OpenWork guardrail bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork)

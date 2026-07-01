@@ -5,6 +5,10 @@ description is only one input. The harness also includes the provider API shape,
 calling, prompt JSON wrappers, Agent SDK loop rules, IDE agent behavior, trace capture, and the
 instructions that sit beside the tools.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## What To Tune
 
 Tune the smallest surface that explains the failure:
@@ -38,6 +42,9 @@ Every harness should export the same trace shape:
 Some providers return thinking blocks or reasoning summaries. Some runtimes do not. When the
 runtime does not expose reasoning, instrument the agent to emit short decision notes. Do not claim
 access to hidden chain-of-thought.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Matrix Contract
 
@@ -159,3 +166,5 @@ The pain points are predictable:
 
 Those pain points are why the repo separates trace review, tool-selection optimization, model
 matrix runs, and bounded harness grinding.
+
+</details>

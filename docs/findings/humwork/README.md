@@ -2,6 +2,12 @@
 
 Share link: [Humwork packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/humwork)
 
+## Human Summary
+
+Send this as a guardrail packet for Humwork. The tested consultation workflow already selected the
+right tools on the retained slice, so the useful artifact is the coverage case set rather than an
+upstream change request.
+
 ## Full Bundle
 
 Bundle folder: [Humwork guardrail bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/humwork)

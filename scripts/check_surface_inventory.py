@@ -64,7 +64,13 @@ REQUIRED_SURFACES = (
     ),
     SurfaceContract(
         name="Project Skill Assets",
-        paths=(".claude/skills/agent-audit/SKILL.md", ".claude/skills/agent-audit/agents/openai.yaml"),
+        paths=(
+            ".claude/skills/agent-audit/SKILL.md",
+            ".claude/skills/agent-audit/agents/openai.yaml",
+            ".claude/skills/human-docs-readability/SKILL.md",
+            ".claude/skills/human-docs-readability/references/markdown-style.md",
+            ".claude/skills/human-docs-readability/agents/openai.yaml",
+        ),
         gates=("python scripts/check_skill_surfaces.py",),
         artifacts=("tests/test_check_skill_surfaces_script.py", "evals/model_matrix/agent_audit_skill_selection.json"),
     ),
@@ -116,8 +122,9 @@ REQUIRED_SURFACES = (
             "python scripts/check_docs_navigation.py",
             "python scripts/check_source_map.py",
             "python scripts/check_public_links.py",
+            "python scripts/check_human_docs.py",
         ),
-        artifacts=("docs/source-map.md", "docs/video-coverage-audit.md"),
+        artifacts=("docs/source-map.md", "docs/video-coverage-audit.md", "tests/test_check_human_docs_script.py"),
     ),
     SurfaceContract(
         name="Shortcut Runner And Make Targets",
@@ -141,9 +148,9 @@ REQUIRED_SURFACES = (
     ),
     SurfaceContract(
         name="Tracked Demo Artifact",
-        paths=("demo.gif", "demo.tape", "docs/tool_tuning_demo_sample.txt", "scripts/render_demo_gif.py"),
+        paths=("demo.gif", "demo.mp4", "demo.tape", "docs/tool_tuning_demo_sample.txt", "scripts/render_demo_gif.py"),
         gates=("python scripts/check_artifact_surfaces.py",),
-        artifacts=("demo.gif", "tests/test_check_artifact_surfaces_script.py"),
+        artifacts=("demo.gif", "demo.mp4", "tests/test_check_artifact_surfaces_script.py"),
     ),
     SurfaceContract(
         name="Generic Artifact Format",

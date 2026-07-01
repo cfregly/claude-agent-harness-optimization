@@ -2,6 +2,12 @@
 
 Share link: [Firecrawl packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/firecrawl)
 
+## Human Summary
+
+Send this to Firecrawl maintainers when discussing the scrape-versus-extract boundary. The confirmed
+fix is to route exact known-page structured extraction to `firecrawl_scrape`, while keeping
+multi-page field extraction on `firecrawl_extract`.
+
 ## Full Bundle
 
 Bundle folder: [Firecrawl finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/firecrawl)

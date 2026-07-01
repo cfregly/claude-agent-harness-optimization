@@ -75,6 +75,7 @@ python scripts/check_regression_ownership.py
 python scripts/check_docs_navigation.py
 python scripts/check_source_map.py
 python scripts/check_public_links.py
+python scripts/check_human_docs.py
 python scripts/check_artifact_surfaces.py
 python scripts/check_artifact_format.py
 python scripts/check_makefile_surface.py

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Human Docs Readability"
+  short_description: "Human-first README and docs polish"
+  default_prompt: "Use $human-docs-readability to rewrite public Markdown so humans see the story first, links are readable, and value-bar evidence moves into LLM details."

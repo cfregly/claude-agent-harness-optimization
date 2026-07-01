@@ -1,7 +1,8 @@
 # Demo recipe for the checked-in public GIF.
 # Regenerate from the repo root with:
-# python scripts/render_demo_gif.py --out demo.gif
+# python scripts/render_demo_gif.py --out demo.gif --mp4-out demo.mp4
 Output demo.gif
+Output demo.mp4
 
 Set Width 1200
 Set Height 720

@@ -22,6 +22,7 @@ REQUIRED_SUBSTRINGS = (
     ("unit test suite", "python -m unittest discover -s tests -q"),
     ("surface inventory gate", "python scripts/check_surface_inventory.py"),
     ("regression ownership gate", "python scripts/check_regression_ownership.py"),
+    ("human docs gate", "python scripts/check_human_docs.py"),
     ("artifact format gate", "python scripts/check_artifact_format.py"),
     ("Makefile surface gate", "python scripts/check_makefile_surface.py"),
     (

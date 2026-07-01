@@ -41,12 +41,14 @@ class CheckArtifactSurfacesScriptTests(unittest.TestCase):
             scripts.mkdir()
             (root / "README.md").write_text("# sample\n", encoding="utf-8")
             (root / "demo.gif").write_bytes((ROOT / "demo.gif").read_bytes())
+            (root / "demo.mp4").write_bytes((ROOT / "demo.mp4").read_bytes() if (ROOT / "demo.mp4").exists() else b"0" * 60_000)
             (root / "demo.tape").write_text(
                 "\n".join(
                     [
                         "# Regenerate from the repo root with:",
-                        "# python scripts/render_demo_gif.py --out demo.gif",
+                        "# python scripts/render_demo_gif.py --out demo.gif --mp4-out demo.mp4",
                         "Output demo.gif",
+                        "Output demo.mp4",
                         "Set Width 1200",
                         "Set Height 720",
                         'Run "python -m claude_agent_harness_opt matrix-coverage docs/missing.txt"',
@@ -60,6 +62,7 @@ class CheckArtifactSurfacesScriptTests(unittest.TestCase):
 
         joined = "\n".join(failures)
         self.assertIn("README.md: missing public reference to demo.gif", joined)
+        self.assertIn("README.md: missing public reference to demo.mp4", joined)
         self.assertIn("demo.tape: referenced path missing: docs/missing.txt", joined)
 
     def test_demo_check_rejects_transcript_readers_and_secret_names(self):
@@ -69,11 +72,13 @@ class CheckArtifactSurfacesScriptTests(unittest.TestCase):
             scripts.mkdir()
             (root / "README.md").write_text("# sample\n\n![Demo](https://example.com/demo.gif)\n", encoding="utf-8")
             (root / "demo.gif").write_bytes((ROOT / "demo.gif").read_bytes())
+            (root / "demo.mp4").write_bytes((ROOT / "demo.mp4").read_bytes() if (ROOT / "demo.mp4").exists() else b"0" * 60_000)
             (root / "demo.tape").write_text(
                 "\n".join(
                     [
-                        "# python scripts/render_demo_gif.py --out demo.gif",
+                        "# python scripts/render_demo_gif.py --out demo.gif --mp4-out demo.mp4",
                         "Output demo.gif",
+                        "Output demo.mp4",
                         "Set Width 1200",
                         "Set Height 720",
                         'Run "sed -n 1,2p docs/sample.txt"',
@@ -86,7 +91,7 @@ class CheckArtifactSurfacesScriptTests(unittest.TestCase):
             failures = check_artifact_surfaces(root)
 
         joined = "\n".join(failures)
-        self.assertIn("demo.tape:5: forbidden demo command or secret reference", joined)
+        self.assertIn("demo.tape:6: forbidden demo command or secret reference", joined)
         self.assertIn("scripts/render_demo_gif.py:1: forbidden demo command or secret reference", joined)
 
     def test_result_receipt_reachability_accepts_linked_markdown_sibling(self):

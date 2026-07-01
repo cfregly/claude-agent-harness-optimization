@@ -7,6 +7,10 @@ model.
 
 Checked on 2026-06-25.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Codex Harness Surface
 
 Codex exposes several surfaces that can change tool-use behavior:
@@ -52,6 +56,9 @@ The matrix has two starter cases:
 This is a fixture proof, not a live Codex quality claim. A live Codex harness run should be exported
 with `codex exec --json` or app-server event capture, imported with `--adapter codex_jsonl`, and then
 reviewed with `review-trace`, `audit-agent`, and a named model matrix.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Popular Harnesses To Test
 
@@ -126,3 +133,5 @@ and fixtures for each provider's breaking API changes.
 - Add cost and latency result fields so effort and prompt-caching migrations can be judged by more
   than tool-selection accuracy.
 - Add a PR packet template specifically for "migration tool validated by harness matrix" claims.
+
+</details>

@@ -5,6 +5,10 @@ adversarially-confirmed to add value bar. A tuned description is not promoted ju
 better. It has to beat the baseline on live model calls without introducing verifier tricks or
 regressions.
 
+> [!NOTE]
+> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+
+
 ## Targets Tested
 
 The current sweep covers:
@@ -98,6 +102,9 @@ write a realistic prompt that isolates it, and prove the tuned wording changes t
 The pinned improvement ledger lives in
 [Confirmed Improvements](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/confirmed-improvements.md).
 Use that page when you need the exact upstream MCP version or commit attached to each result.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Live Results
 
@@ -389,3 +396,5 @@ python -m claude_agent_harness_opt model-matrix evals/model_matrix/firecrawl_mcp
 - Zymtrace skills plugin 26.6.0 `optimize-cpu-workloads` and `optimize-gpu-workloads`
 - `https://github.com/screenpipe/screenpipe`
 - `screenpipe-mcp` 0.18.14 source file `packages/screenpipe-mcp/src/index.ts`
+
+</details>

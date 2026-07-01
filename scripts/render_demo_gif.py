@@ -25,6 +25,8 @@ class DemoCommand:
     display: str
     args: tuple[str, ...]
     keep_lines: int
+    prompt_hold: int = 2
+    output_hold: int = 4
 
 
 def _join_checks() -> str:
@@ -52,6 +54,7 @@ COMMANDS = (
             "--markdown",
         ),
         keep_lines=24,
+        output_hold=6,
     ),
     DemoCommand(
         title="2. Run the stored Zymtrace optimization matrix without provider calls",
@@ -81,6 +84,7 @@ COMMANDS = (
             "/tmp/zymtrace-demo-optimization.md",
         ),
         keep_lines=18,
+        output_hold=5,
     ),
     DemoCommand(
         title="3. Render the retained live upstream packet evidence",
@@ -116,12 +120,14 @@ COMMANDS = (
             "--markdown",
         ),
         keep_lines=30,
+        output_hold=7,
     ),
     DemoCommand(
         title="4. Verify packets and public links",
         display="python scripts/check_finding_packets.py && python scripts/check_public_links.py",
         args=(sys.executable, "-c", _join_checks()),
         keep_lines=8,
+        output_hold=5,
     ),
     DemoCommand(
         title="5. Print the shareable public bundle",
@@ -132,6 +138,7 @@ COMMANDS = (
             "print('Zymtrace bundle: https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30')",
         ),
         keep_lines=4,
+        output_hold=8,
     ),
 )
 
@@ -139,9 +146,10 @@ COMMANDS = (
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="GIF output path")
+    parser.add_argument("--mp4-out", type=Path, help="optional MP4 output path")
     parser.add_argument("--width", type=int, default=1200)
     parser.add_argument("--height", type=int, default=720)
-    parser.add_argument("--frame-ms", type=int, default=360)
+    parser.add_argument("--frame-ms", type=int, default=900)
     parser.add_argument("--font-size", type=int, default=18)
     args = parser.parse_args(argv)
 
@@ -149,6 +157,9 @@ def main(argv: list[str] | None = None) -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     save_gif(frames, args.out, duration_ms=args.frame_ms)
     print(f"wrote {args.out}")
+    if args.mp4_out:
+        write_mp4(args.out, args.mp4_out)
+        print(f"wrote {args.mp4_out}")
     return 0
 
 
@@ -158,18 +169,31 @@ def build_frames(width: int, height: int, font_size: int):
     terminal: list[tuple[str, str]] = [
         ("title", "claude-agent-harness-opt: Zymtrace MCP optimization bundle")
     ]
-    frames.append(_render_terminal(image, draw, font, terminal, width, height))
+    _append_frame(frames, _render_terminal(image, draw, font, terminal, width, height), repeats=4)
     for command in COMMANDS:
         terminal.append(("section", command.title))
         terminal.append(("prompt", f"$ {command.display}"))
-        frames.append(_render_terminal(image, draw, font, terminal, width, height))
+        _append_frame(
+            frames,
+            _render_terminal(image, draw, font, terminal, width, height),
+            repeats=command.prompt_hold,
+        )
         output = _run_command(command)
         for line in _kept_output_lines(output, command.keep_lines):
             terminal.append(("output", line))
-        frames.append(_render_terminal(image, draw, font, terminal, width, height))
+        _append_frame(
+            frames,
+            _render_terminal(image, draw, font, terminal, width, height),
+            repeats=command.output_hold,
+        )
     terminal.append(("success", "public demo rebuilt from commands; no provider keys or shell secrets used"))
-    frames.append(_render_terminal(image, draw, font, terminal, width, height))
+    _append_frame(frames, _render_terminal(image, draw, font, terminal, width, height), repeats=8)
     return frames
+
+
+def _append_frame(frames, frame, *, repeats: int) -> None:
+    for _ in range(max(1, repeats)):
+        frames.append(frame.copy())
 
 
 def _load_pillow(width: int, height: int, font_size: int):
@@ -280,6 +304,29 @@ def save_gif(frames, out_path: Path, *, duration_ms: int) -> None:
         loop=0,
         optimize=True,
     )
+
+
+def write_mp4(gif_path: Path, mp4_path: Path) -> None:
+    mp4_path.parent.mkdir(parents=True, exist_ok=True)
+    command = [
+        "ffmpeg",
+        "-y",
+        "-loglevel",
+        "error",
+        "-i",
+        str(gif_path),
+        "-movflags",
+        "faststart",
+        "-pix_fmt",
+        "yuv420p",
+        "-vf",
+        "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+        str(mp4_path),
+    ]
+    try:
+        subprocess.run(command, cwd=ROOT, check=True)
+    except FileNotFoundError as exc:
+        raise SystemExit("ffmpeg is required for --mp4-out") from exc
 
 
 if __name__ == "__main__":
