@@ -1739,6 +1739,18 @@ def _markdown_table_rows(section_text: str) -> list[list[str]]:
     return rows[1:] if rows else []
 
 
+def _markdown_table_header(section_text: str) -> list[str]:
+    for line in section_text.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in stripped.strip("|").split("|")]
+        if not cells or set(cells[0]) <= {"-", ":"}:
+            continue
+        return cells
+    return []
+
+
 def _check_coverage_markdown_gaps(
     path: Path,
     text: str,
@@ -1824,6 +1836,21 @@ def _check_coverage_markdown_matrix_summary_table(
         for audit in audits
         if isinstance(audit, dict) and _coverage_audit_label(audit)
     }
+    expected_header = [
+        "Matrix",
+        "Passed",
+        "Tools",
+        "Cases",
+        "Expected",
+        "Forbidden",
+        "Arg Cases",
+        "Check Families",
+        "Required Families",
+        "Variant Parity",
+        "Boundary Pairs",
+    ]
+    if _markdown_table_header(section_text) != expected_header:
+        failures.append(f"{rel}: Matrix Summary table header is not recognized")
     rows = _markdown_table_rows(section_text)
     if not rows:
         return [f"{rel}: Matrix Summary table has no matrix rows"]
@@ -1910,6 +1937,9 @@ def _check_coverage_markdown_tool_table(
         for tool in tools
         if isinstance(tool, dict) and str(tool.get("name", "")).strip()
     }
+    expected_header = ["Tool", "Expected Cases", "Forbidden Cases", "Argument Cases", "Quality Checks"]
+    if _markdown_table_header(section_text) != expected_header:
+        failures.append(f"{rel}: Tool Coverage table header is not recognized")
     rows = _markdown_table_rows(section_text)
     if not rows:
         return [f"{rel}: Tool Coverage table has no tool rows"]
@@ -1967,6 +1997,9 @@ def _check_coverage_markdown_check_family_table(
         str(family): len(names) if isinstance(names, list) else 0
         for family, names in check_families.items()
     }
+    expected_header = ["Family", "Cases"]
+    if _markdown_table_header(section_text) != expected_header:
+        failures.append(f"{rel}: Check Families table header is not recognized")
     rows = _markdown_table_rows(section_text)
     if not rows:
         return [f"{rel}: Check Families table has no family rows"]
