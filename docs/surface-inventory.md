@@ -48,6 +48,6 @@ upstream docs, smoke-call output, existing traces, support reports, and host ins
 
 The inventory above is the retention rule for that process. A discovered boundary is kept only when
 it lands in a matrix, fixture, result receipt, PR packet, public finding, or deterministic checker.
-That is what turns hill descent into reusable eval coverage instead of a one-time prompt sweep.
+That is what turns hill descending into reusable eval coverage instead of a one-time prompt sweep.
 
 </details>

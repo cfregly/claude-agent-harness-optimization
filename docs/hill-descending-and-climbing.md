@@ -1,4 +1,4 @@
-# Autoresearch Hill Descent And Climbing
+# Autoresearch Hill Descending And Climbing
 
 The useful idea from the autoresearch pattern is not the training domain. It is the two-part loop:
 
@@ -30,7 +30,7 @@ real tasks. A tool description that works in one native tool interface may fail 
 A `CLAUDE.md` rule that helps one model generation can hurt another. A trace adapter can hide the
 exact argument mistake that caused the failure.
 
-The matrix turns that into a measurable surface. Hill descent finds the likely failure valley before
+The matrix turns that into a measurable surface. Hill descending finds the likely failure valley before
 money is spent on live model calls. Hill climbing turns repeated failures into candidates. Held-out
 confirmation keeps the candidate from overfitting the exact failed case.
 
@@ -38,7 +38,7 @@ confirmation keeps the candidate from overfitting the exact failed case.
 
 | Phase | Job | Output |
 |---|---|---|
-| Hill descent | Walk toward likely failures by inventorying the surface and writing adversarial boundary cases. | Matrix cases with expected tools, forbidden confusables, argument checks, `check_family`, and coverage receipts. |
+| Hill descending | Walk toward likely failures by inventorying the surface and writing adversarial boundary cases. | Matrix cases with expected tools, forbidden confusables, argument checks, `check_family`, and coverage receipts. |
 | Hill climbing | Try the smallest change that explains repeated failures and test it against baseline plus held-out cells. | Promoted wording, schema, host-rule, or skill change with retained result and PR/evidence packet. |
 
 ## Hill Descent: Failure Discovery

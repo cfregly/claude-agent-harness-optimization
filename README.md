@@ -76,8 +76,8 @@ The kit covers four jobs:
 
 ## Core Loop
 
-[Hill Descent And Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/hill-descent-and-climbing.md)
-underpins the repo. Hill descent finds the weak boundary by inventorying tools, skills, schemas,
+[Hill Descending And Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/hill-descending-and-climbing.md)
+underpins the repo. Hill descending finds the weak boundary by inventorying tools, skills, schemas,
 resources, traces, and support signals, then turning them into adversarial matrix cases. Hill
 climbing starts only after repeatable baseline failures, and promotes the smallest measured change
 that clears held-out checks.
@@ -274,8 +274,8 @@ smoke invocation in `.github/workflows/ci.yml`.
 | Trace review | [Trace Review](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/trace-review.md) |
 | Model matrix | [Model Matrix](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/model-matrix.md) |
 | Upstream PR packets | [Upstream PR Flywheel](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/upstream-pr-flywheel.md) |
-| Failure discovery and optimization | [Hill Descent And Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/hill-descent-and-climbing.md) |
-| Legacy hill-climb link | [Moved: Hill Descent And Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/autoresearch-hill-climbing.md) |
+| Failure discovery and optimization | [Hill Descending And Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/hill-descending-and-climbing.md) |
+| Legacy hill-climb link | [Moved: Hill Descending And Climbing](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/autoresearch-hill-climbing.md) |
 | Harness imports | [Repeatable Harness Lab](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/repeatable-harness-lab.md) |
 | Live CLI harnesses | [Live Harness Hardening](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/live-harness-hardening.md) |
 | SDK harnesses | [SDK Harness Coverage](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/sdk-harness-coverage.md) |
@@ -397,7 +397,7 @@ build cases across these axes:
 - provider and harness variants, including native tools and prompt-JSON wrappers
 - known trace failures, support reports, and smoke-call observations
 
-That is the "hill descent" part. We deliberately walk toward likely failure valleys by writing
+That is the "hill descending" part. We deliberately walk toward likely failure valleys by writing
 adversarial prompts that make one boundary measurable. Each case names the expected tool,
 confusable alternatives, a `check_family`, and any required argument checks. The point is to find a
 small prompt where the transcript can be judged without taste.
