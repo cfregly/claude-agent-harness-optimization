@@ -521,15 +521,19 @@ def _check_live_harness_receipt(path: Path, payload: dict[str, Any]) -> list[str
     command = str(payload.get("command", "")).strip()
     if not command:
         failures.append(f"{rel}: command must be present")
+        command_args = None
     else:
         failures.extend(_check_live_harness_receipt_command(rel, command, source_spec))
+        command_args = _live_harness_command_args(command)
+        if isinstance(command_args, list):
+            command_args = None
     if summary and cells:
         counted = sum(
             int(summary.get(field, 0))
             for field in ("passed", "failed", "errors", "not_installed")
             if isinstance(summary.get(field, 0), int)
         )
-        if counted and counted != len(cells):
+        if counted != len(cells):
             failures.append(f"{rel}: summary cell counts must equal cells count")
     for idx, cell in enumerate(cells):
         if not isinstance(cell, dict):
@@ -538,32 +542,96 @@ def _check_live_harness_receipt(path: Path, payload: dict[str, Any]) -> list[str
         for field in ("harness", "case", "status"):
             if not str(cell.get(field, "")).strip():
                 failures.append(f"{rel}: cells[{idx}] missing {field}")
+    if cells and source_spec and command_args is not None:
+        failures.extend(_check_live_harness_receipt_cells(rel, cells, source_spec, command_args))
     return failures
 
 
 def _check_live_harness_receipt_command(rel: Path, command: str, source_spec: str) -> list[str]:
     failures: list[str] = []
-    try:
-        tokens = shlex.split(command)
-    except ValueError as exc:
-        return [f"{rel}: command is not shell-parseable: {exc}"]
-    expected_prefix = ["python", "-m", "claude_agent_harness_opt", "live-harness"]
-    if tokens[:4] != expected_prefix:
-        failures.append(f"{rel}: command must start with {' '.join(expected_prefix)!r}")
-        return failures
-    parser = build_parser()
-    try:
-        with contextlib.redirect_stderr(io.StringIO()):
-            args = parser.parse_args(tokens[3:])
-    except SystemExit as exc:
-        failures.append(f"{rel}: command does not parse: exited with {exc.code}")
-        return failures
+    args = _live_harness_command_args(command)
+    if isinstance(args, list):
+        return [f"{rel}: {failure}" for failure in args]
     command_spec = str(args.spec)
     if source_spec and command_spec != source_spec:
         failures.append(f"{rel}: command spec {command_spec!r} does not match source_spec {source_spec!r}")
     if command_spec and not (ROOT / command_spec).exists():
         failures.append(f"{rel}: command spec missing locally: {command_spec}")
     return failures
+
+
+def _live_harness_command_args(command: str) -> Any | list[str]:
+    try:
+        tokens = shlex.split(command)
+    except ValueError as exc:
+        return [f"command is not shell-parseable: {exc}"]
+    expected_prefix = ["python", "-m", "claude_agent_harness_opt", "live-harness"]
+    if tokens[:4] != expected_prefix:
+        return [f"command must start with {' '.join(expected_prefix)!r}"]
+    parser = build_parser()
+    try:
+        with contextlib.redirect_stderr(io.StringIO()):
+            return parser.parse_args(tokens[3:])
+    except SystemExit as exc:
+        return [f"command does not parse: exited with {exc.code}"]
+
+
+def _check_live_harness_receipt_cells(
+    rel: Path,
+    cells: list[Any],
+    source_spec: str,
+    command_args: Any,
+) -> list[str]:
+    failures: list[str] = []
+    spec_path = ROOT / source_spec
+    try:
+        spec = json.loads(spec_path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return failures
+    if not isinstance(spec, dict):
+        return failures
+    cases = {
+        str(case.get("name", "")).strip()
+        for case in spec.get("cases", [])
+        if isinstance(case, dict) and str(case.get("name", "")).strip()
+    }
+    harnesses = {
+        str(harness.get("name", "")).strip()
+        for harness in spec.get("harnesses", [])
+        if isinstance(harness, dict) and str(harness.get("name", "")).strip()
+    }
+    selected_cases = _selected_live_harness_names(cases, getattr(command_args, "cases", None))
+    selected_harnesses = _selected_live_harness_names(harnesses, getattr(command_args, "harnesses", None))
+    for name in sorted(selected_cases - cases):
+        failures.append(f"{rel}: command selects unknown live-harness case {name!r}")
+    for name in sorted(selected_harnesses - harnesses):
+        failures.append(f"{rel}: command selects unknown live-harness harness {name!r}")
+    expected_pairs = {
+        (harness, case)
+        for harness in selected_harnesses & harnesses
+        for case in selected_cases & cases
+    }
+    observed_pairs: set[tuple[str, str]] = set()
+    for idx, cell in enumerate(cells):
+        if not isinstance(cell, dict):
+            continue
+        pair = (str(cell.get("harness", "")).strip(), str(cell.get("case", "")).strip())
+        if not pair[0] or not pair[1]:
+            continue
+        if pair in observed_pairs:
+            failures.append(f"{rel}: duplicate live-harness result cell {pair[0]!r}/{pair[1]!r}")
+        observed_pairs.add(pair)
+        if expected_pairs and pair not in expected_pairs:
+            failures.append(f"{rel}: cells[{idx}] unexpected live-harness cell {pair[0]!r}/{pair[1]!r}")
+    for harness, case in sorted(expected_pairs - observed_pairs):
+        failures.append(f"{rel}: missing live-harness result cell {harness!r}/{case!r}")
+    return failures
+
+
+def _selected_live_harness_names(available: set[str], selected: str | None) -> set[str]:
+    if not selected:
+        return set(available)
+    return {item.strip() for item in selected.split(",") if item.strip()}
 
 
 def _check_result_markdown(path: Path) -> list[str]:

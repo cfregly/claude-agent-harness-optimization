@@ -113,8 +113,9 @@ points only at local evidence artifacts that still exist, and validates committe
 `evidence.json` files against their promoted live matrix results. It also validates committed
 `evals/results` receipts so JSON and Markdown evidence stays structured enough to rerun as eval
 fixtures later, checks retained live-harness receipt reproduction commands against their claimed
-source specs, and audits every retained matrix surface under `evals/model_matrix` plus
-matrix-shaped targets under `evals/targets`.
+source specs, verifies live-harness receipt cells still match the retained source spec, and audits
+every retained matrix surface under `evals/model_matrix` plus matrix-shaped targets under
+`evals/targets`.
 
 `scripts/check_eval_surfaces.py` keeps the other eval fixtures honest. It validates every retained
 example fixture, dry-runs every read-only E2E spec, dry-runs every live harness spec without

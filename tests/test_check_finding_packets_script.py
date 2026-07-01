@@ -95,6 +95,32 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("command spec 'evals/live_harnesses/headless_cli_smoke.json'", joined)
         self.assertIn("does not match source_spec 'evals/live_harnesses/sdk_agent_smoke.json'", joined)
 
+    def test_live_harness_receipt_cells_must_match_source_spec(self):
+        path = ROOT / "evals" / "results" / "bad_live_harness_cells.json"
+        path.write_text(
+            """
+{
+  "passed": true,
+  "cells": [
+    {"harness": "missing_harness", "case": "sdk custom pwd tool directed smoke", "status": "passed"}
+  ],
+  "summary": {"passed": 0, "failed": 0, "errors": 0, "not_installed": 0},
+  "source_spec": "evals/live_harnesses/sdk_agent_smoke.json",
+  "command": "python -m claude_agent_harness_opt live-harness evals/live_harnesses/sdk_agent_smoke.json"
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_json(path)
+        finally:
+            path.unlink()
+
+        joined = "\n".join(failures)
+        self.assertIn("summary cell counts must equal cells count", joined)
+        self.assertIn("unexpected live-harness cell 'missing_harness'", joined)
+        self.assertIn("missing live-harness result cell 'openai_agents_sdk_python_latest'", joined)
+
     def test_model_matrix_receipt_requires_live_and_consistent_rows(self):
         path = ROOT / "evals" / "results" / "bad_model_matrix_receipt.json"
         path.write_text(
