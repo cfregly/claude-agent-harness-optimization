@@ -134,7 +134,7 @@ every documented `claude_agent_harness_opt` command names a real CLI subcommand,
 examples that point at repo fixtures still point at existing files. It derives each subcommand's
 valid flags from `--help`, so documented options cannot drift from the executable parser. It also
 validates documented `python scripts/...` helper invocations so utility-script examples cannot point
-at missing scripts or stale repo paths.
+at missing scripts, stale helper options, or stale repo paths.
 
 `scripts/check_ci_surface.py` protects the GitHub Actions contract. It requires push and PR
 triggers, read-only permissions, pinned actions, Python 3.11, compile and unit-test smoke checks,

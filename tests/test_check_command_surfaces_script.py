@@ -6,6 +6,7 @@ import unittest
 
 from scripts.check_command_surfaces import (
     _extract_cli_invocations,
+    _extract_script_options,
     _extract_script_invocations,
     check_command_surfaces,
 )
@@ -35,14 +36,20 @@ class CheckCommandSurfacesScriptTests(unittest.TestCase):
             (root / "fixtures").mkdir()
             (root / "fixtures" / "known.json").write_text("{}", encoding="utf-8")
             (root / "scripts" / "check_example.py").write_text("print('ok')\n", encoding="utf-8")
-            (root / "scripts" / "known_helper.py").write_text("print('ok')\n", encoding="utf-8")
+            (root / "scripts" / "known_helper.py").write_text(
+                "import argparse\n"
+                "parser = argparse.ArgumentParser()\n"
+                "parser.add_argument('--known-script-flag', action='store_true')\n",
+                encoding="utf-8",
+            )
             (root / "README.md").write_text(
                 "\n".join(
                     [
                         "python -m claude_agent_harness_opt known-command --known-flag fixtures/known.json",
                         "python -m claude_agent_harness_opt known-command --stale-flag fixtures/known.json",
                         "python -m claude_agent_harness_opt stale-command fixtures/missing.json",
-                        "python scripts/known_helper.py fixtures/known.json",
+                        "python scripts/known_helper.py --known-script-flag fixtures/known.json",
+                        "python scripts/known_helper.py --stale-script-flag fixtures/known.json",
                         "python scripts/known_helper.py > fixtures/result_$(date +%F).json",
                         "python scripts/missing_helper.py fixtures/known.json",
                         "python scripts/known_helper.py fixtures/missing.json",
@@ -67,6 +74,7 @@ class CheckCommandSurfacesScriptTests(unittest.TestCase):
         self.assertIn("unknown CLI command 'stale-command'", joined)
         self.assertIn("known-command' has unknown option '--stale-flag'", joined)
         self.assertIn("missing local path 'fixtures/missing.json'", joined)
+        self.assertIn("known_helper.py' has unknown option '--stale-script-flag'", joined)
         self.assertIn("documented script missing: scripts/missing_helper.py", joined)
 
     def test_extract_cli_invocations_handles_multiline_commands(self):
@@ -94,6 +102,21 @@ class CheckCommandSurfacesScriptTests(unittest.TestCase):
         self.assertEqual(1, len(invocations))
         self.assertEqual("scripts/known_helper.py", invocations[0].command)
         self.assertIn("fixtures/known.json", invocations[0].tokens)
+
+    def test_extract_script_options_reads_argparse_flags(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "helper.py"
+            path.write_text(
+                "import argparse\n"
+                "parser = argparse.ArgumentParser()\n"
+                "parser.add_argument('--known-flag')\n"
+                "parser.add_argument('-s', '--second-flag')\n",
+                encoding="utf-8",
+            )
+
+            options = _extract_script_options(path)
+
+        self.assertEqual({"--known-flag", "--second-flag"}, options)
 
     def test_extract_cli_invocations_stops_at_inline_code_span(self):
         invocations = _extract_cli_invocations(

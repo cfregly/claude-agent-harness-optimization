@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import ast
 from dataclasses import dataclass
 from pathlib import Path
 import re
@@ -73,6 +74,7 @@ def check_command_surfaces(
     root: Path = ROOT,
     cli_commands: set[str] | None = None,
     cli_options: dict[str, set[str]] | None = None,
+    script_options: dict[str, set[str]] | None = None,
 ) -> list[str]:
     failures: list[str] = []
     commands = cli_commands or _load_cli_commands(root)
@@ -83,6 +85,7 @@ def check_command_surfaces(
         if cli_commands is None
         else {command: set() for command in commands}
     )
+    helper_options = script_options if script_options is not None else _load_script_options(root)
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     ci = (
         (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
@@ -95,7 +98,7 @@ def check_command_surfaces(
     invocations = _collect_invocations(root)
     failures.extend(_check_cli_invocations(root, invocations, commands, options))
     failures.extend(_check_cli_command_documentation(commands, invocations))
-    failures.extend(_check_script_invocations(root, _collect_script_invocations(root)))
+    failures.extend(_check_script_invocations(root, _collect_script_invocations(root), helper_options))
     return failures
 
 
@@ -126,6 +129,32 @@ def _load_command_options(root: Path, command: str) -> set[str]:
         text=True,
     )
     return set(re.findall(r"(?<![\w-])--[a-z0-9][a-z0-9-]*", result.stdout))
+
+
+def _load_script_options(root: Path) -> dict[str, set[str]]:
+    options: dict[str, set[str]] = {}
+    for path in sorted((root / "scripts").glob("*.py")):
+        rel = path.relative_to(root).as_posix()
+        options[rel] = _extract_script_options(path)
+    return options
+
+
+def _extract_script_options(path: Path) -> set[str]:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    except SyntaxError:
+        return set()
+    options: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        if not isinstance(node.func, ast.Attribute) or node.func.attr != "add_argument":
+            continue
+        for arg in node.args:
+            if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+                if re.fullmatch(r"--[a-z0-9][a-z0-9-]*", arg.value):
+                    options.add(arg.value)
+    return options
 
 
 def _check_gate_scripts(root: Path, readme: str, ci: str) -> list[str]:
@@ -256,27 +285,56 @@ def _check_cli_invocations(
 
 
 def _check_cli_options(prefix: str, invocation: Invocation, known_options: set[str]) -> list[str]:
+    return _check_known_options(
+        prefix,
+        invocation,
+        known_options,
+        label=f"CLI command {invocation.command!r}",
+        argument_start=4,
+    )
+
+
+def _check_known_options(
+    prefix: str,
+    invocation: Invocation,
+    known_options: set[str],
+    *,
+    label: str,
+    argument_start: int,
+) -> list[str]:
     failures: list[str] = []
-    for token in invocation.tokens[4:]:
+    for token in invocation.tokens[argument_start:]:
         if token == "--":
             break
         if not token.startswith("--"):
             continue
         option = token.split("=", 1)[0]
         if option not in known_options:
-            failures.append(
-                f"{prefix}: CLI command {invocation.command!r} has unknown option {option!r}"
-            )
+            failures.append(f"{prefix}: {label} has unknown option {option!r}")
     return failures
 
 
-def _check_script_invocations(root: Path, invocations: list[Invocation]) -> list[str]:
+def _check_script_invocations(
+    root: Path,
+    invocations: list[Invocation],
+    script_options: dict[str, set[str]],
+) -> list[str]:
     failures: list[str] = []
     for invocation in invocations:
         prefix = f"{_rel(invocation.source, root)}:{invocation.line}"
         script_path = root / invocation.command
         if not script_path.is_file():
             failures.append(f"{prefix}: documented script missing: {invocation.command}")
+        else:
+            failures.extend(
+                _check_known_options(
+                    prefix,
+                    invocation,
+                    script_options.get(invocation.command, set()),
+                    label=f"script {invocation.command!r}",
+                    argument_start=2,
+                )
+            )
         failures.extend(_check_invocation_paths(root, invocation, prefix, argument_start=2))
     return failures
 
