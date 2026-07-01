@@ -921,7 +921,71 @@ def _check_result_markdown(path: Path) -> list[str]:
         failures.append(f"{rel}: missing Passed summary")
     if not any(section in text for section in ("## Raw Matrix", "## Matrix Summary", "## Gaps", "## Tool Coverage")):
         failures.append(f"{rel}: missing review section")
+    if "coverage" in path.stem:
+        failures.extend(_check_coverage_markdown_json_pair(path, text))
     return failures
+
+
+def _check_coverage_markdown_json_pair(path: Path, text: str) -> list[str]:
+    failures: list[str] = []
+    rel = path.relative_to(ROOT)
+    json_path = path.with_suffix(".json")
+    if not json_path.exists():
+        failures.append(f"{rel}: coverage Markdown missing sibling JSON receipt {json_path.relative_to(ROOT)}")
+        return failures
+    try:
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        failures.append(f"{rel}: sibling JSON receipt is invalid: {exc}")
+        return failures
+    if not isinstance(payload, dict):
+        failures.append(f"{rel}: sibling JSON receipt must be an object")
+        return failures
+    expected_passed = "yes" if payload.get("passed") is True else "no" if payload.get("passed") is False else ""
+    markdown_passed = _markdown_summary_value(text, "Passed")
+    if expected_passed and markdown_passed and markdown_passed.casefold() != expected_passed:
+        failures.append(f"{rel}: Passed summary does not match sibling JSON receipt")
+    summary = payload.get("summary")
+    if not isinstance(summary, dict):
+        failures.append(f"{rel}: sibling JSON receipt missing summary object")
+        return failures
+    count_fields = {
+        "Matrices": "matrix_count",
+        "Passed matrices": "passed_matrices",
+        "Failed matrices": "failed_matrices",
+        "Total tools": "total_tools",
+        "Total cases": "total_cases",
+        "Total profiles": "total_profiles",
+        "Total instruction variants": "total_instruction_variants",
+        "Total argument cases": "total_argument_cases",
+        "Total boundary pairs": "total_boundary_pairs",
+        "Total case expectation gaps": "total_case_expectation_gaps",
+        "Total identity gaps": "total_identity_gaps",
+        "Total value bars": "total_value_bars",
+        "Total value-bar gaps": "total_value_bar_gaps",
+        "Tools": "tool_count",
+        "Cases": "case_count",
+        "Cases with argument checks": "argument_case_count",
+        "Boundary pairs": "boundary_pair_count",
+        "Cases with check_family": "case_count_with_check_family",
+    }
+    for label, field in count_fields.items():
+        markdown_value = _markdown_summary_value(text, label)
+        if not markdown_value or field not in summary:
+            continue
+        try:
+            parsed = int(markdown_value)
+        except ValueError:
+            failures.append(f"{rel}: {label} summary is not an integer")
+            continue
+        if summary.get(field) != parsed:
+            failures.append(f"{rel}: {label} summary does not match sibling JSON receipt")
+    return failures
+
+
+def _markdown_summary_value(text: str, label: str) -> str:
+    match = re.search(rf"^{re.escape(label)}:\s*(.+?)\s*$", text, flags=re.MULTILINE)
+    return match.group(1).strip() if match else ""
 
 
 def _require_bool(

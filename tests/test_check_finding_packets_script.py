@@ -319,6 +319,42 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("missing Passed summary", joined)
         self.assertIn("missing review section", joined)
 
+    def test_coverage_markdown_summary_must_match_sibling_json(self):
+        path = ROOT / "evals" / "results" / "bad_coverage_receipt.md"
+        json_path = path.with_suffix(".json")
+        path.write_text(
+            "# Matrix Coverage\n\n"
+            "Passed: yes\n"
+            "Tools: 99\n"
+            "Cases: 1\n"
+            "Boundary pairs: 1\n\n"
+            "## Gaps\n\n"
+            "- none\n",
+            encoding="utf-8",
+        )
+        json_path.write_text(
+            """
+{
+  "passed": false,
+  "summary": {
+    "tool_count": 2,
+    "case_count": 1,
+    "boundary_pair_count": 1
+  }
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_markdown(path)
+        finally:
+            path.unlink()
+            json_path.unlink()
+
+        joined = "\n".join(failures)
+        self.assertIn("Passed summary does not match sibling JSON receipt", joined)
+        self.assertIn("Tools summary does not match sibling JSON receipt", joined)
+
     def test_matrix_surface_coverage_reports_target_matrix_gaps(self):
         target_dir = ROOT / "evals" / "targets" / "temporary_bad_matrix"
         target_dir.mkdir(parents=True, exist_ok=True)
