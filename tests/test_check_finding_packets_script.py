@@ -122,6 +122,59 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("unexpected live-harness cell 'missing_harness'", joined)
         self.assertIn("missing live-harness result cell 'openai_agents_sdk_python_latest'", joined)
 
+    def test_live_harness_receipt_summary_must_match_cells(self):
+        path = ROOT / "evals" / "results" / "bad_live_harness_summary.json"
+        path.write_text(
+            """
+{
+  "passed": false,
+  "cells": [
+    {
+      "harness": "claude_agent_sdk_python_latest",
+      "case": "sdk custom pwd tool directed smoke",
+      "status": "auth_failed",
+      "directed_thinking_passed": true
+    },
+    {
+      "harness": "openai_agents_sdk_python_latest",
+      "case": "sdk custom pwd tool directed smoke",
+      "status": "weird",
+      "directed_thinking_passed": false
+    },
+    {
+      "harness": "openai_agents_sdk_python_latest",
+      "case": "sdk custom pwd tool final-answer smoke",
+      "status": "planned",
+      "directed_thinking_passed": false
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 0,
+    "errors": 0,
+    "not_installed": 0,
+    "planned": 0,
+    "directed_thinking_visible": 0
+  },
+  "source_spec": "evals/live_harnesses/sdk_agent_smoke.json",
+  "command": "python -m claude_agent_harness_opt live-harness evals/live_harnesses/sdk_agent_smoke.json"
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_json(path)
+        finally:
+            path.unlink()
+
+        joined = "\n".join(failures)
+        self.assertIn("summary cell counts must equal cells count", joined)
+        self.assertIn("summary.directed_thinking_visible must match live-harness cells", joined)
+        self.assertIn("summary.errors must match live-harness cells", joined)
+        self.assertIn("summary.passed must match live-harness cells", joined)
+        self.assertIn("summary.planned must match live-harness cells", joined)
+        self.assertIn("cells[1].status is not a known live-harness status", joined)
+
     def test_model_matrix_receipt_requires_live_and_consistent_rows(self):
         path = ROOT / "evals" / "results" / "bad_model_matrix_receipt.json"
         path.write_text(

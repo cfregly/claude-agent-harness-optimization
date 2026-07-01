@@ -944,13 +944,7 @@ def _check_live_harness_receipt(path: Path, payload: dict[str, Any]) -> list[str
         if isinstance(command_args, list):
             command_args = None
     if summary and cells:
-        counted = sum(
-            int(summary.get(field, 0))
-            for field in ("passed", "failed", "errors", "not_installed")
-            if isinstance(summary.get(field, 0), int)
-        )
-        if counted != len(cells):
-            failures.append(f"{rel}: summary cell counts must equal cells count")
+        failures.extend(_check_live_harness_summary(rel, summary, cells))
     for idx, cell in enumerate(cells):
         if not isinstance(cell, dict):
             failures.append(f"{rel}: cells[{idx}] must be an object")
@@ -958,8 +952,55 @@ def _check_live_harness_receipt(path: Path, payload: dict[str, Any]) -> list[str
         for field in ("harness", "case", "status"):
             if not str(cell.get(field, "")).strip():
                 failures.append(f"{rel}: cells[{idx}] missing {field}")
+        if str(cell.get("status", "")).strip() not in {
+            "auth_failed",
+            "error",
+            "failed",
+            "not_installed",
+            "passed",
+            "planned",
+        }:
+            failures.append(f"{rel}: cells[{idx}].status is not a known live-harness status")
     if cells and source_spec and command_args is not None:
         failures.extend(_check_live_harness_receipt_cells(rel, cells, source_spec, command_args))
+    return failures
+
+
+def _check_live_harness_summary(
+    rel: Path,
+    summary: dict[str, Any],
+    cells: list[Any],
+) -> list[str]:
+    failures: list[str] = []
+    statuses = Counter(
+        str(cell.get("status", "")).strip()
+        for cell in cells
+        if isinstance(cell, dict)
+    )
+    expected_counts = {
+        "directed_thinking_visible": sum(
+            1 for cell in cells if isinstance(cell, dict) and cell.get("directed_thinking_passed") is True
+        ),
+        "errors": statuses["error"] + statuses["auth_failed"],
+        "failed": statuses["failed"],
+        "not_installed": statuses["not_installed"],
+        "passed": statuses["passed"],
+        "planned": statuses["planned"],
+    }
+    counted = sum(
+        int(summary.get(field, 0))
+        for field in ("passed", "failed", "errors", "not_installed", "planned")
+        if isinstance(summary.get(field, 0), int)
+    )
+    if counted != len(cells):
+        failures.append(f"{rel}: summary cell counts must equal cells count")
+    for field, expected in expected_counts.items():
+        value = summary.get(field)
+        if not isinstance(value, int):
+            failures.append(f"{rel}: summary.{field} must be an integer")
+            continue
+        if value != expected:
+            failures.append(f"{rel}: summary.{field} must match live-harness cells")
     return failures
 
 
