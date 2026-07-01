@@ -1416,6 +1416,124 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("Matrix Summary table has stale matrix 'stale matrix'", joined)
         self.assertIn("Matrix Summary table missing current matrix 'second matrix'", joined)
 
+    def test_coverage_markdown_tables_reject_duplicate_rows(self):
+        path = ROOT / "evals" / "results" / "bad_coverage_duplicate_table_rows.md"
+        json_path = path.with_suffix(".json")
+        gap_lines = "\n".join(
+            [
+                "- Never expected: none",
+                "- Never forbidden: none",
+                "- Case expectation gaps: none",
+                "- Expected without argument checks: none",
+                "- Duplicate tool names: none",
+                "- Identity gaps: none",
+                "- Missing quality checks: none",
+                "- Missing required check families: none",
+                "- Variant surface mismatches: none",
+                "- Source tool count mismatch: none",
+                "- Cases without forbidden tools: none",
+                "- Cases without check_family: none",
+                "- Unknown expected tools: none",
+                "- Unknown forbidden tools: none",
+                "- Value-bar gaps: none",
+            ]
+        )
+        path.write_text(
+            "# Matrix Coverage\n\n"
+            "Passed: yes\n"
+            "Tools: 1\n"
+            "Cases: 1\n\n"
+            "## Gaps\n\n"
+            f"{gap_lines}\n\n"
+            "## Tool Coverage\n\n"
+            "| Tool | Expected Cases | Forbidden Cases | Argument Cases | Quality Checks |\n"
+            "|---|---:|---:|---:|---|\n"
+            "| lookup | 1 | 0 | 0 | yes |\n"
+            "| lookup | 1 | 0 | 0 | yes |\n\n"
+            "## Check Families\n\n"
+            "| Family | Cases |\n"
+            "|---|---:|\n"
+            "| lookup | 1 |\n"
+            "| lookup | 1 |\n",
+            encoding="utf-8",
+        )
+        json_path.write_text(
+            """
+{
+  "passed": true,
+  "summary": {"tool_count": 1, "case_count": 1},
+  "tools": [
+    {
+      "name": "lookup",
+      "expected_cases": ["first"],
+      "forbidden_cases": [],
+      "argument_cases": [],
+      "has_quality_checks": true
+    }
+  ],
+  "check_families": {"lookup": ["first"]},
+  "uncovered": {}
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_markdown(path)
+        finally:
+            path.unlink()
+            json_path.unlink()
+
+        suite_path = ROOT / "evals" / "results" / "bad_coverage_duplicate_matrix_rows.md"
+        suite_json_path = suite_path.with_suffix(".json")
+        suite_path.write_text(
+            "# Matrix Coverage Suite\n\n"
+            "Passed: yes\n"
+            "Matrices: 1\n\n"
+            "## Matrix Summary\n\n"
+            "| Matrix | Passed | Tools | Cases | Expected | Forbidden | Arg Cases | Check Families | Required Families | Variant Parity | Boundary Pairs |\n"
+            "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n"
+            "| first matrix | yes | 1 | 1 | 1.000 | 1.000 | 1 | 1 | 1.000 | 1.000 | 1 |\n"
+            "| first matrix | yes | 1 | 1 | 1.000 | 1.000 | 1 | 1 | 1.000 | 1.000 | 1 |\n",
+            encoding="utf-8",
+        )
+        suite_json_path.write_text(
+            """
+{
+  "passed": true,
+  "summary": {"matrix_count": 1},
+  "audits": [
+    {
+      "matrix": "first matrix",
+      "matrix_path": "evals/model_matrix/first.json",
+      "passed": true,
+      "summary": {
+        "tool_count": 1,
+        "case_count": 1,
+        "tool_expected_coverage": 1.0,
+        "forbidden_tool_coverage": 1.0,
+        "argument_case_count": 1,
+        "case_count_with_check_family": 1,
+        "required_check_family_coverage": 1.0,
+        "variant_surface_parity": 1.0,
+        "boundary_pair_count": 1
+      }
+    }
+  ]
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            suite_failures = _check_result_markdown(suite_path)
+        finally:
+            suite_path.unlink()
+            suite_json_path.unlink()
+
+        joined = "\n".join(failures + suite_failures)
+        self.assertIn("Tool Coverage table has duplicate tool 'lookup'", joined)
+        self.assertIn("Check Families table has duplicate family 'lookup'", joined)
+        self.assertIn("Matrix Summary table has duplicate matrix 'first matrix'", joined)
+
     def test_raw_matrix_markdown_counts_must_match_results_table(self):
         path = ROOT / "evals" / "results" / "bad_matrix_report.md"
         path.write_text(

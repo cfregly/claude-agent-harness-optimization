@@ -1823,6 +1823,9 @@ def _check_coverage_markdown_matrix_summary_table(
         if audit is None:
             failures.append(f"{rel}: Matrix Summary table has stale matrix {label!r}")
             continue
+        if label in seen:
+            failures.append(f"{rel}: Matrix Summary table has duplicate matrix {label!r}")
+            continue
         seen.add(label)
         summary = audit.get("summary")
         if not isinstance(summary, dict):
@@ -1906,6 +1909,9 @@ def _check_coverage_markdown_tool_table(
         if tool is None:
             failures.append(f"{rel}: Tool Coverage table has stale tool {name!r}")
             continue
+        if name in seen:
+            failures.append(f"{rel}: Tool Coverage table has duplicate tool {name!r}")
+            continue
         seen.add(name)
         expected_counts = {
             "Expected Cases": len(tool.get("expected_cases", [])) if isinstance(tool.get("expected_cases"), list) else 0,
@@ -1958,6 +1964,9 @@ def _check_coverage_markdown_check_family_table(
         family = row[0]
         if family not in expected:
             failures.append(f"{rel}: Check Families table has stale family {family!r}")
+            continue
+        if family in seen:
+            failures.append(f"{rel}: Check Families table has duplicate family {family!r}")
             continue
         seen.add(family)
         try:
