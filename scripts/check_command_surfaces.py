@@ -67,6 +67,13 @@ class Invocation:
     tokens: tuple[str, ...]
 
 
+@dataclass(frozen=True)
+class ScriptContract:
+    options: frozenset[str]
+    required_options: frozenset[str]
+    required_positionals: int
+
+
 def main() -> int:
     failures = check_command_surfaces()
     if failures:
@@ -80,7 +87,7 @@ def check_command_surfaces(
     root: Path = ROOT,
     cli_commands: set[str] | None = None,
     cli_options: dict[str, set[str]] | None = None,
-    script_options: dict[str, set[str]] | None = None,
+    script_options: dict[str, set[str] | ScriptContract] | None = None,
 ) -> list[str]:
     failures: list[str] = []
     commands = cli_commands or _load_cli_commands(root)
@@ -91,7 +98,11 @@ def check_command_surfaces(
         if cli_commands is None
         else {command: set() for command in commands}
     )
-    helper_options = script_options if script_options is not None else _load_script_options(root)
+    helper_contracts = (
+        _normalize_script_contracts(script_options)
+        if script_options is not None
+        else _load_script_contracts(root)
+    )
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     ci = (
         (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
@@ -106,7 +117,7 @@ def check_command_surfaces(
     if cli_commands is None:
         failures.extend(_check_cli_parse_contract(invocations))
     failures.extend(_check_cli_command_documentation(commands, invocations))
-    failures.extend(_check_script_invocations(root, _collect_script_invocations(root), helper_options))
+    failures.extend(_check_script_invocations(root, _collect_script_invocations(root), helper_contracts))
     return failures
 
 
@@ -140,29 +151,92 @@ def _load_command_options(root: Path, command: str) -> set[str]:
 
 
 def _load_script_options(root: Path) -> dict[str, set[str]]:
+    return {
+        script: set(contract.options)
+        for script, contract in _load_script_contracts(root).items()
+    }
+
+
+def _load_script_contracts(root: Path) -> dict[str, ScriptContract]:
     options: dict[str, set[str]] = {}
+    contracts: dict[str, ScriptContract] = {}
     for path in sorted((root / "scripts").glob("*.py")):
         rel = path.relative_to(root).as_posix()
-        options[rel] = _extract_script_options(path)
-    return options
+        contracts[rel] = _extract_script_contract(path)
+    return contracts
 
 
 def _extract_script_options(path: Path) -> set[str]:
+    return set(_extract_script_contract(path).options)
+
+
+def _extract_script_contract(path: Path) -> ScriptContract:
     try:
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     except SyntaxError:
-        return set()
+        return ScriptContract(frozenset(), frozenset(), 0)
     options: set[str] = set()
+    required_options: set[str] = set()
+    required_positionals = 0
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
         if not isinstance(node.func, ast.Attribute) or node.func.attr != "add_argument":
             continue
+        arg_strings = [
+            arg.value
+            for arg in node.args
+            if isinstance(arg, ast.Constant) and isinstance(arg.value, str)
+        ]
+        if not arg_strings:
+            continue
+        option_strings = [value for value in arg_strings if value.startswith("-")]
+        long_options = [
+            value
+            for value in option_strings
+            if re.fullmatch(r"--[a-z0-9][a-z0-9-]*", value)
+        ]
         for arg in node.args:
             if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                 if re.fullmatch(r"--[a-z0-9][a-z0-9-]*", arg.value):
                     options.add(arg.value)
-    return options
+        if long_options and _keyword_bool(node, "required"):
+            required_options.update(long_options)
+        if not option_strings and _positional_is_required(node):
+            required_positionals += 1
+    return ScriptContract(frozenset(options), frozenset(required_options), required_positionals)
+
+
+def _normalize_script_contracts(
+    raw_contracts: dict[str, set[str] | ScriptContract],
+) -> dict[str, ScriptContract]:
+    contracts: dict[str, ScriptContract] = {}
+    for script, contract in raw_contracts.items():
+        if isinstance(contract, ScriptContract):
+            contracts[script] = contract
+            continue
+        contracts[script] = ScriptContract(frozenset(contract), frozenset(), 0)
+    return contracts
+
+
+def _keyword_bool(node: ast.Call, name: str) -> bool:
+    for keyword in node.keywords:
+        if keyword.arg == name and isinstance(keyword.value, ast.Constant):
+            return bool(keyword.value.value)
+    return False
+
+
+def _keyword_string(node: ast.Call, name: str) -> str | None:
+    for keyword in node.keywords:
+        if keyword.arg == name and isinstance(keyword.value, ast.Constant):
+            value = keyword.value.value
+            return value if isinstance(value, str) else None
+    return None
+
+
+def _positional_is_required(node: ast.Call) -> bool:
+    nargs = _keyword_string(node, "nargs")
+    return nargs not in {"?", "*"}
 
 
 def _check_gate_scripts(root: Path, readme: str, ci: str) -> list[str]:
@@ -357,7 +431,7 @@ def _check_known_options(
 def _check_script_invocations(
     root: Path,
     invocations: list[Invocation],
-    script_options: dict[str, set[str]],
+    script_contracts: dict[str, ScriptContract],
 ) -> list[str]:
     failures: list[str] = []
     for invocation in invocations:
@@ -366,17 +440,75 @@ def _check_script_invocations(
         if not script_path.is_file():
             failures.append(f"{prefix}: documented script missing: {invocation.command}")
         else:
+            contract = script_contracts.get(invocation.command, ScriptContract(frozenset(), frozenset(), 0))
             failures.extend(
                 _check_known_options(
                     prefix,
                     invocation,
-                    script_options.get(invocation.command, set()),
+                    set(contract.options),
                     label=f"script {invocation.command!r}",
                     argument_start=2,
                 )
             )
+            failures.extend(_check_script_required_args(prefix, invocation, contract))
         failures.extend(_check_invocation_paths(root, invocation, prefix, argument_start=2))
     return failures
+
+
+def _check_script_required_args(
+    prefix: str,
+    invocation: Invocation,
+    contract: ScriptContract,
+) -> list[str]:
+    failures: list[str] = []
+    present_options = _present_long_options(invocation.tokens, argument_start=2)
+    missing_options = sorted(set(contract.required_options) - present_options)
+    for option in missing_options:
+        failures.append(f"{prefix}: script {invocation.command!r} missing required option {option!r}")
+
+    positional_count = len(_present_positionals(invocation.tokens, argument_start=2, options=set(contract.options)))
+    if positional_count < contract.required_positionals:
+        failures.append(
+            f"{prefix}: script {invocation.command!r} has {positional_count} positional "
+            f"argument(s), expected at least {contract.required_positionals}"
+        )
+    return failures
+
+
+def _present_long_options(tokens: tuple[str, ...], *, argument_start: int) -> set[str]:
+    options: set[str] = set()
+    for token in tokens[argument_start:]:
+        if token == "--":
+            break
+        if token.startswith("--"):
+            options.add(token.split("=", 1)[0])
+    return options
+
+
+def _present_positionals(tokens: tuple[str, ...], *, argument_start: int, options: set[str]) -> list[str]:
+    positionals: list[str] = []
+    args = list(tokens[argument_start:])
+    index = 0
+    while index < len(args):
+        token = args[index]
+        if token in {">", "1>", "2>", "|"}:
+            break
+        if token == "--":
+            positionals.extend(args[index + 1 :])
+            break
+        if token.startswith("--"):
+            option = token.split("=", 1)[0]
+            if "=" not in token and option in options and index + 1 < len(args) and not args[index + 1].startswith("-"):
+                index += 2
+                continue
+            index += 1
+            continue
+        if token.startswith("-"):
+            index += 1
+            continue
+        positionals.append(token)
+        index += 1
+    return positionals
 
 
 def _check_invocation_paths(

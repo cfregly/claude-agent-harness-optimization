@@ -6,8 +6,11 @@ import unittest
 
 from scripts.check_command_surfaces import (
     Invocation,
+    ScriptContract,
     _check_cli_parse_contract,
+    _check_script_required_args,
     _extract_cli_invocations,
+    _extract_script_contract,
     _extract_script_options,
     _extract_script_invocations,
     _parse_only_args,
@@ -177,14 +180,39 @@ class CheckCommandSurfacesScriptTests(unittest.TestCase):
             path.write_text(
                 "import argparse\n"
                 "parser = argparse.ArgumentParser()\n"
+                "parser.add_argument('target')\n"
+                "parser.add_argument('--required-flag', required=True)\n"
                 "parser.add_argument('--known-flag')\n"
                 "parser.add_argument('-s', '--second-flag')\n",
                 encoding="utf-8",
             )
 
             options = _extract_script_options(path)
+            contract = _extract_script_contract(path)
 
-        self.assertEqual({"--known-flag", "--second-flag"}, options)
+        self.assertEqual({"--known-flag", "--required-flag", "--second-flag"}, options)
+        self.assertEqual(1, contract.required_positionals)
+        self.assertEqual(frozenset({"--required-flag"}), contract.required_options)
+
+    def test_script_required_args_rejects_missing_positionals_and_options(self):
+        invocation = Invocation(
+            source=Path("README.md"),
+            line=3,
+            raw="python scripts/known_helper.py --known-flag",
+            command="scripts/known_helper.py",
+            tokens=("python", "scripts/known_helper.py", "--known-flag"),
+        )
+        contract = ScriptContract(
+            options=frozenset({"--known-flag", "--required-flag"}),
+            required_options=frozenset({"--required-flag"}),
+            required_positionals=1,
+        )
+
+        failures = _check_script_required_args("README.md:3", invocation, contract)
+
+        joined = "\n".join(failures)
+        self.assertIn("missing required option '--required-flag'", joined)
+        self.assertIn("has 0 positional argument(s), expected at least 1", joined)
 
     def test_extract_cli_invocations_stops_at_inline_code_span(self):
         invocations = _extract_cli_invocations(
