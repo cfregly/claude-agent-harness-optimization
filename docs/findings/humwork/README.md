@@ -2,6 +2,15 @@
 
 Share link: [Humwork packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/humwork)
 
+## Full Bundle
+
+Bundle folder: [Humwork guardrail bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/humwork)
+
+- Matrix: [humwork_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/humwork_mcp_tool_selection.json)
+- Receipt: [humwork_mcp_tool_selection_2026-06-28.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/humwork_mcp_tool_selection_2026-06-28.md)
+- Sweep: [YC P2026 MCP Sweep](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/yc-p2026-mcp-sweep.md)
+- Reproduce: [Humwork reproduce command](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/humwork#reproduce)
+
 ## Result
 
 Guardrail. No upstream change is promoted.

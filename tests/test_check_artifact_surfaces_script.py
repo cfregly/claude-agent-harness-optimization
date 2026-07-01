@@ -37,26 +37,57 @@ class CheckArtifactSurfacesScriptTests(unittest.TestCase):
     def test_demo_check_rejects_missing_reference_and_bad_tape_path(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
+            scripts = root / "scripts"
+            scripts.mkdir()
             (root / "README.md").write_text("# sample\n", encoding="utf-8")
             (root / "demo.gif").write_bytes((ROOT / "demo.gif").read_bytes())
             (root / "demo.tape").write_text(
                 "\n".join(
                     [
-                        "# Regenerate from the repo root with: vhs demo.tape",
+                        "# Regenerate from the repo root with:",
+                        "# python scripts/render_demo_gif.py --out demo.gif",
                         "Output demo.gif",
                         "Set Width 1200",
                         "Set Height 720",
-                        'Type "sed -n 1,2p docs/missing.txt"',
+                        'Run "python -m claude_agent_harness_opt matrix-coverage docs/missing.txt"',
                     ]
                 ),
                 encoding="utf-8",
             )
+            (scripts / "render_demo_gif.py").write_text("# renderer\n", encoding="utf-8")
 
             failures = check_artifact_surfaces(root)
 
         joined = "\n".join(failures)
         self.assertIn("README.md: missing public reference to demo.gif", joined)
         self.assertIn("demo.tape: referenced path missing: docs/missing.txt", joined)
+
+    def test_demo_check_rejects_transcript_readers_and_secret_names(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            scripts = root / "scripts"
+            scripts.mkdir()
+            (root / "README.md").write_text("# sample\n\n![Demo](https://example.com/demo.gif)\n", encoding="utf-8")
+            (root / "demo.gif").write_bytes((ROOT / "demo.gif").read_bytes())
+            (root / "demo.tape").write_text(
+                "\n".join(
+                    [
+                        "# python scripts/render_demo_gif.py --out demo.gif",
+                        "Output demo.gif",
+                        "Set Width 1200",
+                        "Set Height 720",
+                        'Run "sed -n 1,2p docs/sample.txt"',
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            (scripts / "render_demo_gif.py").write_text("print('OPENAI_API_KEY')\n", encoding="utf-8")
+
+            failures = check_artifact_surfaces(root)
+
+        joined = "\n".join(failures)
+        self.assertIn("demo.tape:5: forbidden demo command or secret reference", joined)
+        self.assertIn("scripts/render_demo_gif.py:1: forbidden demo command or secret reference", joined)
 
     def test_result_receipt_reachability_accepts_linked_markdown_sibling(self):
         with tempfile.TemporaryDirectory() as temp_dir:

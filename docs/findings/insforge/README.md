@@ -2,6 +2,15 @@
 
 Share link: [InsForge packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge)
 
+## Full Bundle
+
+Bundle folder: [InsForge finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge)
+
+- Matrix: [insforge_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/insforge_mcp_tool_selection.json)
+- Receipt: [insforge_mcp_tool_selection_2026-06-28.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/insforge_mcp_tool_selection_2026-06-28.md)
+- Detailed note: [InsForge MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/insforge-mcp-tool-tuning.md)
+- Reproduce: [InsForge reproduce command](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge#reproduce)
+
 ## Result
 
 Confirmed improvement. This clears the adversarially-confirmed to add value bar.

@@ -2,6 +2,15 @@
 
 Share link: [Firecrawl packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/firecrawl)
 
+## Full Bundle
+
+Bundle folder: [Firecrawl finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/firecrawl)
+
+- Matrix: [firecrawl_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/firecrawl_mcp_tool_selection.json)
+- Detailed note: [Firecrawl MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/firecrawl-mcp-tool-tuning.md)
+- Ledger: [Confirmed Improvements](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/confirmed-improvements.md)
+- Reproduce: [Firecrawl reproduce command](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/firecrawl#reproduce)
+
 ## Result
 
 Confirmed improvement. This clears the adversarially-confirmed to add value bar.

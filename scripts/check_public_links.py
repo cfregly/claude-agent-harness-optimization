@@ -9,7 +9,7 @@ import re
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_MARKDOWN_GLOBS = ("README.md", "docs/**/*.md")
+PUBLIC_MARKDOWN_GLOBS = ("README.md", "docs/**/*.md", "evals/pr_packets/**/*.md")
 ALLOWED_PREFIXES = ("https://", "http://", "#", "mailto:")
 MARKDOWN_LINK_RE = re.compile(r"(!?)\[([^\]]*)\]\(([^)]*)\)")
 WRAPPED_IMAGE_LINK_RE = re.compile(r"\[!\[[^\]]*\]\(([^)]*)\)\]\(([^)]*)\)")

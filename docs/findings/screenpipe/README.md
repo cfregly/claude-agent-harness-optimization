@@ -2,6 +2,15 @@
 
 Share link: [Screenpipe packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/screenpipe)
 
+## Full Bundle
+
+Bundle folder: [Screenpipe finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/screenpipe)
+
+- Matrix: [screenpipe_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/screenpipe_mcp_tool_selection.json)
+- Receipt: [screenpipe_mcp_tool_selection_2026-06-28.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_2026-06-28.md)
+- Detailed note: [Screenpipe MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/screenpipe-mcp-tool-tuning.md)
+- Reproduce: [Screenpipe reproduce command](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/screenpipe#reproduce)
+
 ## Result
 
 Confirmed improvement. This clears the adversarially-confirmed to add value bar.

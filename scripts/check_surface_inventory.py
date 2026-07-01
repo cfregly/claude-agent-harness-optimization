@@ -141,7 +141,7 @@ REQUIRED_SURFACES = (
     ),
     SurfaceContract(
         name="Tracked Demo Artifact",
-        paths=("demo.gif", "demo.tape", "docs/tool_tuning_demo_sample.txt"),
+        paths=("demo.gif", "demo.tape", "docs/tool_tuning_demo_sample.txt", "scripts/render_demo_gif.py"),
         gates=("python scripts/check_artifact_surfaces.py",),
         artifacts=("demo.gif", "tests/test_check_artifact_surfaces_script.py"),
     ),

@@ -30,7 +30,7 @@ REPO_LINK_RE = re.compile(
 )
 LOCAL_ARTIFACT_RE = re.compile(r"`((?:docs|evals|README\.md)[^`]+)`")
 MATRIX_LINK_RE = re.compile(r"evals/model_matrix/[^)`\s]+\.json")
-REQUIRED_PACKET_SECTIONS = ("## Result", "## Evidence", "## Reproduce")
+REQUIRED_PACKET_SECTIONS = ("## Full Bundle", "## Result", "## Evidence", "## Reproduce")
 REQUIRED_PACKET_FILES = ("README.md",)
 REQUIRED_PACKET_ARTIFACT_PREFIXES = (
     "docs/",
@@ -38,7 +38,7 @@ REQUIRED_PACKET_ARTIFACT_PREFIXES = (
     "evals/results/",
     "evals/pr_packets/",
 )
-REQUIRED_PR_PACKET_FILES = ("PR_TITLE.txt", "PR_BODY.md", "REPRODUCTION.md", "evidence.json")
+REQUIRED_PR_PACKET_FILES = ("README.md", "PR_TITLE.txt", "PR_BODY.md", "REPRODUCTION.md", "evidence.json")
 REQUIRED_COMPARISON_FIELDS = (
     "baseline_score",
     "baseline_variant",
@@ -123,6 +123,8 @@ def _check_packet_dir(packet_dir: Path, index_text: str, ledger_text: str) -> li
             failures.append(f"{rel_readme}: missing section {section}")
     if "Share link:" not in text:
         failures.append(f"{rel_readme}: missing share link")
+    if "Bundle folder:" not in text:
+        failures.append(f"{rel_readme}: missing bundle folder link")
     if "adversarially-confirmed to add value" not in text:
         failures.append(f"{rel_readme}: missing value-bar phrase")
     if not MATRIX_LINK_RE.search(text):
@@ -165,7 +167,7 @@ def _check_repo_links(path: Path, text: str) -> list[str]:
 
 def _check_local_ref(rel_source: Path, ref: str) -> list[str]:
     failures: list[str] = []
-    candidate = ROOT / ref
+    candidate = ROOT / ref.split("#", 1)[0].rstrip("/")
     if not candidate.exists():
         failures.append(f"{rel_source}: local evidence link missing: {ref}")
     return failures
@@ -193,6 +195,22 @@ def _check_pr_packet_dir(packet_dir: Path) -> list[str]:
             continue
         if not path.read_text(encoding="utf-8").strip():
             failures.append(f"{path.relative_to(ROOT)}: empty")
+    readme = packet_dir / "README.md"
+    if readme.exists():
+        text = readme.read_text(encoding="utf-8")
+        rel_readme = readme.relative_to(ROOT)
+        if "Share link:" not in text:
+            failures.append(f"{rel_readme}: missing share link")
+        if "Bundle folder:" not in text:
+            failures.append(f"{rel_readme}: missing bundle folder link")
+        if f"evals/pr_packets/{packet_dir.name}" not in text:
+            failures.append(f"{rel_readme}: missing own PR packet folder link")
+        for filename in REQUIRED_PR_PACKET_FILES:
+            if filename == "README.md":
+                continue
+            if f"evals/pr_packets/{packet_dir.name}/{filename}" not in text:
+                failures.append(f"{rel_readme}: missing link to {filename}")
+        failures.extend(_check_repo_links(readme, text))
 
     evidence_path = packet_dir / "evidence.json"
     if not evidence_path.exists():

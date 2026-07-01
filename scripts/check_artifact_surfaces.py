@@ -13,8 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 DEMO_GIF = "demo.gif"
 DEMO_TAPE = "demo.tape"
+DEMO_RENDERER = "scripts/render_demo_gif.py"
 MIN_DEMO_GIF_BYTES = 50_000
 MIN_DEMO_FRAMES = 5
+FORBIDDEN_DEMO_RE = re.compile(
+    r"(?i)(?:\bsed\b|\bcat\b|<<|ANTHROPIC_API_KEY|OPENAI_API_KEY|GEMINI_API_KEY|STATSIG_API_KEY|ZYMTRACE_LICENSE_KEY|github_rsa|\.env)"
+)
 
 
 @dataclass(frozen=True)
@@ -45,6 +49,7 @@ def _check_demo_assets(root: Path = ROOT) -> list[str]:
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     tape_path = root / DEMO_TAPE
     gif_path = root / DEMO_GIF
+    renderer_path = root / DEMO_RENDERER
 
     if DEMO_GIF not in readme:
         failures.append(f"README.md: missing public reference to {DEMO_GIF}")
@@ -55,14 +60,20 @@ def _check_demo_assets(root: Path = ROOT) -> list[str]:
     if not gif_path.is_file():
         failures.append(f"{DEMO_GIF}: missing")
         missing_required_file = True
+    if not renderer_path.is_file():
+        failures.append(f"{DEMO_RENDERER}: missing")
+        missing_required_file = True
     if missing_required_file:
         return failures
 
     tape = tape_path.read_text(encoding="utf-8")
+    renderer = renderer_path.read_text(encoding="utf-8")
     if f"Output {DEMO_GIF}" not in tape:
         failures.append(f"{DEMO_TAPE}: missing Output {DEMO_GIF}")
-    if "vhs demo.tape" not in tape:
-        failures.append(f"{DEMO_TAPE}: missing regeneration command")
+    if f"python {DEMO_RENDERER} --out {DEMO_GIF}" not in tape:
+        failures.append(f"{DEMO_TAPE}: missing renderer regeneration command")
+    failures.extend(_check_forbidden_demo_surface(DEMO_TAPE, tape))
+    failures.extend(_check_forbidden_demo_surface(DEMO_RENDERER, renderer))
 
     gif_size = gif_path.stat().st_size
     if gif_size < MIN_DEMO_GIF_BYTES:
@@ -88,6 +99,14 @@ def _check_demo_assets(root: Path = ROOT) -> list[str]:
         if not (root / local_path).exists():
             failures.append(f"{DEMO_TAPE}: referenced path missing: {local_path}")
 
+    return failures
+
+
+def _check_forbidden_demo_surface(label: str, text: str) -> list[str]:
+    failures: list[str] = []
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        if FORBIDDEN_DEMO_RE.search(line):
+            failures.append(f"{label}:{line_number}: forbidden demo command or secret reference")
     return failures
 
 
@@ -147,7 +166,7 @@ def _extract_tape_int(tape: str, name: str) -> int | None:
 
 def _local_paths_referenced_by_tape(tape: str) -> set[str]:
     paths: set[str] = set()
-    for match in re.finditer(r'^Type\s+"(.+)"\s*$', tape, flags=re.MULTILINE):
+    for match in re.finditer(r'^(?:Run|Type)\s+"(.+)"\s*$', tape, flags=re.MULTILINE):
         try:
             tokens = shlex.split(match.group(1))
         except ValueError:

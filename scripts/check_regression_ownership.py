@@ -22,6 +22,7 @@ SCRIPT_OWNER_OVERRIDES = {
     "live_sdk_smoke.py": ("tests/test_live_sdk_smoke_script.py",),
     "optimize_mcp.py": ("tests/test_optimize_mcp_script.py",),
     "probe_service_keys.py": ("tests/test_probe_service_keys_script.py",),
+    "render_demo_gif.py": ("tests/test_render_demo_gif_script.py",),
     "sdk_surface_inventory.py": ("tests/test_sdk_surface_inventory_script.py",),
 }
 

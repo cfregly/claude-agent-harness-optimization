@@ -2,6 +2,15 @@
 
 Share link: [Supabase packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase)
 
+## Full Bundle
+
+Bundle folder: [Supabase finding bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase)
+
+- Matrix: [supabase_mcp_database_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/supabase_mcp_database_tool_selection.json)
+- Detailed note: [Supabase MCP Tool Tuning](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/supabase-mcp-tool-tuning.md)
+- Ledger: [Confirmed Improvements](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/confirmed-improvements.md)
+- Reproduce: [Supabase reproduce command](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase#reproduce)
+
 ## Result
 
 Confirmed improvement. This clears the adversarially-confirmed to add value bar.

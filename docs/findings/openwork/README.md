@@ -2,6 +2,15 @@
 
 Share link: [OpenWork packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork)
 
+## Full Bundle
+
+Bundle folder: [OpenWork guardrail bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork)
+
+- Matrix: [openwork_ui_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/openwork_ui_mcp_tool_selection.json)
+- Receipt: [openwork_ui_mcp_tool_selection_2026-06-28.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_2026-06-28.md)
+- Sweep: [YC P2026 MCP Sweep](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/yc-p2026-mcp-sweep.md)
+- Reproduce: [OpenWork reproduce command](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork#reproduce)
+
 ## Result
 
 Guardrail. No upstream change is promoted.
