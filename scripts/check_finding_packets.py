@@ -700,13 +700,19 @@ def _check_coverage_suite_receipt(path: Path, payload: dict[str, Any]) -> list[s
     matrix_paths = _require_nonempty_list(rel, payload, "matrix_paths", failures)
     summary = _require_object(rel, payload, "summary", failures)
     if summary:
-        if summary.get("failed_matrices") != 0:
+        failed_matrices = summary.get("failed_matrices")
+        if not _is_plain_int(failed_matrices):
+            failures.append(f"{rel}: summary.failed_matrices must be an integer")
+        elif failed_matrices != 0:
             failures.append(f"{rel}: summary.failed_matrices must be 0")
         matrix_count = summary.get("matrix_count")
-        if audits and matrix_count != len(audits):
-            failures.append(f"{rel}: summary.matrix_count must equal audit count")
-        if matrix_paths and matrix_count != len(matrix_paths):
-            failures.append(f"{rel}: summary.matrix_count must equal matrix_paths count")
+        if not _is_plain_int(matrix_count):
+            failures.append(f"{rel}: summary.matrix_count must be an integer")
+        else:
+            if audits and matrix_count != len(audits):
+                failures.append(f"{rel}: summary.matrix_count must equal audit count")
+            if matrix_paths and matrix_count != len(matrix_paths):
+                failures.append(f"{rel}: summary.matrix_count must equal matrix_paths count")
     for matrix_path in matrix_paths:
         if isinstance(matrix_path, str):
             failures.extend(_check_local_ref(rel, matrix_path))
@@ -762,9 +768,13 @@ def _check_coverage_suite_audits(
     extra_audits = sorted(set(audit_paths) - set(listed_paths))
     for matrix_path in extra_audits:
         failures.append(f"{rel}: audit matrix_path missing from matrix_paths {matrix_path!r}")
-    if summary.get("passed_matrices") != passed_count:
+    passed_matrices = summary.get("passed_matrices")
+    if not _is_plain_int(passed_matrices):
+        failures.append(f"{rel}: summary.passed_matrices must be an integer")
+    elif passed_matrices != passed_count:
         failures.append(f"{rel}: summary.passed_matrices must equal passing audit count")
-    if summary.get("failed_matrices") != failed_count:
+    failed_matrices = summary.get("failed_matrices")
+    if _is_plain_int(failed_matrices) and failed_matrices != failed_count:
         failures.append(f"{rel}: summary.failed_matrices must equal failed audit count")
     aggregate_fields = {
         "total_argument_cases": "argument_case_count",
@@ -781,12 +791,20 @@ def _check_coverage_suite_audits(
     for suite_field, audit_field in aggregate_fields.items():
         if suite_field not in summary:
             continue
-        total = sum(
-            int(audit.get("summary", {}).get(audit_field, 0))
-            for audit in audits
-            if isinstance(audit, dict) and isinstance(audit.get("summary"), dict)
-        )
-        if summary.get(suite_field) != total:
+        value = summary.get(suite_field)
+        if not _is_plain_int(value):
+            failures.append(f"{rel}: summary.{suite_field} must be an integer")
+            continue
+        total = 0
+        for idx, audit in enumerate(audits):
+            if not isinstance(audit, dict) or not isinstance(audit.get("summary"), dict):
+                continue
+            audit_value = audit["summary"].get(audit_field, 0)
+            if not _is_plain_int(audit_value):
+                failures.append(f"{rel}: audits[{idx}].summary.{audit_field} must be an integer")
+                continue
+            total += audit_value
+        if value != total:
             failures.append(f"{rel}: summary.{suite_field} must equal audit {audit_field} sum")
     return failures
 
@@ -1897,7 +1915,11 @@ def _check_summary_count(
     items: list[Any],
     failures: list[str],
 ) -> None:
-    if items and summary.get(field) != len(items):
+    value = summary.get(field)
+    if not _is_plain_int(value):
+        failures.append(f"{rel}: summary.{field} must be an integer")
+        return
+    if items and value != len(items):
         failures.append(f"{rel}: summary.{field} must equal {field.removesuffix('_count')} count")
 
 

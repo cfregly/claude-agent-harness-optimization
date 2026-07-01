@@ -743,6 +743,45 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("summary.failed_matrices must equal failed audit count", joined)
         self.assertIn("summary.total_cases must equal audit case_count sum", joined)
 
+    def test_coverage_suite_receipt_counts_reject_boolean_values(self):
+        path = ROOT / "evals" / "results" / "bad_coverage_suite_boolean_counts.json"
+        path.write_text(
+            """
+{
+  "passed": true,
+  "matrix_paths": [
+    "evals/model_matrix/zymtrace_mcp_tool_selection.json"
+  ],
+  "audits": [
+    {
+      "matrix_path": "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+      "passed": true,
+      "summary": {"case_count": true, "tool_count": 1}
+    }
+  ],
+  "summary": {
+    "failed_matrices": false,
+    "matrix_count": true,
+    "passed_matrices": true,
+    "total_cases": 1,
+    "total_tools": true
+  }
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_json(path)
+        finally:
+            path.unlink()
+
+        joined = "\n".join(failures)
+        self.assertIn("summary.failed_matrices must be an integer", joined)
+        self.assertIn("summary.matrix_count must be an integer", joined)
+        self.assertIn("summary.passed_matrices must be an integer", joined)
+        self.assertIn("audits[0].summary.case_count must be an integer", joined)
+        self.assertIn("summary.total_tools must be an integer", joined)
+
     def test_matrix_coverage_receipt_must_match_current_audit(self):
         path = ROOT / "evals" / "results" / "bad_matrix_coverage_receipt.json"
         path.write_text(
@@ -776,6 +815,39 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("coverage receipt missing current tool 'flamegraph'", joined)
         self.assertIn("coverage receipt has stale case 'stale case'", joined)
         self.assertIn("coverage receipt has stale boundary pair", joined)
+
+    def test_matrix_coverage_receipt_counts_reject_boolean_values(self):
+        path = ROOT / "evals" / "results" / "bad_matrix_coverage_boolean_counts.json"
+        path.write_text(
+            """
+{
+  "passed": true,
+  "matrix_path": "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+  "tools": [{"name": "flamegraph"}],
+  "cases": [{"name": "default project metrics discovery skips search"}],
+  "boundary_pairs": [
+    {
+      "expected_tool": "project_metrics_activity_aggr",
+      "forbidden_tool": "search",
+      "cases": ["default project metrics discovery skips search"]
+    }
+  ],
+  "summary": {
+    "tool_count": true,
+    "case_count": 1,
+    "boundary_pair_count": 1
+  },
+  "uncovered": {}
+}
+""",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_json(path)
+        finally:
+            path.unlink()
+
+        self.assertIn("summary.tool_count must be an integer", "\n".join(failures))
 
     def test_result_markdown_requires_summary_and_review_section(self):
         path = ROOT / "evals" / "results" / "bad_receipt.md"
