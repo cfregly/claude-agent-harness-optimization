@@ -39,7 +39,8 @@ class CheckCommandSurfacesScriptTests(unittest.TestCase):
             (root / "README.md").write_text(
                 "\n".join(
                     [
-                        "python -m claude_agent_harness_opt known-command fixtures/known.json",
+                        "python -m claude_agent_harness_opt known-command --known-flag fixtures/known.json",
+                        "python -m claude_agent_harness_opt known-command --stale-flag fixtures/known.json",
                         "python -m claude_agent_harness_opt stale-command fixtures/missing.json",
                         "python scripts/known_helper.py fixtures/known.json",
                         "python scripts/known_helper.py > fixtures/result_$(date +%F).json",
@@ -54,12 +55,17 @@ class CheckCommandSurfacesScriptTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            failures = check_command_surfaces(root, cli_commands={"known-command"})
+            failures = check_command_surfaces(
+                root,
+                cli_commands={"known-command"},
+                cli_options={"known-command": {"--known-flag"}},
+            )
 
         joined = "\n".join(failures)
         self.assertIn("scripts/check_example.py: missing from README Verify it commands", joined)
         self.assertIn("scripts/check_example.py: missing test file", joined)
         self.assertIn("unknown CLI command 'stale-command'", joined)
+        self.assertIn("known-command' has unknown option '--stale-flag'", joined)
         self.assertIn("missing local path 'fixtures/missing.json'", joined)
         self.assertIn("documented script missing: scripts/missing_helper.py", joined)
 

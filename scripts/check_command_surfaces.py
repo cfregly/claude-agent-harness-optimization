@@ -69,9 +69,20 @@ def main() -> int:
     return 0
 
 
-def check_command_surfaces(root: Path = ROOT, cli_commands: set[str] | None = None) -> list[str]:
+def check_command_surfaces(
+    root: Path = ROOT,
+    cli_commands: set[str] | None = None,
+    cli_options: dict[str, set[str]] | None = None,
+) -> list[str]:
     failures: list[str] = []
     commands = cli_commands or _load_cli_commands(root)
+    options = (
+        cli_options
+        if cli_options is not None
+        else _load_cli_options(root, commands)
+        if cli_commands is None
+        else {command: set() for command in commands}
+    )
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     ci = (
         (root / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
@@ -82,7 +93,7 @@ def check_command_surfaces(root: Path = ROOT, cli_commands: set[str] | None = No
     failures.extend(_check_gate_scripts(root, readme, ci))
 
     invocations = _collect_invocations(root)
-    failures.extend(_check_cli_invocations(root, invocations, commands))
+    failures.extend(_check_cli_invocations(root, invocations, commands, options))
     failures.extend(_check_cli_command_documentation(commands, invocations))
     failures.extend(_check_script_invocations(root, _collect_script_invocations(root)))
     return failures
@@ -100,6 +111,21 @@ def _load_cli_commands(root: Path = ROOT) -> set[str]:
     if not match:
         raise RuntimeError("could not parse CLI command list from --help")
     return {command.strip() for command in match.group(1).split(",") if command.strip()}
+
+
+def _load_cli_options(root: Path, commands: set[str]) -> dict[str, set[str]]:
+    return {command: _load_command_options(root, command) for command in commands}
+
+
+def _load_command_options(root: Path, command: str) -> set[str]:
+    result = subprocess.run(
+        [sys.executable, "-m", "claude_agent_harness_opt", command, "--help"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return set(re.findall(r"(?<![\w-])--[a-z0-9][a-z0-9-]*", result.stdout))
 
 
 def _check_gate_scripts(root: Path, readme: str, ci: str) -> list[str]:
@@ -217,13 +243,30 @@ def _check_cli_invocations(
     root: Path,
     invocations: list[Invocation],
     commands: set[str],
+    options: dict[str, set[str]],
 ) -> list[str]:
     failures: list[str] = []
     for invocation in invocations:
         prefix = f"{_rel(invocation.source, root)}:{invocation.line}"
         if invocation.command not in commands:
             failures.append(f"{prefix}: unknown CLI command {invocation.command!r}")
+        failures.extend(_check_cli_options(prefix, invocation, options.get(invocation.command, set())))
         failures.extend(_check_invocation_paths(root, invocation, prefix, argument_start=4))
+    return failures
+
+
+def _check_cli_options(prefix: str, invocation: Invocation, known_options: set[str]) -> list[str]:
+    failures: list[str] = []
+    for token in invocation.tokens[4:]:
+        if token == "--":
+            break
+        if not token.startswith("--"):
+            continue
+        option = token.split("=", 1)[0]
+        if option not in known_options:
+            failures.append(
+                f"{prefix}: CLI command {invocation.command!r} has unknown option {option!r}"
+            )
     return failures
 
 
