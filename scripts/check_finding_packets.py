@@ -1058,6 +1058,8 @@ def _check_result_markdown(path: Path) -> list[str]:
         failures.append(f"{rel}: missing Passed summary")
     if not any(section in text for section in ("## Raw Matrix", "## Matrix Summary", "## Gaps", "## Tool Coverage")):
         failures.append(f"{rel}: missing review section")
+    if "## Results" in text:
+        failures.extend(_check_model_matrix_markdown_result_rows(path, text))
     if "## Raw Matrix" in text and "## Results" in text:
         failures.extend(_check_raw_matrix_markdown_counts(path, text))
     if "## Cell Summary" in text and "## Results" in text:
@@ -1133,6 +1135,43 @@ def _raw_matrix_score(statuses: Counter[str], *, live: bool) -> float:
     passed = statuses["passed"]
     denominator = passed + statuses["failed"] + statuses["error"] + statuses["errored"]
     return round(passed / denominator, 3) if denominator else 0.0
+
+
+def _check_model_matrix_markdown_result_rows(path: Path, text: str) -> list[str]:
+    failures: list[str] = []
+    rel = path.relative_to(ROOT)
+    rows = _markdown_results_rows(text)
+    if not rows:
+        return [f"{rel}: Results table has no result rows"]
+    seen: set[tuple[str, str, str, str, str, str]] = set()
+    allowed_statuses = {"planned", "passed", "failed", "error", "errored", "skipped", "skip"}
+    for idx, row in enumerate(rows, start=1):
+        if len(row) < 8:
+            failures.append(f"{rel}: Results row {idx} has too few columns")
+            continue
+        for offset, field in (
+            (0, "Provider"),
+            (1, "Model"),
+            (2, "Harness"),
+            (3, "Tool Variant"),
+            (4, "Instruction Variant"),
+            (5, "Case"),
+            (6, "Status"),
+        ):
+            if not row[offset].strip():
+                failures.append(f"{rel}: Results row {idx} missing {field}")
+        status = row[6].casefold()
+        if status and status not in allowed_statuses:
+            failures.append(f"{rel}: Results row {idx} unknown status {row[6]!r}")
+        key = (row[0], row[1], row[2], row[3], row[4], row[5])
+        if key in seen:
+            failures.append(f"{rel}: duplicate Results row {_result_row_key_label(key)}")
+        seen.add(key)
+    return failures
+
+
+def _result_row_key_label(key: tuple[str, str, str, str, str, str]) -> str:
+    return f"{key[0]!r}/{key[1]!r}/{key[2]!r}/{key[3]!r}/{key[4]!r}/{key[5]!r}"
 
 
 def _check_model_matrix_markdown_cell_summary(path: Path, text: str) -> list[str]:

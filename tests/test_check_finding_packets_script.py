@@ -729,6 +729,40 @@ class CheckFindingPacketsScriptTests(unittest.TestCase):
         self.assertIn("raw matrix Passed summary does not match Results table", joined)
         self.assertIn("Score summary does not match Results table", joined)
 
+    def test_model_matrix_markdown_result_rows_require_shape_status_and_identity(self):
+        path = ROOT / "evals" / "results" / "bad_result_rows_report.md"
+        path.write_text(
+            "# Matrix Report\n\n"
+            "Passed: no\n\n"
+            "## Raw Matrix\n\n"
+            "Live: yes\n"
+            "Passed: no\n"
+            "Planned: 4\n"
+            "Passed cases: 2\n"
+            "Failed cases: 0\n"
+            "Errors: 0\n"
+            "Skipped: 0\n"
+            "Score: 1.000\n\n"
+            "## Results\n\n"
+            "| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |\n"
+            "|---|---|---|---|---|---|---|---|\n"
+            "| anthropic | model | prompt_json | stock | rules | duplicate | passed | tool |\n"
+            "| anthropic | model | prompt_json | stock | rules | duplicate | passed | tool |\n"
+            "| anthropic | model | prompt_json | stock | rules | malformed | passed |\n"
+            "| anthropic |  | prompt_json | stock | rules | bad status | weird | tool |\n",
+            encoding="utf-8",
+        )
+        try:
+            failures = _check_result_markdown(path)
+        finally:
+            path.unlink()
+
+        joined = "\n".join(failures)
+        self.assertIn("duplicate Results row 'anthropic'/'model'/'prompt_json'/'stock'/'rules'/'duplicate'", joined)
+        self.assertIn("Results row 3 has too few columns", joined)
+        self.assertIn("Results row 4 missing Model", joined)
+        self.assertIn("Results row 4 unknown status 'weird'", joined)
+
     def test_model_matrix_markdown_cell_summary_must_match_results_table(self):
         path = ROOT / "evals" / "results" / "bad_cell_summary_report.md"
         path.write_text(
