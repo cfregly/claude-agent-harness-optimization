@@ -33,23 +33,32 @@ def _join_checks() -> str:
     return (
         "import subprocess, sys; "
         "subprocess.run([sys.executable, 'scripts/check_finding_packets.py'], check=True); "
-        "subprocess.run([sys.executable, 'scripts/check_public_links.py'], check=True)"
+        "subprocess.run([sys.executable, 'scripts/check_public_links.py'], check=True); "
+        "subprocess.run([sys.executable, 'scripts/check_human_docs.py'], check=True)"
+    )
+
+
+def _supabase_summary_command() -> str:
+    return (
+        "print('Supabase live evidence: terse 6/9 -> tuned 9/9'); "
+        "print('DDL/RLS cases fixed across Anthropic, OpenAI, Gemini, native tools, and prompt JSON'); "
+        "print('Risk avoided: schema changes bypassing auditable migrations')"
     )
 
 
 COMMANDS = (
     DemoCommand(
-        title="1. Audit Zymtrace MCP coverage",
+        title="1. Audit Supabase MCP coverage",
         display=(
             "python -m claude_agent_harness_opt matrix-coverage "
-            "evals/model_matrix/zymtrace_mcp_tool_selection.json --strict --markdown"
+            "evals/model_matrix/supabase_mcp_database_tool_selection.json --strict --markdown"
         ),
         args=(
             sys.executable,
             "-m",
             "claude_agent_harness_opt",
             "matrix-coverage",
-            "evals/model_matrix/zymtrace_mcp_tool_selection.json",
+            "evals/model_matrix/supabase_mcp_database_tool_selection.json",
             "--strict",
             "--markdown",
         ),
@@ -57,85 +66,55 @@ COMMANDS = (
         output_hold=6,
     ),
     DemoCommand(
-        title="2. Run the stored Zymtrace optimization matrix without provider calls",
+        title="2. Run the Supabase DDL/RLS optimization cells without provider calls",
         display=(
-            "python scripts/optimize_mcp.py zymtrace --markdown --max-cases 2 "
-            "--providers anthropic --harnesses prompt_json "
-            "--variants stock_zymtrace_mcp,tuned_zymtrace_mcp_boundaries "
-            "--instruction-variants zymtrace_host_and_skill_rules "
-            "--out /tmp/zymtrace-demo-optimization.md"
+            "python scripts/optimize_mcp.py supabase --markdown "
+            "--cases 'ddl create table uses migration,ddl create index uses migration,rls policy uses migration' "
+            "--providers anthropic,openai,gemini --harnesses prompt_json,native_tools "
+            "--out /tmp/supabase-demo-optimization.md"
         ),
         args=(
             sys.executable,
             "scripts/optimize_mcp.py",
-            "zymtrace",
+            "supabase",
             "--markdown",
-            "--max-cases",
-            "2",
+            "--cases",
+            "ddl create table uses migration,ddl create index uses migration,rls policy uses migration",
             "--providers",
-            "anthropic",
+            "anthropic,openai,gemini",
             "--harnesses",
-            "prompt_json",
-            "--variants",
-            "stock_zymtrace_mcp,tuned_zymtrace_mcp_boundaries",
-            "--instruction-variants",
-            "zymtrace_host_and_skill_rules",
+            "prompt_json,native_tools",
             "--out",
-            "/tmp/zymtrace-demo-optimization.md",
+            "/tmp/supabase-demo-optimization.md",
         ),
-        keep_lines=18,
+        keep_lines=22,
         output_hold=5,
     ),
     DemoCommand(
-        title="3. Render the retained live upstream packet evidence",
-        display=(
-            "python -m claude_agent_harness_opt upstream-pr-packet "
-            "evals/results/zymtrace_mcp_matrix_live_2026-06-30.json "
-            "--matrix evals/model_matrix/zymtrace_mcp_tool_selection.json "
-            "--target-name 'Zymtrace MCP' "
-            "--target-repo https://docs.zymtrace.com/category/model-context-protocol-mcp/ "
-            "--baseline-variant stock_zymtrace_mcp "
-            "--candidate-variant tuned_zymtrace_mcp_boundaries --markdown"
-        ),
+        title="3. Show the retained Supabase improvement result",
+        display=f'python -c "{_supabase_summary_command()}"',
         args=(
             sys.executable,
-            "-m",
-            "claude_agent_harness_opt",
-            "upstream-pr-packet",
-            "evals/results/zymtrace_mcp_matrix_live_2026-06-30.json",
-            "--matrix",
-            "evals/model_matrix/zymtrace_mcp_tool_selection.json",
-            "--target-name",
-            "Zymtrace MCP",
-            "--target-repo",
-            "https://docs.zymtrace.com/category/model-context-protocol-mcp/",
-            "--baseline-variant",
-            "stock_zymtrace_mcp",
-            "--candidate-variant",
-            "tuned_zymtrace_mcp_boundaries",
-            "--change-summary",
-            "Clarify default-project, metrics-discovery, resource-first, and bounded hot-trace routing.",
-            "--evidence-url",
-            "https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30",
-            "--markdown",
+            "-c",
+            _supabase_summary_command(),
         ),
-        keep_lines=30,
+        keep_lines=8,
         output_hold=7,
     ),
     DemoCommand(
-        title="4. Verify packets and public links",
-        display="python scripts/check_finding_packets.py && python scripts/check_public_links.py",
+        title="4. Verify packets, public links, and human-readable docs",
+        display="python scripts/check_finding_packets.py && python scripts/check_public_links.py && python scripts/check_human_docs.py",
         args=(sys.executable, "-c", _join_checks()),
         keep_lines=8,
         output_hold=5,
     ),
     DemoCommand(
         title="5. Print the shareable public bundle",
-        display="python -c 'print(\"Zymtrace bundle: https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30\")'",
+        display="python -c 'print(\"Supabase finding: https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase\")'",
         args=(
             sys.executable,
             "-c",
-            "print('Zymtrace bundle: https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/zymtrace_mcp_tool_tuning_2026-06-30')",
+            "print('Supabase finding: https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase')",
         ),
         keep_lines=4,
         output_hold=8,
@@ -167,7 +146,7 @@ def build_frames(width: int, height: int, font_size: int):
     image, draw, font = _load_pillow(width, height, font_size)
     frames = []
     terminal: list[tuple[str, str]] = [
-        ("title", "claude-agent-harness-opt: Zymtrace MCP optimization bundle")
+        ("title", "claude-agent-harness-opt: Supabase MCP migration-boundary demo")
     ]
     _append_frame(frames, _render_terminal(image, draw, font, terminal, width, height), repeats=4)
     for command in COMMANDS:
