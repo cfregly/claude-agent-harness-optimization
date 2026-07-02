@@ -1,42 +1,45 @@
-# Openwork ui mcp Anthropic Frontier Live Result - 2026-07-01
+# openwork ui mcp tool-selection matrix
 
-Passed: no
 Live: yes
-
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
-
-> [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+Passed: yes
+Planned: 14
+Passed cases: 14
+Failed cases: 0
+Errors: 0
+Skipped: 0
+Score: 1.000
 
 ## Matrix Summary
 
 - total: 14
-- passed_cases: 0
+- passed_cases: 14
 - failed_cases: 0
-- errors: 14
+- errors: 0
 - skipped: 0
-- score: 0.0
+- score: 1.0
 
-## Profiles
+## Results
 
-- `anthropic-opus48-frontier`: `claude-opus-4-8`
+| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |
+|---|---|---|---|---|---|---|---|
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | bridge check uses status | passed | ui_status |
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | unknown current screen uses snapshot | passed | ui_snapshot |
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | action discovery uses list actions | passed | ui_list_actions |
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | known action id executes action | passed | ui_execute_action |
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | unknown action id lists actions first | passed | ui_list_actions |
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | coordinate click avoids semantic bridge | passed | NO_TOOL |
+| anthropic | claude-opus-4-8 | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | app maybe closed checks status before action | passed | ui_status |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | bridge check uses status | passed | ui_status |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | unknown current screen uses snapshot | passed | ui_snapshot |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | action discovery uses list actions | passed | ui_list_actions |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | known action id executes action | passed | ui_execute_action |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | unknown action id lists actions first | passed | ui_list_actions |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | coordinate click avoids semantic bridge | passed | NO_TOOL |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | app maybe closed checks status before action | passed | ui_status |
 
-## Status By Profile
+## Cell Summary
 
-| Profile | Passed | Failed | Errors | Skipped |
-|---|---:|---:|---:|---:|
-| `anthropic-opus48-frontier` | 0 | 0 | 14 | 0 |
-
-## Remaining Failure Clusters
-
-- 2x `bridge check uses status`: status `error`, chose `error: credit balance is too low`
-- 2x `unknown current screen uses snapshot`: status `error`, chose `error: credit balance is too low`
-- 2x `action discovery uses list actions`: status `error`, chose `error: credit balance is too low`
-- 2x `known action id executes action`: status `error`, chose `error: credit balance is too low`
-- 2x `unknown action id lists actions first`: status `error`, chose `error: credit balance is too low`
-- 2x `coordinate click avoids semantic bridge`: status `error`, chose `error: credit balance is too low`
-- 2x `app maybe closed checks status before action`: status `error`, chose `error: credit balance is too low`
-
-## Machine-readable Receipt
-
-[JSON receipt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json)
+| Provider | Harness | Tool Variant | Instruction Variant | Passed | Failed | Errors | Skipped | Score |
+|---|---|---|---|---:|---:|---:|---:|---:|
+| anthropic | prompt_json | docs_openwork_ui_mcp | openwork_ui_host_rules | 7 | 0 | 0 | 0 | 1.000 |
+| anthropic | prompt_json | source_tuned_openwork_ui_mcp | openwork_ui_host_rules | 7 | 0 | 0 | 0 | 1.000 |

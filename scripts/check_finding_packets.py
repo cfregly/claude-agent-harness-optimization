@@ -29,12 +29,13 @@ REPO_LINK_RE = re.compile(
     r"https://github\.com/cfregly/claude-agent-harness-opt/(?:blob|tree)/main/([^)\s]+)"
 )
 LOCAL_ARTIFACT_RE = re.compile(r"`((?:docs|evals|README\.md)[^`]+)`")
-MATRIX_LINK_RE = re.compile(r"evals/model_matrix/[^)`\s]+\.json")
-REQUIRED_PACKET_SECTIONS = ("## Full Bundle", "## Result", "## Evidence", "## Reproduce")
+MATRIX_LINK_RE = re.compile(r"evals/(?:model_matrix/[^)`\s]+|targets/[^)`\s]+)\.json")
+REQUIRED_PACKET_SECTIONS = ("## Evidence Bundle", "## Result", "## Evidence", "## Reproduce")
 REQUIRED_PACKET_FILES = ("README.md",)
 REQUIRED_PACKET_ARTIFACT_PREFIXES = (
     "docs/",
     "evals/model_matrix/",
+    "evals/targets/",
     "evals/results/",
     "evals/pr_packets/",
 )

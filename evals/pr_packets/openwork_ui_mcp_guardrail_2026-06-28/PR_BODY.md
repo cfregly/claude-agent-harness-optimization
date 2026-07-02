@@ -1,17 +1,119 @@
-Suggested title: Retain OpenWork UI MCP guardrail evidence
+Suggested title: Add data-backed OpenWork UI MCP tool-routing evidence
 
 > [!NOTE]
-> This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
+> This page starts with the founder handoff. Detailed eval, command, and machine-readable material is preserved below.
 
-## Guardrail Value
+## Summary
 
-- Shows the UI bridge workflow is already well routed on the retained slice.
-- Keeps action discovery, semantic execution, status, snapshot, and no-tool coordinate-click cases together.
-- Makes the guardrail reusable as future eval coverage.
+| Before | After | Result |
+|---|---|---|
+| `docs_openwork_ui_mcp` scored 1.000 on the retained slice. | No suggested wording change from this slice. No upstream change is promoted. | `source_tuned_openwork_ui_mcp` also scored 1.000. Keep the cases as regression coverage. |
 
-## Recommendation
+## Founder Summary
 
-No upstream wording change is recommended from this slice. Keep the packet as regression coverage for status checks, snapshots, action listing, semantic action execution, and no-tool boundaries.
+- This is a guardrail finding for OpenWork UI MCP.
+- No upstream change is promoted; this slice did not prove a better wording.
+- Action: keep retained cases as regression coverage and rerun local-agent review only when this surface changes.
+
+## Why This Matters
+
+- Value proposition: avoid spending founder or engineering time on a wording change that did not beat the current surface.
+- No promoted delta from this slice; both variants were already passing.
+- The retained cases are still useful regression coverage for future changes.
+- Downside avoided: shipping unproven wording changes while the current behavior is already passing.
+
+## Recommended Actions
+
+- No upstream change is promoted from this slice.
+- Keep the selected cases below as regression coverage because both variants already passed.
+- Run the local-agent prompt below to decide where those regression cases belong if this area changes.
+
+## Run This In Your Repo
+
+Replace `/path/to/repo` with the target team's local checkout. These commands ask for a plan only.
+
+```bash
+cat <<'PROMPT' | codex exec -C /path/to/repo --sandbox read-only -
+Review this action-first finding:
+https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork
+
+Then inspect this local repo and tell us exactly what to change.
+
+Return:
+- Executive summary
+- Before / after
+- Recommended repo changes
+- Suggested patch locations
+- Regression tests to add
+- Risks or open questions
+
+Do not edit files yet.
+PROMPT
+```
+
+```bash
+claude -p --permission-mode plan "$(cat <<'PROMPT'
+Review this action-first finding:
+https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork
+
+Then inspect this local repo and tell us exactly what to change.
+
+Return:
+- Executive summary
+- Before / after
+- Recommended repo changes
+- Suggested patch locations
+- Regression tests to add
+- Risks or open questions
+
+Do not edit files yet.
+PROMPT
+)"
+```
+
+```bash
+gemini --approval-mode plan --output-format text -p "$(cat <<'PROMPT'
+Review this action-first finding:
+https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork
+
+Then inspect this local repo and tell us exactly what to change.
+
+Return:
+- Executive summary
+- Before / after
+- Recommended repo changes
+- Suggested patch locations
+- Regression tests to add
+- Risks or open questions
+
+Do not edit files yet.
+PROMPT
+)"
+```
+
+## Model Coverage
+
+| Evidence lane | Baseline | Candidate |
+|---|---|---|
+| Anthropic | `docs_openwork_ui_mcp` 7/7 passed. | `source_tuned_openwork_ui_mcp` 7/7 passed. |
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Evidence Bundle
+
+- Public harness repo: [claude-agent-harness-opt](https://github.com/cfregly/claude-agent-harness-opt)
+- Founder handoff: [OpenWork UI MCP](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork)
+- Packet folder: [openwork_ui_mcp_guardrail_2026-06-28](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/openwork_ui_mcp_guardrail_2026-06-28)
+- PR_TITLE.txt: [PR_TITLE.txt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/pr_packets/openwork_ui_mcp_guardrail_2026-06-28/PR_TITLE.txt)
+- PR_BODY.md: [PR_BODY.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/pr_packets/openwork_ui_mcp_guardrail_2026-06-28/PR_BODY.md)
+- REPRODUCTION.md: [REPRODUCTION.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/pr_packets/openwork_ui_mcp_guardrail_2026-06-28/REPRODUCTION.md)
+- evidence.json: [evidence.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/pr_packets/openwork_ui_mcp_guardrail_2026-06-28/evidence.json)
+- Matrix: [openwork_ui_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/openwork_ui_mcp_tool_selection.json)
+- Result artifact: [openwork_ui_mcp_tool_selection_2026-06-28.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_2026-06-28.md)
+- Target repo: [openwork](https://github.com/different-ai/openwork)
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Evidence
 
@@ -19,9 +121,6 @@ No upstream wording change is recommended from this slice. Keep the packet as re
 - Matrix: [openwork_ui_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/openwork_ui_mcp_tool_selection.json)
 - Result artifact: [openwork_ui_mcp_tool_selection_2026-06-28.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_2026-06-28.md)
 - Evidence JSON: [evidence.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/pr_packets/openwork_ui_mcp_guardrail_2026-06-28/evidence.json)
-
-<details>
-<summary>LLM / Machine-readable details</summary>
 
 ## Frontier Receipts
 

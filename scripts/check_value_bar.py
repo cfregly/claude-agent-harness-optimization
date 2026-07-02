@@ -20,7 +20,6 @@ from claude_agent_harness_opt.value_bar import evaluate_value_bar  # noqa: E402
 VALUE_PHRASE = "adversarially-confirmed to add value"
 
 REQUIRED_VALUE_PHRASE_FILES = (
-    "AGENTS.md",
     "CLAUDE.md",
     "README.md",
     "docs/techniques.md",

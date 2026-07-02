@@ -6,6 +6,33 @@ content search. Source-level tuned descriptions routed it to the dedicated keywo
 
 Matrix: [screenpipe_mcp_tool_selection.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/model_matrix/screenpipe_mcp_tool_selection.json)
 
+## Summary
+
+| Before | After | Result |
+|---|---|---|
+| `readme_screenpipe_mcp` scored 0.857. Baseline focus: exact keyword uses keyword search. | `source_tuned_screenpipe_mcp` scored 1.000, a 0.143 gain. | Apply this change: Clarify that `keyword-search` is for literal terms and exact phrases. Reserve `search-content` for transcript lines, screen text, speaker or window filters, tags, memories, and broader content search. Add retained cases as regression coverage. |
+
+## Recommended Actions
+
+- Apply this change: Clarify that `keyword-search` is for literal terms and exact phrases. Reserve `search-content` for transcript lines, screen text, speaker or window filters, tags, memories, and broader content search.
+- Add the 7 retained routing cases to upstream CI or release-blocking regression coverage.
+- Keep the passing cells visible so maintainers preserve behavior that already works.
+
+## Model Coverage
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Public Summary
+
+- Outcome: Confirmed improvement.
+- Focus: exact phrase lookup routing.
+- Baseline: `readme_screenpipe_mcp` at 0.857.
+- Candidate: `source_tuned_screenpipe_mcp` at 1.000.
+- Delta: 0.143 against a 0.010 minimum.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
+
 ## Target
 
 - target: Screenpipe MCP
@@ -81,3 +108,5 @@ The adversarially-confirmed to add value bar keeps this narrow. This is not a cl
 needs a broad catalog rewrite. The confirmed useful boundary is exact keyword search versus broader
 semantic content search. Encoding that boundary protects local-activity agents from choosing a
 broader retrieval path when the user gives a literal keyword or phrase.
+
+</details>

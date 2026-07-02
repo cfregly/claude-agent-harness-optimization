@@ -169,24 +169,24 @@
   ],
   "cells": [
     {
-      "errors": 8,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
-      "passed": 0,
+      "passed": 8,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "stock_slack_mcp"
     },
     {
-      "errors": 8,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
-      "passed": 0,
+      "passed": 8,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "tuned_slack_mcp_boundaries"
     }
@@ -207,197 +207,493 @@
   "matrix": "slack mcp tool-selection matrix",
   "matrix_path": "evals/model_matrix/slack_mcp_tool_selection.json",
   "max_cases": null,
-  "passed": false,
+  "passed": true,
   "results": [
     {
+      "arg_details": [
+        "limit: passed"
+      ],
       "case": "list channels to find id",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEcxUFBKfsPuJ2LGx\"}",
+      "choice": {
+        "arguments": {
+          "limit": 20
+        },
+        "confidence": 0.99,
+        "rationale": "The task asks to list up to 20 Slack channels to find the right channel id, which directly matches slack_list_channels with a limit of 20.",
+        "tool_name": "slack_list_channels"
+      },
+      "chosen_tools": [
+        "slack_list_channels"
+      ],
+      "elapsed_ms": 2447,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "text: passed"
+      ],
       "case": "post top level channel message",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEaUUqPw7B6eGHCjR\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "text": "Deploy is complete."
+        },
+        "confidence": 0.99,
+        "rationale": "The task requests posting a new top-level message to a channel, with no thread timestamp provided, so slack_post_message is the correct choice.",
+        "tool_name": "slack_post_message"
+      },
+      "chosen_tools": [
+        "slack_post_message"
+      ],
+      "elapsed_ms": 2683,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "text: passed",
+        "thread_ts: passed"
+      ],
       "case": "reply in existing thread",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEpcKXVg62RrbKkYH\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "text": "I will investigate.",
+          "thread_ts": "1712345678.000100"
+        },
+        "confidence": 0.99,
+        "rationale": "The task specifies replying under a specific thread (thread_ts provided), so the thread reply tool is appropriate.",
+        "tool_name": "slack_reply_to_thread"
+      },
+      "chosen_tools": [
+        "slack_reply_to_thread"
+      ],
+      "elapsed_ms": 2502,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "channel_id: passed"
+      ],
       "case": "read recent channel messages",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEZjGcA3Sanycs72i\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123"
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks to read recent channel messages, which matches the history tool. No thread timestamp is provided, so thread tools are not appropriate.",
+        "tool_name": "slack_get_channel_history"
+      },
+      "chosen_tools": [
+        "slack_get_channel_history"
+      ],
+      "elapsed_ms": 2885,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "thread_ts: passed"
+      ],
       "case": "read thread replies",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEfw2UHGkmfd4doYa\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "thread_ts": "1712345678.000100"
+        },
+        "confidence": 0.99,
+        "rationale": "The task requests reading all replies in a specific thread, identified by a thread timestamp, which is exactly what slack_get_thread_replies does.",
+        "tool_name": "slack_get_thread_replies"
+      },
+      "chosen_tools": [
+        "slack_get_thread_replies"
+      ],
+      "elapsed_ms": 2438,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "reaction: passed",
+        "timestamp: passed"
+      ],
       "case": "add reaction to message",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEu5JuttSWgcD52C1\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "reaction": "eyes",
+          "timestamp": "1712345678.000100"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests adding the :eyes: reaction to a specific message identified by its timestamp in channel C123, which matches the slack_add_reaction tool.",
+        "tool_name": "slack_add_reaction"
+      },
+      "chosen_tools": [
+        "slack_add_reaction"
+      ],
+      "elapsed_ms": 2961,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "limit: passed"
+      ],
       "case": "list users to find id",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEciA19U9eoMaSoEc\"}",
+      "choice": {
+        "arguments": {
+          "limit": 20
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks to list up to 20 Slack users to find the right user id. slack_get_users returns a list of workspace users with basic profile info, and the limit argument caps results at 20.",
+        "tool_name": "slack_get_users"
+      },
+      "chosen_tools": [
+        "slack_get_users"
+      ],
+      "elapsed_ms": 2739,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "user_id: passed"
+      ],
       "case": "get known user profile",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwEfBaTUz3bknEMaLJ\"}",
+      "choice": {
+        "arguments": {
+          "user_id": "U123"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests detailed profile information for a specific user (U123), which is exactly what slack_get_user_profile provides given a user_id.",
+        "tool_name": "slack_get_user_profile"
+      },
+      "chosen_tools": [
+        "slack_get_user_profile"
+      ],
+      "elapsed_ms": 2216,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_slack_mcp"
     },
     {
+      "arg_details": [
+        "limit: passed"
+      ],
       "case": "list channels to find id",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwFiBhogQQVSvwNTU7\"}",
+      "choice": {
+        "arguments": {
+          "limit": 20
+        },
+        "confidence": 0.99,
+        "rationale": "The user wants to list Slack channels to find a channel id, which is exactly the purpose of slack_list_channels; a limit of 20 satisfies the 'up to 20' request.",
+        "tool_name": "slack_list_channels"
+      },
+      "chosen_tools": [
+        "slack_list_channels"
+      ],
+      "elapsed_ms": 3823,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "text: passed"
+      ],
       "case": "post top level channel message",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwFmQmQrbH2z57iaSX\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "text": "Deploy is complete."
+        },
+        "confidence": 0.99,
+        "rationale": "The task is to post a new top-level message to channel C123 with no thread timestamp provided, matching slack_post_message's purpose.",
+        "tool_name": "slack_post_message"
+      },
+      "chosen_tools": [
+        "slack_post_message"
+      ],
+      "elapsed_ms": 2388,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "text: passed",
+        "thread_ts: passed"
+      ],
       "case": "reply in existing thread",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwFiBtiPQ7K1g9RGr2\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "text": "I will investigate.",
+          "thread_ts": "1712345678.000100"
+        },
+        "confidence": 0.99,
+        "rationale": "The task provides a thread timestamp and asks to reply within that thread, which matches slack_reply_to_thread requiring channel_id, thread_ts, and text.",
+        "tool_name": "slack_reply_to_thread"
+      },
+      "chosen_tools": [
+        "slack_reply_to_thread"
+      ],
+      "elapsed_ms": 2310,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "channel_id: passed"
+      ],
       "case": "read recent channel messages",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwFmf431k5FDLogBxs\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123"
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks for recent messages from a specific channel with a known channel id, and no thread_ts is provided, so channel history is the correct read tool.",
+        "tool_name": "slack_get_channel_history"
+      },
+      "chosen_tools": [
+        "slack_get_channel_history"
+      ],
+      "elapsed_ms": 2689,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "thread_ts: passed"
+      ],
       "case": "read thread replies",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwFpdz1zuQ7QA2qhHS\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "thread_ts": "1712345678.000100"
+        },
+        "confidence": 0.99,
+        "rationale": "The task asks to read all replies under a specific thread with a provided parent timestamp, which matches slack_get_thread_replies requiring channel_id and thread_ts.",
+        "tool_name": "slack_get_thread_replies"
+      },
+      "chosen_tools": [
+        "slack_get_thread_replies"
+      ],
+      "elapsed_ms": 4533,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "channel_id: passed",
+        "reaction: passed",
+        "timestamp: passed"
+      ],
       "case": "add reaction to message",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwG5GZR9ejG3zqZ2yu\"}",
+      "choice": {
+        "arguments": {
+          "channel_id": "C123",
+          "reaction": "eyes",
+          "timestamp": "1712345678.000100"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to add an emoji reaction to a specific message, providing both the channel id and message timestamp. The slack_add_reaction tool matches this, and the colons are stripped from the emoji name per its quality checks.",
+        "tool_name": "slack_add_reaction"
+      },
+      "chosen_tools": [
+        "slack_add_reaction"
+      ],
+      "elapsed_ms": 3112,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "limit: passed"
+      ],
       "case": "list users to find id",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwGTLVm3jVSSB1zXyJ\"}",
+      "choice": {
+        "arguments": {
+          "limit": 20
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks to list up to 20 workspace users to find a user id, which matches slack_get_users' purpose. The limit is set to 20 per the request, and no specific user id is known yet.",
+        "tool_name": "slack_get_users"
+      },
+      "chosen_tools": [
+        "slack_get_users"
+      ],
+      "elapsed_ms": 2699,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "user_id: passed"
+      ],
       "case": "get known user profile",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwGBiA5azdNoHnUJ42\"}",
+      "choice": {
+        "arguments": {
+          "user_id": "U123"
+        },
+        "confidence": 0.99,
+        "rationale": "The task requests detailed profile information for a specific, known user id (U123), which matches slack_get_user_profile's purpose.",
+        "tool_name": "slack_get_user_profile"
+      },
+      "chosen_tools": [
+        "slack_get_user_profile"
+      ],
+      "elapsed_ms": 2251,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "slack_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_slack_mcp_boundaries"
     }
@@ -408,11 +704,11 @@
     "tool_reference": "https://hub.docker.com/r/mcp/slack"
   },
   "summary": {
-    "errors": 16,
+    "errors": 0,
     "failed_cases": 0,
-    "passed_cases": 0,
+    "passed_cases": 16,
     "planned": 16,
-    "score": 0.0,
+    "score": 1.0,
     "skipped": 0,
     "total": 16
   }

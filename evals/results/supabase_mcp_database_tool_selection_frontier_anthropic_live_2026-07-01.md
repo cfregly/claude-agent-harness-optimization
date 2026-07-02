@@ -1,45 +1,55 @@
-# Supabase mcp database Anthropic Frontier Live Result - 2026-07-01
+# supabase mcp database tool-selection matrix
 
-Passed: no
 Live: yes
-
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
-
-> [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+Passed: yes
+Planned: 24
+Passed cases: 24
+Failed cases: 0
+Errors: 0
+Skipped: 0
+Score: 1.000
 
 ## Matrix Summary
 
 - total: 24
-- passed_cases: 0
+- passed_cases: 24
 - failed_cases: 0
-- errors: 24
+- errors: 0
 - skipped: 0
-- score: 0.0
+- score: 1.0
 
-## Profiles
+## Results
 
-- `anthropic-opus48-frontier`: `claude-opus-4-8`
+| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |
+|---|---|---|---|---|---|---|---|
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | list public tables | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | inspect table columns | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | list applied migrations | passed | list_migrations |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | list installed extensions | passed | list_extensions |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | run read only report query | passed | execute_sql |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | ddl create table uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | ddl alter table uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | ddl create index uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | rls policy uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | unknown relation error inspects schema | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | table inventory concise skips verbose | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | schema metadata before select star | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | list public tables | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | inspect table columns | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | list applied migrations | passed | list_migrations |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | list installed extensions | passed | list_extensions |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | run read only report query | passed | execute_sql |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | ddl create table uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | ddl alter table uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | ddl create index uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | rls policy uses migration | passed | apply_migration |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | unknown relation error inspects schema | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | table inventory concise skips verbose | passed | list_tables |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | schema metadata before select star | passed | list_tables |
 
-## Status By Profile
+## Cell Summary
 
-| Profile | Passed | Failed | Errors | Skipped |
-|---|---:|---:|---:|---:|
-| `anthropic-opus48-frontier` | 0 | 0 | 24 | 0 |
-
-## Remaining Failure Clusters
-
-- 2x `list public tables`: status `error`, chose `error: credit balance is too low`
-- 2x `inspect table columns`: status `error`, chose `error: credit balance is too low`
-- 2x `list applied migrations`: status `error`, chose `error: credit balance is too low`
-- 2x `list installed extensions`: status `error`, chose `error: credit balance is too low`
-- 2x `run read only report query`: status `error`, chose `error: credit balance is too low`
-- 2x `ddl create table uses migration`: status `error`, chose `error: credit balance is too low`
-- 2x `ddl alter table uses migration`: status `error`, chose `error: credit balance is too low`
-- 2x `ddl create index uses migration`: status `error`, chose `error: credit balance is too low`
-- 2x `rls policy uses migration`: status `error`, chose `error: credit balance is too low`
-- 2x `unknown relation error inspects schema`: status `error`, chose `error: credit balance is too low`
-
-## Machine-readable Receipt
-
-[JSON receipt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/supabase_mcp_database_tool_selection_frontier_anthropic_live_2026-07-01.json)
+| Provider | Harness | Tool Variant | Instruction Variant | Passed | Failed | Errors | Skipped | Score |
+|---|---|---|---|---:|---:|---:|---:|---:|
+| anthropic | prompt_json | terse_supabase_database_mcp | supabase_database_host_rules | 12 | 0 | 0 | 0 | 1.000 |
+| anthropic | prompt_json | tuned_supabase_database_boundaries | supabase_database_host_rules | 12 | 0 | 0 | 0 | 1.000 |

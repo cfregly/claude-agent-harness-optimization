@@ -189,24 +189,24 @@
   ],
   "cells": [
     {
-      "errors": 11,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
-      "passed": 0,
+      "passed": 11,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
-      "errors": 11,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
-      "passed": 0,
+      "passed": 11,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "source_tuned_screenpipe_mcp"
     }
@@ -227,269 +227,682 @@
   "matrix": "screenpipe mcp tool-selection matrix",
   "matrix_path": "evals/model_matrix/screenpipe_mcp_tool_selection.json",
   "max_cases": null,
-  "passed": false,
+  "passed": true,
   "results": [
     {
+      "arg_details": [
+        "start_time: passed"
+      ],
       "case": "broad morning recap starts summary",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvt6g23EmpyX1ppU6o\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2026-06-30T12:00:00Z",
+          "start_time": "2026-06-30T08:00:00Z"
+        },
+        "confidence": 0.95,
+        "rationale": "The task is a broad time-range question about what the user was doing across apps and meetings, which the routing rules direct to activity-summary as the starting point.",
+        "tool_name": "activity-summary"
+      },
+      "chosen_tools": [
+        "activity-summary"
+      ],
+      "elapsed_ms": 2225,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "q: passed"
+      ],
       "case": "exact keyword uses keyword search",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvsvG71GSueyfANMWt\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "yesterday 23:59",
+          "q": "Stripe webhook",
+          "start_time": "yesterday 00:00"
+        },
+        "confidence": 0.85,
+        "rationale": "The task is an exact phrase lookup across both OCR (screen) and audio (transcript), which matches keyword-search's purpose of fast keyword search across OCR and audio for a specific phrase within a bounded time range.",
+        "tool_name": "keyword-search"
+      },
+      "chosen_tools": [
+        "keyword-search"
+      ],
+      "elapsed_ms": 3204,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "speaker_name: passed"
+      ],
       "case": "speaker transcript uses content search",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvt3hbYrrKJhp9KeLu\"}",
+      "choice": {
+        "arguments": {
+          "content_type": "audio",
+          "end_time": "2024-01-01T01:00:00Z",
+          "q": "database",
+          "speaker_name": "John",
+          "start_time": "2024-01-01T00:00:00Z"
+        },
+        "confidence": 0.9,
+        "rationale": "The task requires filtering audio transcripts by a specific speaker (John) about a specific topic (database) within a time range. search-content supports content_type and speaker_name filtering, making it the correct choice over keyword-search which lacks speaker filtering.",
+        "tool_name": "search-content"
+      },
+      "chosen_tools": [
+        "search-content"
+      ],
+      "elapsed_ms": 4935,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "q: passed"
+      ],
       "case": "ui button lookup uses elements",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvsyjDxnjbKAhLZUyq\"}",
+      "choice": {
+        "arguments": {
+          "app_name": "Chrome",
+          "end_time": "2024-06-13T23:59:59Z",
+          "q": "submit",
+          "role": "button",
+          "start_time": "2024-06-13T00:00:00Z"
+        },
+        "confidence": 0.9,
+        "rationale": "The task asks for UI controls (submit buttons) filtered by app (Chrome) and time (today), which maps to structured UI element search.",
+        "tool_name": "search-elements"
+      },
+      "chosen_tools": [
+        "search-elements"
+      ],
+      "elapsed_ms": 2839,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "frame_id: passed"
+      ],
       "case": "known frame detail uses frame context",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvtAe8nZLLrw1erywR\"}",
+      "choice": {
+        "arguments": {
+          "frame_id": 91234
+        },
+        "confidence": 0.98,
+        "rationale": "The task requests full context for a known frame (accessibility text, parsed tree nodes, and extracted URLs), which precisely matches frame-context's purpose.",
+        "tool_name": "frame-context"
+      },
+      "chosen_tools": [
+        "frame-context"
+      ],
+      "elapsed_ms": 2341,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "name: passed"
+      ],
       "case": "create recurring automation uses pipe",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvt1DfZcwqGTA7j1ax\"}",
+      "choice": {
+        "arguments": {
+          "name": "daily-work-summary",
+          "prompt": "Summarize today's work activity across all applications and send me a notification with the summary.",
+          "schedule": "0 18 * * *"
+        },
+        "confidence": 0.95,
+        "rationale": "The task requires creating a scheduled daily automation at 6pm that summarizes work and sends a notification, which is exactly the creation step handled by create-pipe.",
+        "tool_name": "create-pipe"
+      },
+      "chosen_tools": [
+        "create-pipe"
+      ],
+      "elapsed_ms": 7593,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "name: passed"
+      ],
       "case": "verify pipe output uses logs",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvt8QpnWwG6GkBYhgj\"}",
+      "choice": {
+        "arguments": {
+          "name": "daily-time-report"
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks to view recent output and errors from a pipe that was just run, which is exactly what pipe-logs provides.",
+        "tool_name": "pipe-logs"
+      },
+      "chosen_tools": [
+        "pipe-logs"
+      ],
+      "elapsed_ms": 2203,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "output_path: passed",
+        "start_time: passed"
+      ],
       "case": "export video uses video export",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvszinmtJe4cQRZcaz\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2026-06-30T09:15:00Z",
+          "output_path": "/tmp/demo.mp4",
+          "start_time": "2026-06-30T09:00:00Z"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests exporting a screen recording as a video file for a specific time range to a given output path, which directly matches the export-video tool's purpose and required parameters.",
+        "tool_name": "export-video"
+      },
+      "chosen_tools": [
+        "export-video"
+      ],
+      "elapsed_ms": 4185,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "q: passed"
+      ],
       "case": "meeting inventory uses list meetings",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvuL6W6LiLh37gfBa4\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2026-06-30T12:00:00Z",
+          "q": "John",
+          "start_time": "2026-06-30T08:00:00Z"
+        },
+        "confidence": 0.95,
+        "rationale": "The task is a meeting inventory request over a time range with an attendee filter, which matches list-meetings.",
+        "tool_name": "list-meetings"
+      },
+      "chosen_tools": [
+        "list-meetings"
+      ],
+      "elapsed_ms": 2787,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "frame_id: passed"
+      ],
       "case": "known frame elements use element tree",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvueSkqpz8QT7XWPNz\"}",
+      "choice": {
+        "arguments": {
+          "frame_id": 91234
+        },
+        "confidence": 0.97,
+        "rationale": "The task requests only the UI element tree for a known frame_id, which is exactly the purpose of get-frame-elements (whole element tree for one frame as a compact outline). frame-context would return additional accessibility text and URLs beyond just the element tree.",
+        "tool_name": "get-frame-elements"
+      },
+      "chosen_tools": [
+        "get-frame-elements"
+      ],
+      "elapsed_ms": 3005,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "name: passed"
+      ],
       "case": "manual pipe run uses run pipe",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvu9BVYvUnesoZnbmG\"}",
+      "choice": {
+        "arguments": {
+          "name": "daily-time-report"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to run an existing pipe once immediately, which is exactly the purpose of run-pipe.",
+        "tool_name": "run-pipe"
+      },
+      "chosen_tools": [
+        "run-pipe"
+      ],
+      "elapsed_ms": 2393,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "start_time: passed"
+      ],
       "case": "broad morning recap starts summary",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvuDQCXgDSog1aTsVV\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2026-06-30T12:00:00Z",
+          "start_time": "2026-06-30T08:00:00Z"
+        },
+        "confidence": 0.95,
+        "rationale": "This is a broad time-range question about what the user was doing across apps and meetings, which should start with activity-summary. The time range is bounded as required.",
+        "tool_name": "activity-summary"
+      },
+      "chosen_tools": [
+        "activity-summary"
+      ],
+      "elapsed_ms": 3185,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "q: passed"
+      ],
       "case": "exact keyword uses keyword search",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvuPovgwzQNZ5nKd5V\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2025-06-13T23:59:59Z",
+          "q": "\"Stripe webhook\"",
+          "start_time": "2025-06-13T00:00:00Z"
+        },
+        "confidence": 0.82,
+        "rationale": "The task requests the exact phrase 'Stripe webhook' across screen and transcript content within a bounded window (yesterday). This is a specific exact-phrase lookup, which maps to keyword-search's fast FTS5 combined OCR+audio search with quoted phrase support and time bounding.",
+        "tool_name": "keyword-search"
+      },
+      "chosen_tools": [
+        "keyword-search"
+      ],
+      "elapsed_ms": 3956,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "speaker_name: passed"
+      ],
       "case": "speaker transcript uses content search",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvuGd9DyHtDzjebuf7\"}",
+      "choice": {
+        "arguments": {
+          "content_type": "audio",
+          "limit": 5,
+          "max_content_length": 500,
+          "q": "database",
+          "speaker_name": "John",
+          "start_time": "2024-01-01T00:00:00Z"
+        },
+        "confidence": 0.9,
+        "rationale": "The task requires audio transcript lines filtered by a specific speaker (John) about a topic (database), which matches search-content's ability to filter by content_type=audio and speaker_name. The start_time is a placeholder representing the last hour boundary.",
+        "tool_name": "search-content"
+      },
+      "chosen_tools": [
+        "search-content"
+      ],
+      "elapsed_ms": 3139,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "q: passed"
+      ],
       "case": "ui button lookup uses elements",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvuSHhfS893tHd9tmb\"}",
+      "choice": {
+        "arguments": {
+          "app_name": "Chrome",
+          "limit": 20,
+          "q": "submit",
+          "role": "button",
+          "source": "accessibility",
+          "start_time": "2025-06-13T00:00:00Z"
+        },
+        "confidence": 0.94,
+        "rationale": "The task asks for specific UI controls (submit buttons) within Chrome, which is a UI element/page-structure query best served by search-elements filtered by app and role.",
+        "tool_name": "search-elements"
+      },
+      "chosen_tools": [
+        "search-elements"
+      ],
+      "elapsed_ms": 3075,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "frame_id: passed"
+      ],
       "case": "known frame detail uses frame context",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvvUYkstERd3vWBZBR\"}",
+      "choice": {
+        "arguments": {
+          "frame_id": 91234
+        },
+        "confidence": 0.98,
+        "rationale": "The task requests full context for a known frame_id including visible text, parsed tree nodes, and URLs, which precisely matches frame-context's purpose. get-frame-elements only returns UI elements, not the full accessibility text and URLs.",
+        "tool_name": "frame-context"
+      },
+      "chosen_tools": [
+        "frame-context"
+      ],
+      "elapsed_ms": 7495,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "name: passed"
+      ],
       "case": "create recurring automation uses pipe",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvvQpwX2fWGisWfyMX\"}",
+      "choice": {
+        "arguments": {
+          "name": "daily-work-summary",
+          "prompt": "Summarize today's work activity captured by Screenpipe. Review the day's screen text, app usage, windows, and audio transcriptions to produce a concise summary of what was worked on, key tasks, apps used, and any meetings. Then send a notification with the summary.",
+          "run_now": false,
+          "schedule": "0 18 * * *"
+        },
+        "confidence": 0.95,
+        "rationale": "The user wants a recurring scheduled automation (daily at 6pm) that summarizes today's work and sends a notification. In this tool-only matrix, create-pipe is the correct step for creating scheduled AI automations like daily summaries or reports.",
+        "tool_name": "create-pipe"
+      },
+      "chosen_tools": [
+        "create-pipe"
+      ],
+      "elapsed_ms": 4893,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "name: passed"
+      ],
       "case": "verify pipe output uses logs",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvvmQkzv7Sim3maMYx\"}",
+      "choice": {
+        "arguments": {
+          "name": "daily-time-report"
+        },
+        "confidence": 0.98,
+        "rationale": "The user already ran the daily-time-report pipe and wants to see its recent output and errors, which is exactly what pipe-logs provides.",
+        "tool_name": "pipe-logs"
+      },
+      "chosen_tools": [
+        "pipe-logs"
+      ],
+      "elapsed_ms": 2306,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "output_path: passed",
+        "start_time: passed"
+      ],
       "case": "export video uses video export",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvw7kKi72gEjWWX49x\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2026-06-30T09:15:00Z",
+          "output_path": "/tmp/demo.mp4",
+          "start_time": "2026-06-30T09:00:00Z"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to export a bounded screen recording clip to a named destination, which matches export-video's purpose and required bounded time range with output_path.",
+        "tool_name": "export-video"
+      },
+      "chosen_tools": [
+        "export-video"
+      ],
+      "elapsed_ms": 4014,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "q: passed"
+      ],
       "case": "meeting inventory uses list meetings",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvvjvU2MLzwvZe6omR\"}",
+      "choice": {
+        "arguments": {
+          "end_time": "2026-06-30T12:00:00Z",
+          "q": "John",
+          "start_time": "2026-06-30T08:00:00Z"
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks to find meetings within a bounded time range filtered by attendee 'John', which matches list-meetings with the q substring filter and start/end times.",
+        "tool_name": "list-meetings"
+      },
+      "chosen_tools": [
+        "list-meetings"
+      ],
+      "elapsed_ms": 2400,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "frame_id: passed"
+      ],
       "case": "known frame elements use element tree",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvvrcnN3YDQDBqrjkC\"}",
+      "choice": {
+        "arguments": {
+          "frame_id": 91234
+        },
+        "confidence": 0.97,
+        "rationale": "The user has a known frame_id (91234) and requests only the UI element tree for that frame, which matches get-frame-elements exactly. frame-context is avoided since it returns full context rather than just UI elements.",
+        "tool_name": "get-frame-elements"
+      },
+      "chosen_tools": [
+        "get-frame-elements"
+      ],
+      "elapsed_ms": 2543,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     },
     {
+      "arg_details": [
+        "name: passed"
+      ],
       "case": "manual pipe run uses run pipe",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvwBTrstExmswECNnk\"}",
+      "choice": {
+        "arguments": {
+          "name": "daily-time-report"
+        },
+        "confidence": 0.98,
+        "rationale": "The user explicitly wants to run an existing pipe once now, which is exactly what run-pipe does; create-pipe is for new automations and pipe-logs is for verification afterward.",
+        "tool_name": "run-pipe"
+      },
+      "chosen_tools": [
+        "run-pipe"
+      ],
+      "elapsed_ms": 2675,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "screenpipe_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_screenpipe_mcp"
     }
@@ -503,11 +916,11 @@
     "yc": "Screenpipe, YC S26"
   },
   "summary": {
-    "errors": 22,
+    "errors": 0,
     "failed_cases": 0,
-    "passed_cases": 0,
+    "passed_cases": 22,
     "planned": 22,
-    "score": 0.0,
+    "score": 1.0,
     "skipped": 0,
     "total": 22
   }

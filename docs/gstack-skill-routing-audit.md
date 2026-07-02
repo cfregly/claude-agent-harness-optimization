@@ -5,6 +5,32 @@ Checked through 2026-07-01.
 > [!NOTE]
 > This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
 
+## Summary
+
+| Before | After | Result |
+|---|---|---|
+| `gstack_stock_skill_descriptions` scored 0.975. Baseline focus: careful-mode, browser-headless. | `gstack_boundary_tuned_skill_descriptions` scored 0.992, a 0.017 gain. | Apply this change: Clarify browser alias and safety-mode skill routing boundaries. Add retained cases as regression coverage. |
+
+## Recommended Actions
+
+- Apply this change: Clarify browser alias and safety-mode skill routing boundaries.
+- Add the 30 retained routing cases to upstream CI or release-blocking regression coverage.
+- Keep the passing cells visible so maintainers preserve behavior that already works.
+
+## Model Coverage
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Public Summary
+
+- Outcome: Confirmed improvement.
+- Focus: browser and safety skill routing.
+- Baseline: `gstack_stock_skill_descriptions` at 0.975.
+- Candidate: `gstack_boundary_tuned_skill_descriptions` at 0.992.
+- Delta: 0.017 against a 0.010 minimum.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
 
 ## Target
 
@@ -28,9 +54,6 @@ and Gemini `gemini-3.1-pro-preview-customtools`: [gstack_skill_matrix_frontier_a
 
 That current receipt completed 496 live cells with 484 passed, 8 failed, and 4 errors. Treat it as
 hill-descending evidence for the next tuning pass. Anthropic Opus is now retained in a separate receipt. The new key passed smoke testing, then later calls hit credit exhaustion where shown in the receipt.
-
-<details>
-<summary>LLM / Machine-readable details</summary>
 
 ## Commands
 

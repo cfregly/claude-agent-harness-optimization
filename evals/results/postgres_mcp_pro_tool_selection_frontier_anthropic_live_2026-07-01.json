@@ -139,24 +139,24 @@
   ],
   "cells": [
     {
-      "errors": 9,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
-      "passed": 0,
+      "passed": 9,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
-      "errors": 9,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
-      "passed": 0,
+      "passed": 9,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     }
@@ -177,221 +177,523 @@
   "matrix": "postgres mcp pro tool-selection matrix",
   "matrix_path": "evals/model_matrix/postgres_mcp_pro_tool_selection.json",
   "max_cases": null,
-  "passed": false,
+  "passed": true,
   "results": [
     {
+      "arg_details": [],
       "case": "discover schemas",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvaeCHVcyMRxpgLtP4\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.99,
+        "rationale": "The user directly asks what schemas are available in the newly connected Postgres instance, which is exactly what list_schemas provides.",
+        "tool_name": "list_schemas"
+      },
+      "chosen_tools": [
+        "list_schemas"
+      ],
+      "elapsed_ms": 2039,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "schema_name: passed"
+      ],
       "case": "list schema objects",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvpQRcuJeSed7PzZwL\"}",
+      "choice": {
+        "arguments": {
+          "schema_name": "analytics"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to list tables, views, sequences, and extensions within the 'analytics' schema, which is precisely what list_objects does for a specified schema.",
+        "tool_name": "list_objects"
+      },
+      "chosen_tools": [
+        "list_objects"
+      ],
+      "elapsed_ms": 2600,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "object_name: passed",
+        "schema_name: passed"
+      ],
       "case": "inspect table structure",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvaM5pTtAodiqs5f8W\"}",
+      "choice": {
+        "arguments": {
+          "object_name": "orders",
+          "object_type": "table",
+          "schema_name": "public"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests inspecting the columns, constraints, and indexes of the public.orders table before writing SQL, which is exactly what get_object_details provides.",
+        "tool_name": "get_object_details"
+      },
+      "chosen_tools": [
+        "get_object_details"
+      ],
+      "elapsed_ms": 2314,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "sql: passed"
+      ],
       "case": "run ready read query",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvaNKcPZK8EbNKCH3E\"}",
+      "choice": {
+        "arguments": {
+          "sql": "SELECT count(*) FROM public.orders WHERE status = 'failed';"
+        },
+        "confidence": 0.99,
+        "rationale": "The task provides a ready, complete SQL query and explicitly asks to run it now, so execute_sql is the correct tool for immediately running SQL.",
+        "tool_name": "execute_sql"
+      },
+      "chosen_tools": [
+        "execute_sql"
+      ],
+      "elapsed_ms": 4899,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "sql: passed"
+      ],
       "case": "get query plan",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvabibSrgDPzHGyz8e\"}",
+      "choice": {
+        "arguments": {
+          "sql": "SELECT * FROM orders WHERE customer_id = 42;"
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly requests the PostgreSQL execution plan and planner cost without running the query for rows, which is exactly what explain_query provides.",
+        "tool_name": "explain_query"
+      },
+      "chosen_tools": [
+        "explain_query"
+      ],
+      "elapsed_ms": 2332,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "limit: passed"
+      ],
       "case": "rank slow workload queries",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvaVkzcvPgT7RyyCq4\"}",
+      "choice": {
+        "arguments": {
+          "limit": 5,
+          "order_by": "total_time"
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks to rank the top 5 slowest workload queries by total execution time, which is exactly what get_top_queries provides using pg_stat_statements data, ordered by total_time with a limit of 5.",
+        "tool_name": "get_top_queries"
+      },
+      "chosen_tools": [
+        "get_top_queries"
+      ],
+      "elapsed_ms": 2470,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "max_index_count: passed"
+      ],
       "case": "workload index tuning",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvaNpLPrQyE9tpCPY8\"}",
+      "choice": {
+        "arguments": {
+          "max_index_count": 3
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks to analyze workload indexes with a limit of at most 3 candidate indexes, which directly matches analyze_workload_indexes with max_index_count set to 3.",
+        "tool_name": "analyze_workload_indexes"
+      },
+      "chosen_tools": [
+        "analyze_workload_indexes"
+      ],
+      "elapsed_ms": 2458,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [
+        "queries: passed"
+      ],
       "case": "specific query index tuning",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvafSF2huzmg8phKXd\"}",
+      "choice": {
+        "arguments": {
+          "queries": [
+            "SELECT * FROM orders JOIN customers ON orders.customer_id = customers.id WHERE orders.created_at > '2026-01-01';"
+          ]
+        },
+        "confidence": 0.97,
+        "rationale": "The task provides a specific SQL query and asks for index recommendations, which directly matches analyze_query_indexes for recommending optimal indexes on supplied SQL.",
+        "tool_name": "analyze_query_indexes"
+      },
+      "chosen_tools": [
+        "analyze_query_indexes"
+      ],
+      "elapsed_ms": 3067,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [],
       "case": "database health check",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbW3Acf2SAziAXXVX\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests a comprehensive database-wide operational health review covering connections, vacuum, invalid constraints, duplicate/unused indexes, sequences, and buffer cache\u2014precisely the checks performed by analyze_db_health.",
+        "tool_name": "analyze_db_health"
+      },
+      "chosen_tools": [
+        "analyze_db_health"
+      ],
+      "elapsed_ms": 2272,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_postgres_mcp_pro"
     },
     {
+      "arg_details": [],
       "case": "discover schemas",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbVYFxRYVkNMHwCks\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.99,
+        "rationale": "The user explicitly asks which schemas are available in the freshly connected database, which is exactly the discovery purpose of list_schemas. No schema is named, so this precedes deeper inspection.",
+        "tool_name": "list_schemas"
+      },
+      "chosen_tools": [
+        "list_schemas"
+      ],
+      "elapsed_ms": 2418,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "schema_name: passed"
+      ],
       "case": "list schema objects",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbX2ZKaSuMNA29L9Q\"}",
+      "choice": {
+        "arguments": {
+          "schema_name": "analytics"
+        },
+        "confidence": 0.99,
+        "rationale": "The user explicitly names the 'analytics' schema and wants an inventory of its tables, views, sequences, and extensions, which is exactly what list_objects provides.",
+        "tool_name": "list_objects"
+      },
+      "chosen_tools": [
+        "list_objects"
+      ],
+      "elapsed_ms": 5434,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "object_name: passed",
+        "schema_name: passed"
+      ],
       "case": "inspect table structure",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbjRu4aQF1wN6nTWv\"}",
+      "choice": {
+        "arguments": {
+          "object_name": "orders",
+          "object_type": "table",
+          "schema_name": "public"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to inspect the public.orders table's columns, constraints, and indexes before writing SQL, which is exactly what get_object_details provides for a specific named object.",
+        "tool_name": "get_object_details"
+      },
+      "chosen_tools": [
+        "get_object_details"
+      ],
+      "elapsed_ms": 2635,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "sql: passed"
+      ],
       "case": "run ready read query",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbrd1Bw3kQbGqVLsX\"}",
+      "choice": {
+        "arguments": {
+          "sql": "SELECT count(*) FROM public.orders WHERE status = 'failed';"
+        },
+        "confidence": 0.99,
+        "rationale": "The user provided a ready SQL statement and explicitly asked to run it now, so execute_sql is the correct tool.",
+        "tool_name": "execute_sql"
+      },
+      "chosen_tools": [
+        "execute_sql"
+      ],
+      "elapsed_ms": 2339,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "sql: passed"
+      ],
       "case": "get query plan",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbqNkCiXn3aPBQeXb\"}",
+      "choice": {
+        "arguments": {
+          "sql": "SELECT * FROM orders WHERE customer_id = 42;"
+        },
+        "confidence": 0.98,
+        "rationale": "The user explicitly wants the execution plan and planner cost without running the query for rows, which is exactly what explain_query provides via EXPLAIN.",
+        "tool_name": "explain_query"
+      },
+      "chosen_tools": [
+        "explain_query"
+      ],
+      "elapsed_ms": 2728,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "limit: passed"
+      ],
       "case": "rank slow workload queries",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvbxKsqFks5G4KUb5x\"}",
+      "choice": {
+        "arguments": {
+          "limit": 5,
+          "order_by": "total_time"
+        },
+        "confidence": 0.97,
+        "rationale": "The user wants the slowest workload queries ranked by total execution time, which is exactly what get_top_queries provides via pg_stat_statements. Ordering by total_time and limiting to 5 matches the request. No SQL execution or index recommendations are requested.",
+        "tool_name": "get_top_queries"
+      },
+      "chosen_tools": [
+        "get_top_queries"
+      ],
+      "elapsed_ms": 2713,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "max_index_count: passed"
+      ],
       "case": "workload index tuning",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvcsduwp6VN46VCDfn\"}",
+      "choice": {
+        "arguments": {
+          "max_index_count": 3
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks to analyze the observed workload and produce index recommendations without supplying a specific SQL query, limited to at most 3 candidate indexes, which maps directly to analyze_workload_indexes with max_index_count set to 3.",
+        "tool_name": "analyze_workload_indexes"
+      },
+      "chosen_tools": [
+        "analyze_workload_indexes"
+      ],
+      "elapsed_ms": 2455,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [
+        "queries: passed"
+      ],
       "case": "specific query index tuning",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvcfEYucDudSRaLynZ\"}",
+      "choice": {
+        "arguments": {
+          "queries": [
+            "SELECT * FROM orders JOIN customers ON orders.customer_id = customers.id WHERE orders.created_at > '2026-01-01';"
+          ]
+        },
+        "confidence": 0.98,
+        "rationale": "The user supplied a specific SQL query and wants index recommendations for it, which is exactly analyze_query_indexes' purpose. The query text is passed via the queries array.",
+        "tool_name": "analyze_query_indexes"
+      },
+      "chosen_tools": [
+        "analyze_query_indexes"
+      ],
+      "elapsed_ms": 2764,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     },
     {
+      "arg_details": [],
       "case": "database health check",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvdLRBqj1m6iNkupAb\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.99,
+        "rationale": "The task requests a comprehensive database-wide operational health review covering connections, vacuum, invalid constraints, duplicate/unused indexes, sequences, and buffer cache, which precisely matches analyze_db_health's deterministic health checks.",
+        "tool_name": "analyze_db_health"
+      },
+      "chosen_tools": [
+        "analyze_db_health"
+      ],
+      "elapsed_ms": 2557,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "postgres_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_postgres_mcp_pro_boundaries"
     }
@@ -402,11 +704,11 @@
     "tool_reference": "https://github.com/crystaldba/postgres-mcp#postgres-mcp-pro-tools"
   },
   "summary": {
-    "errors": 18,
+    "errors": 0,
     "failed_cases": 0,
-    "passed_cases": 0,
+    "passed_cases": 18,
     "planned": 18,
-    "score": 0.0,
+    "score": 1.0,
     "skipped": 0,
     "total": 18
   }

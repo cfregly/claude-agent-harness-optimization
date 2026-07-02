@@ -11,6 +11,40 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_MARKDOWN_GLOBS = ("README.md", "docs/**/*.md", "evals/pr_packets/**/*.md")
 LLM_SUMMARY = "<summary>LLM / Machine-readable details</summary>"
 REPO_LINK = "https://github.com/cfregly/claude-agent-harness-opt/"
+ACTION_SUMMARY_DOCS = {
+    "docs/confirmed-improvements.md",
+    "docs/public-mcp-sweep.md",
+    "docs/yc-p2026-mcp-sweep.md",
+}
+ACTION_SECTION_DOCS = {
+}
+SUPPORTING_EVIDENCE_DOCS = {
+    "docs/frontier-stress-2026-07-01.md",
+}
+FOUNDER_HANDOFF_SECTIONS = (
+    "## Summary",
+    "## Founder Summary",
+    "## Why This Matters",
+    "## Recommended Actions",
+    "## Run This In Your Repo",
+    "## Model Coverage",
+    "## Evidence Bundle",
+)
+LOCAL_AGENT_CTA_MARKERS = (
+    "codex exec -C /path/to/repo --sandbox read-only -",
+    "claude -p --permission-mode plan",
+    "gemini --approval-mode plan --output-format text",
+    "Review this action-first finding:",
+    "Do not edit files yet.",
+)
+EVIDENCE_HEAVY_MARKERS = (
+    "evidence.json",
+    "evals/model_matrix/",
+    "evals/results/",
+    "REPRODUCTION.md",
+    "PR_BODY.md",
+    "PR_TITLE.txt",
+)
 ROOT_HUMAN_SECTIONS = (
     "## Demo",
     "## Share This",
@@ -57,6 +91,27 @@ def check_human_docs(root: Path = ROOT) -> list[str]:
             failures.extend(_check_bundle_index(rel, text))
         elif _is_sendable_packet(rel):
             failures.extend(_check_sendable_packet(rel, text))
+        elif _is_pr_body(rel):
+            failures.extend(_check_founder_handoff(rel, text, require_share_link=False))
+            failures.extend(_check_machine_detail_placement(rel, text))
+        elif _is_pr_reproduction(rel):
+            failures.extend(_check_supporting_evidence_note(rel, text, start_markers=("PR_BODY.md",)))
+            failures.extend(_check_machine_detail_placement(rel, text))
+        elif rel.as_posix() in ACTION_SUMMARY_DOCS:
+            failures.extend(_check_action_summary_doc(rel, text))
+            failures.extend(_check_machine_detail_placement(rel, text))
+        elif rel.as_posix() in ACTION_SECTION_DOCS:
+            failures.extend(_check_action_first_sections(rel, text, require_full_bundle=False))
+            failures.extend(_check_machine_detail_placement(rel, text))
+        elif rel.as_posix() in SUPPORTING_EVIDENCE_DOCS:
+            failures.extend(
+                _check_supporting_evidence_note(
+                    rel,
+                    text,
+                    start_markers=("Founder Findings", "Confirmed Improvements", "PR/evidence bundle"),
+                )
+            )
+            failures.extend(_check_machine_detail_placement(rel, text))
         else:
             failures.extend(_check_machine_detail_placement(rel, text))
     return failures
@@ -105,20 +160,88 @@ def _check_root_readme(rel: Path, text: str) -> list[str]:
 def _check_sendable_packet(rel: Path, text: str) -> list[str]:
     failures: list[str] = []
     first_lines = "\n".join(text.splitlines()[:12])
-    human_index = text.find("## Human Summary")
-    bundle_index = text.find("## Full Bundle")
     if "Share link: [" not in first_lines:
         failures.append(f"{rel}: share link must be clickable in the first 12 lines")
     if "Share link: [" in first_lines and REPO_LINK not in first_lines:
         failures.append(f"{rel}: share link must use a public GitHub URL")
-    if human_index == -1:
-        failures.append(f"{rel}: missing ## Human Summary before artifact links")
-    if bundle_index == -1:
-        failures.append(f"{rel}: missing ## Full Bundle")
-    if human_index != -1 and bundle_index != -1 and human_index > bundle_index:
-        failures.append(f"{rel}: Human Summary must appear before Full Bundle")
-    if bundle_index != -1 and bundle_index > 900:
-        failures.append(f"{rel}: Full Bundle links are too far from the top")
+    failures.extend(_check_founder_handoff(rel, text, require_share_link=True))
+    return failures
+
+
+def _check_founder_handoff(rel: Path, text: str, *, require_share_link: bool) -> list[str]:
+    failures: list[str] = []
+    indexes: dict[str, int] = {}
+    for heading in FOUNDER_HANDOFF_SECTIONS:
+        index = text.find(heading)
+        indexes[heading] = index
+        if index == -1:
+            failures.append(f"{rel}: missing founder-handoff section {heading}")
+        elif text.count(heading) != 1:
+            failures.append(f"{rel}: duplicate founder-handoff section {heading}")
+    present = [indexes[heading] for heading in FOUNDER_HANDOFF_SECTIONS if indexes[heading] != -1]
+    if len(present) == len(FOUNDER_HANDOFF_SECTIONS) and present != sorted(present):
+        failures.append(f"{rel}: founder-handoff sections are out of order")
+
+    if "## Actions By Company" in text:
+        failures.append(f"{rel}: replace ## Actions By Company with target-owned Recommended Actions and Model Coverage")
+
+    table_index = indexes.get("## Summary", -1)
+    founder_index = indexes.get("## Founder Summary", -1)
+    if table_index != -1:
+        table_window = text[table_index : founder_index if founder_index != -1 else table_index + 1200]
+        if "| Before | After | Result |" not in table_window:
+            failures.append(f"{rel}: first founder table must include Before, After, and Result columns")
+        if "Model coverage:" in table_window or "Evidence lane" in table_window:
+            failures.append(f"{rel}: first founder table must show target-owned value, not provider coverage")
+        if "no upstream change is promoted" not in table_window.casefold() and "Suggested change:" not in table_window:
+            failures.append(f"{rel}: Summary table must show the suggested change before Founder Summary")
+        if require_share_link:
+            first_twelve = "\n".join(text.splitlines()[:12])
+            if "## Summary" not in first_twelve:
+                failures.append(f"{rel}: Summary table must be visible in the first 12 lines")
+
+    cta_index = indexes.get("## Run This In Your Repo", -1)
+    evidence_index = indexes.get("## Evidence Bundle", -1)
+    if cta_index != -1 and evidence_index != -1 and evidence_index < cta_index:
+        failures.append(f"{rel}: Evidence Bundle must appear after Run This In Your Repo")
+
+    if cta_index != -1:
+        for marker in LOCAL_AGENT_CTA_MARKERS:
+            if marker not in text[cta_index:]:
+                failures.append(f"{rel}: missing local-agent CTA marker {marker}")
+        early_evidence = [
+            marker
+            for marker in EVIDENCE_HEAVY_MARKERS
+            if marker in text[:cta_index]
+        ]
+        if early_evidence:
+            failures.append(f"{rel}: evidence-heavy links must appear after local-agent CTA")
+
+    why_index = indexes.get("## Why This Matters", -1)
+    actions_index = indexes.get("## Recommended Actions", -1)
+    if why_index != -1:
+        why_end = actions_index if actions_index != -1 else why_index + 2000
+        if "Value proposition:" not in text[why_index:why_end]:
+            failures.append(f"{rel}: Why This Matters must include a value proposition")
+
+    if actions_index != -1:
+        actions_end = indexes.get("## Run This In Your Repo", -1)
+        action_window = text[actions_index:actions_end if actions_end != -1 else actions_index + 3000]
+        if any(provider in action_window for provider in ("### Anthropic", "### OpenAI", "### Google Gemini")):
+            failures.append(f"{rel}: provider-specific action sections must not appear above target-owned actions")
+
+    if "guardrail" in text.casefold() and "no upstream change is promoted" not in text.casefold():
+        failures.append(f"{rel}: guardrail handoff must say no upstream change is promoted")
+    if "0.000 gain" in text or "improved score from 1.000 to 1.000" in text:
+        failures.append(f"{rel}: guardrail or no-delta copy must not be framed as a gain")
+
+    detail_index = text.find(LLM_SUMMARY)
+    if detail_index != -1:
+        for heading, index in indexes.items():
+            if index != -1 and index > detail_index:
+                failures.append(f"{rel}: {heading} must appear before LLM details")
+    if require_share_link and "Share link: [" not in "\n".join(text.splitlines()[:12]):
+        failures.append(f"{rel}: share link must appear before founder-handoff sections")
     return failures
 
 
@@ -135,6 +258,42 @@ def _check_bundle_index(rel: Path, text: str) -> list[str]:
     return failures
 
 
+def _check_action_summary_doc(rel: Path, text: str) -> list[str]:
+    failures: list[str] = []
+    heading = "## Summary"
+    index = text.find(heading)
+    if index == -1:
+        failures.append(f"{rel}: missing {heading}")
+        return failures
+    detail_index = text.find(LLM_SUMMARY)
+    if detail_index != -1 and index > detail_index:
+        failures.append(f"{rel}: {heading} must appear before LLM details")
+    summary_window = text[index : index + 5000]
+    if "Before | After | Result" not in summary_window:
+        failures.append(f"{rel}: action summary table must include Before, After, and Result columns")
+    if "Suggested change:" not in summary_window and "No suggested wording change" not in summary_window:
+        failures.append(f"{rel}: action summary table must show suggested changes or explicit no-change guardrails")
+    return failures
+
+
+def _check_supporting_evidence_note(
+    rel: Path,
+    text: str,
+    *,
+    start_markers: tuple[str, ...],
+) -> list[str]:
+    failures: list[str] = []
+    first_lines = "\n".join(text.splitlines()[:24])
+    if "supporting evidence" not in first_lines.casefold():
+        failures.append(f"{rel}: supporting evidence doc must say so in the first 24 lines")
+    if "Start with" not in first_lines:
+        failures.append(f"{rel}: supporting evidence doc must point readers to the action-first doc")
+    if not any(marker in first_lines for marker in start_markers):
+        markers = ", ".join(start_markers)
+        failures.append(f"{rel}: supporting evidence doc must name the action-first entrypoint ({markers})")
+    return failures
+
+
 def _check_machine_detail_placement(rel: Path, text: str) -> list[str]:
     failures: list[str] = []
     signals = _machine_detail_count(text)
@@ -144,11 +303,20 @@ def _check_machine_detail_placement(rel: Path, text: str) -> list[str]:
         return failures
     if summary_index != -1:
         before = text[:summary_index]
-        if _machine_detail_count(before) >= 12:
+        before_for_count = _human_intro_before_required_evidence(before)
+        if _machine_detail_count(before_for_count) >= 12:
             failures.append(f"{rel}: too much machine-readable detail appears before LLM disclosure")
-        if len(before.splitlines()) > 140:
+        if len(before_for_count.splitlines()) > 140:
             failures.append(f"{rel}: human-facing content before LLM disclosure is too long")
     return failures
+
+
+def _human_intro_before_required_evidence(text: str) -> str:
+    evidence_index = text.find("## Evidence Bundle")
+    cta_index = text.find("## Run This In Your Repo")
+    if cta_index != -1 and evidence_index != -1 and cta_index < evidence_index:
+        return text[:evidence_index]
+    return text
 
 
 def _needs_llm_details(text: str, signals: int) -> bool:
@@ -167,6 +335,16 @@ def _is_sendable_packet(rel: Path) -> bool:
     if len(parts) >= 4 and parts[0] == "evals" and parts[1] == "pr_packets" and rel.name == "README.md":
         return True
     return False
+
+
+def _is_pr_body(rel: Path) -> bool:
+    parts = rel.parts
+    return len(parts) >= 4 and parts[0] == "evals" and parts[1] == "pr_packets" and rel.name == "PR_BODY.md"
+
+
+def _is_pr_reproduction(rel: Path) -> bool:
+    parts = rel.parts
+    return len(parts) >= 4 and parts[0] == "evals" and parts[1] == "pr_packets" and rel.name == "REPRODUCTION.md"
 
 
 def _is_bundle_index(rel: Path) -> bool:

@@ -27,9 +27,9 @@ class SurfaceContract:
 REQUIRED_SURFACES = (
     SurfaceContract(
         name="Project Instructions",
-        paths=("AGENTS.md", "CLAUDE.md"),
+        paths=("CLAUDE.md",),
         gates=("python scripts/check_project_instructions.py",),
-        artifacts=("CLAUDE.md", "AGENTS.md"),
+        artifacts=("CLAUDE.md",),
     ),
     SurfaceContract(
         name="Package Metadata And Imports",
@@ -47,7 +47,6 @@ REQUIRED_SURFACES = (
             "claude_agent_harness_opt/cli.py",
             "README.md",
             "CLAUDE.md",
-            "AGENTS.md",
             "docs/**/*.md",
             "docs/tool_tuning_demo_sample.txt",
             "evals/pr_packets/**/*.md",
@@ -377,7 +376,11 @@ def _tracked_files(root: Path) -> list[Path]:
             text=True,
         )
         if result.returncode == 0:
-            return [Path(line) for line in result.stdout.splitlines() if line.strip()]
+            return [
+                Path(line)
+                for line in result.stdout.splitlines()
+                if line.strip() and (root / line).exists()
+            ]
 
     files: list[Path] = []
     for path in root.rglob("*"):

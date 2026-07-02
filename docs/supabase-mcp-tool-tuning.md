@@ -3,6 +3,33 @@
 This audit adds a second high-profile public MCP result that clears the
 adversarially-confirmed to add value bar.
 
+## Summary
+
+| Before | After | Result |
+|---|---|---|
+| `terse_supabase_database_mcp` scored 0.222. Baseline focus: ddl create table uses migration, ddl create index uses migration, rls policy uses migration. | `tuned_supabase_database_boundaries` scored 1.000, a 0.778 gain. | Apply this change: Clarify that `apply_migration` is required for DDL, schema changes, indexes, functions, triggers, extension enablement, and RLS policy changes. Reserve `execute_sql` for non-schema-changing SQL. Add retained cases as regression coverage. |
+
+## Recommended Actions
+
+- Apply this change: Clarify that `apply_migration` is required for DDL, schema changes, indexes, functions, triggers, extension enablement, and RLS policy changes. Reserve `execute_sql` for non-schema-changing SQL.
+- Add the 3 retained routing cases to upstream CI or release-blocking regression coverage.
+- Keep the passing cells visible so maintainers preserve behavior that already works.
+
+## Model Coverage
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Public Summary
+
+- Outcome: Confirmed improvement.
+- Focus: schema-changing SQL routing through migrations.
+- Baseline: `terse_supabase_database_mcp` at 0.222.
+- Candidate: `tuned_supabase_database_boundaries` at 1.000.
+- Delta: 0.778 against a 0.010 minimum.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
+
 ## Boundary
 
 The critical Supabase database boundary is:
@@ -87,3 +114,5 @@ migration pathway that makes changes auditable and replayable. In a real agent h
 create drift between remote state, local migrations, and reviewable code changes.
 
 The optimization is valuable because it fixes a high-impact tool-selection error before execution.
+
+</details>

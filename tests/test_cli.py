@@ -103,7 +103,7 @@ class CliTests(unittest.TestCase):
                         str(packet_dir),
                         "--markdown",
                     ],
-                    "## Value Proposition",
+                    "## Why This Matters",
                 ),
                 ("harness-checks", ["--markdown"], "# Harness Optimization Checks"),
                 ("trace-suite", ["evals/suites/agent_trace_suite.json"], '"passed": true'),

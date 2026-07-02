@@ -23,7 +23,6 @@ TEXT_SUFFIXES = {
 }
 TEXT_FILENAMES = {
     ".gitignore",
-    "AGENTS.md",
     "CLAUDE.md",
     "LICENSE",
     "Makefile",

@@ -1,5 +1,8 @@
 # Reproduction for gstack
 
+> [!NOTE]
+> This is supporting evidence for the founder handoff. Start with `PR_BODY.md` for Founder Summary, Recommended Actions, and Run This In Your Repo.
+
 ## Source Pin
 
 - commit: cd66fc2f890982351e3178925be563681d0ab2c5

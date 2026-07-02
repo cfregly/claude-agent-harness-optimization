@@ -55,7 +55,7 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
         joined = "\n".join(failures)
         self.assertIn("docs/machine.md: machine-heavy doc must end with LLM / Machine-readable details", joined)
 
-    def test_rejects_sendable_packet_without_human_summary(self):
+    def test_rejects_sendable_packet_without_founder_summary(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             _write_readme(root)
@@ -64,7 +64,7 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
             (finding / "README.md").write_text(
                 "# Sample Finding\n\n"
                 "Share link: [Sample](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/sample)\n\n"
-                "## Full Bundle\n\n"
+                "## Evidence Bundle\n\n"
                 "Bundle folder: [Sample](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/sample)\n",
                 encoding="utf-8",
             )
@@ -72,7 +72,258 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
             failures = check_human_docs(root)
 
         joined = "\n".join(failures)
-        self.assertIn("docs/findings/sample/README.md: missing ## Human Summary before artifact links", joined)
+        self.assertIn("docs/findings/sample/README.md: missing founder-handoff section ## Founder Summary", joined)
+
+    def test_rejects_sendable_packet_without_local_agent_cta(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            finding = root / "docs" / "findings" / "sample"
+            finding.mkdir(parents=True)
+            (finding / "README.md").write_text(
+                "# Sample Finding\n\n"
+                "Share link: [Sample](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/sample)\n\n"
+                "## Summary\n\n"
+                "| Before | After | Result |\n|---|---|---|\n| Before. | Suggested change: update routing. | Result. |\n\n"
+                "## Founder Summary\n\n"
+                "- Send this.\n\n"
+                "## Why This Matters\n\n"
+                "- Value proposition: useful.\n\n"
+                "## Recommended Actions\n\n"
+                "- Apply this change.\n\n"
+                "## Model Coverage\n\n"
+                "- Coverage.\n\n"
+                "## Run This In Your Repo\n\n"
+                "Run a local agent.\n\n"
+                "## Evidence Bundle\n\n"
+                "Bundle folder: [Sample](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/sample)\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn(
+            "docs/findings/sample/README.md: missing local-agent CTA marker codex exec -C /path/to/repo --sandbox read-only -",
+            joined,
+        )
+        self.assertIn(
+            "docs/findings/sample/README.md: missing local-agent CTA marker claude -p --permission-mode plan",
+            joined,
+        )
+        self.assertIn(
+            "docs/findings/sample/README.md: missing local-agent CTA marker gemini --approval-mode plan --output-format text",
+            joined,
+        )
+
+    def test_rejects_evidence_bundle_before_recommended_actions(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            packet = root / "evals" / "pr_packets" / "sample"
+            packet.mkdir(parents=True)
+            (packet / "PR_BODY.md").write_text(
+                "Suggested title: Sample\n\n"
+                "## Summary\n\n"
+                "| Before | After | Result |\n|---|---|---|\n| Before. | Suggested change: update routing. | Result. |\n\n"
+                "## Founder Summary\n\n"
+                "- Summary.\n\n"
+                "## Evidence Bundle\n\n"
+                "Evidence.\n\n"
+                "## Why This Matters\n\n"
+                "- Value proposition: useful.\n\n"
+                "## Recommended Actions\n\n"
+                "- Apply this change.\n\n"
+                "## Model Coverage\n\n"
+                "- Coverage.\n\n"
+                "## Run This In Your Repo\n\n"
+                "codex exec -C /path/to/repo --sandbox read-only -\n"
+                "claude -p --permission-mode plan\n"
+                "gemini --approval-mode plan --output-format text\n"
+                "Review this action-first finding:\n"
+                "Do not edit files yet.\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn("evals/pr_packets/sample/PR_BODY.md: founder-handoff sections are out of order", joined)
+        self.assertIn("evals/pr_packets/sample/PR_BODY.md: Evidence Bundle must appear after Run This In Your Repo", joined)
+
+    def test_rejects_pr_body_that_puts_founder_sections_inside_details(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            packet = root / "evals" / "pr_packets" / "sample"
+            packet.mkdir(parents=True)
+            (packet / "PR_BODY.md").write_text(
+                "Suggested title: Sample\n\n"
+                "<details>\n"
+                "<summary>LLM / Machine-readable details</summary>\n\n"
+                "## Summary\n\n"
+                "## Founder Summary\n\n"
+                "## Why This Matters\n\n"
+                "## Recommended Actions\n\n"
+                "## Model Coverage\n\n"
+                "## Run This In Your Repo\n\n"
+                "## Evidence Bundle\n\n"
+                "</details>\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn("evals/pr_packets/sample/PR_BODY.md: ## Founder Summary must appear before LLM details", joined)
+
+    def test_rejects_provider_actions_above_target_actions(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            packet = root / "evals" / "pr_packets" / "sample"
+            packet.mkdir(parents=True)
+            (packet / "PR_BODY.md").write_text(
+                "Suggested title: Sample\n\n"
+                "## Summary\n\n"
+                "| Before | After | Result |\n|---|---|---|\n| Before. | Suggested change: update routing. | Result. |\n\n"
+                "## Founder Summary\n\n"
+                "- Summary.\n\n"
+                "## Why This Matters\n\n"
+                "- Value proposition: useful.\n\n"
+                "## Recommended Actions\n\n"
+                "### Anthropic\n\n"
+                "- Add provider cases.\n\n"
+                "## Model Coverage\n\n"
+                "- Coverage.\n\n"
+                "## Run This In Your Repo\n\n"
+                "codex exec -C /path/to/repo --sandbox read-only -\n"
+                "claude -p --permission-mode plan\n"
+                "gemini --approval-mode plan --output-format text\n"
+                "Review this action-first finding:\n"
+                "Do not edit files yet.\n\n"
+                "## Evidence Bundle\n\n"
+                "Evidence.\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn(
+            "evals/pr_packets/sample/PR_BODY.md: provider-specific action sections must not appear above target-owned actions",
+            joined,
+        )
+
+    def test_rejects_duplicate_founder_sections(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            packet = root / "evals" / "pr_packets" / "sample"
+            packet.mkdir(parents=True)
+            (packet / "PR_BODY.md").write_text(
+                "Suggested title: Sample\n\n"
+                "## Summary\n\n"
+                "| Before | After | Result |\n|---|---|---|\n| Before. | Suggested change: update routing. | Result. |\n\n"
+                "## Founder Summary\n\n"
+                "- Summary.\n\n"
+                "## Why This Matters\n\n"
+                "- Value proposition: useful.\n\n"
+                "## Recommended Actions\n\n"
+                "- Apply this change.\n\n"
+                "## Run This In Your Repo\n\n"
+                "codex exec -C /path/to/repo --sandbox read-only -\n"
+                "claude -p --permission-mode plan\n"
+                "gemini --approval-mode plan --output-format text\n"
+                "Review this action-first finding:\n"
+                "Do not edit files yet.\n\n"
+                "## Model Coverage\n\n"
+                "- Coverage.\n\n"
+                "## Model Coverage\n\n"
+                "- Duplicate coverage.\n\n"
+                "## Evidence Bundle\n\n"
+                "Evidence.\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn("evals/pr_packets/sample/PR_BODY.md: duplicate founder-handoff section ## Model Coverage", joined)
+
+    def test_rejects_pr_reproduction_without_supporting_evidence_note(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            packet = root / "evals" / "pr_packets" / "sample"
+            packet.mkdir(parents=True)
+            (packet / "REPRODUCTION.md").write_text(
+                "# Reproduction\n\n"
+                "## Command\n\n"
+                "```bash\n"
+                "python -m claude_agent_harness_opt model-matrix evals/model_matrix/sample.json\n"
+                "```\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn(
+            "evals/pr_packets/sample/REPRODUCTION.md: supporting evidence doc must say so in the first 24 lines",
+            joined,
+        )
+        self.assertIn(
+            "evals/pr_packets/sample/REPRODUCTION.md: supporting evidence doc must point readers to the action-first doc",
+            joined,
+        )
+        self.assertIn(
+            "evals/pr_packets/sample/REPRODUCTION.md: supporting evidence doc must name the action-first entrypoint (PR_BODY.md)",
+            joined,
+        )
+
+    def test_rejects_company_summary_doc_without_action_table(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            docs = root / "docs"
+            docs.mkdir()
+            (docs / "confirmed-improvements.md").write_text(
+                "# Confirmed Improvements\n\n"
+                "## Finding Summaries\n\n"
+                "| Target | Finding |\n"
+                "|---|---|\n"
+                "| Sample | Link |\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn("docs/confirmed-improvements.md: missing ## Summary", joined)
+
+    def test_rejects_company_summary_doc_without_suggested_change(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            _write_readme(root)
+            docs = root / "docs"
+            docs.mkdir()
+            (docs / "confirmed-improvements.md").write_text(
+                "# Confirmed Improvements\n\n"
+                "## Summary\n\n"
+                "| Target | Before | After | Result |\n"
+                "|---|---|---|---|\n"
+                "| Sample | Baseline failed. | Candidate passed. | Add tests. |\n",
+                encoding="utf-8",
+            )
+
+            failures = check_human_docs(root)
+
+        joined = "\n".join(failures)
+        self.assertIn(
+            "docs/confirmed-improvements.md: action summary table must show suggested changes or explicit no-change guardrails",
+            joined,
+        )
 
     def test_allows_findings_index_shareable_bundle_table_before_llm_details(self):
         with tempfile.TemporaryDirectory() as temp_dir:

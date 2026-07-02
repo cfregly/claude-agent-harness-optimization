@@ -158,9 +158,17 @@ def build_parser() -> argparse.ArgumentParser:
     upstream_pr_parser.add_argument("--target-name", required=True, help="upstream project or tool name")
     upstream_pr_parser.add_argument("--target-repo", default="", help="upstream repository URL")
     upstream_pr_parser.add_argument("--change-summary", default="", help="one sentence patch summary")
+    upstream_pr_parser.add_argument(
+        "--target-action",
+        action="append",
+        default=[],
+        help="repeatable target-owned action to include in the founder handoff",
+    )
     upstream_pr_parser.add_argument("--baseline-variant", default="", help="baseline tool variant name")
     upstream_pr_parser.add_argument("--candidate-variant", default="", help="candidate tool variant name")
     upstream_pr_parser.add_argument("--evidence-url", default="", help="canonical evidence URL")
+    upstream_pr_parser.add_argument("--finding-url", default="", help="public founder finding URL")
+    upstream_pr_parser.add_argument("--packet-url", default="", help="public PR packet folder URL")
     upstream_pr_parser.add_argument("--minimum-delta", type=float, default=0.01)
     upstream_pr_parser.add_argument("--out-dir", type=Path, help="directory for PR_BODY and evidence files")
     upstream_pr_parser.add_argument("--markdown", action="store_true", help="print PR body only")
@@ -438,7 +446,10 @@ def main(argv: list[str] | None = None) -> int:
                 candidate_variant=args.candidate_variant,
                 change_summary=args.change_summary,
                 evidence_url=args.evidence_url,
+                finding_url=args.finding_url,
                 minimum_delta=max(0.0, args.minimum_delta),
+                packet_url=args.packet_url,
+                target_actions=tuple(args.target_action),
                 target_name=args.target_name,
                 target_repo=args.target_repo,
             ),

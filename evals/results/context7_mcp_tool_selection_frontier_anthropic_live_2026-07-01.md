@@ -3,10 +3,10 @@
 Passed: no
 Live: yes
 
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
+This retained receipt uses the accessible `claude-opus-4-8` profile.
 
 > [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+> Current receipt status: 18 cells, 16 passed, 2 failed, 0 errors. Provider-credit exhaustion is not present in this receipt.
 
 ## Matrix Summary
 

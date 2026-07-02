@@ -96,24 +96,24 @@
   ],
   "cells": [
     {
-      "errors": 7,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
-      "passed": 0,
+      "passed": 7,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
-      "errors": 7,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
-      "passed": 0,
+      "passed": 7,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "source_tuned_openwork_ui_mcp"
     }
@@ -134,173 +134,369 @@
   "matrix": "openwork ui mcp tool-selection matrix",
   "matrix_path": "evals/model_matrix/openwork_ui_mcp_tool_selection.json",
   "max_cases": null,
-  "passed": false,
+  "passed": true,
   "results": [
     {
+      "arg_details": [],
       "case": "bridge check uses status",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDUU2RiET1Vq1hEu3\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to check whether OpenWork is running and the desktop bridge is reachable, which is exactly what ui_status does by returning connection status and app info.",
+        "tool_name": "ui_status"
+      },
+      "chosen_tools": [
+        "ui_status"
+      ],
+      "elapsed_ms": 2250,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "unknown current screen uses snapshot",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDmaZjbnhEsX4PuBD\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.95,
+        "rationale": "The task asks for the current screen (route) and the visible actions available, which is exactly what ui_snapshot returns\u2014current UI state including route, narration, visible actions, and status.",
+        "tool_name": "ui_snapshot"
+      },
+      "chosen_tools": [
+        "ui_snapshot"
+      ],
+      "elapsed_ms": 2015,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "action discovery uses list actions",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDfsueuDhZGf7NmAC\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.95,
+        "rationale": "The task asks to enumerate every executable OpenWork UI action id along with their required arguments. ui_list_actions is purpose-built to list all UI control actions and their action ids, which directly satisfies this request.",
+        "tool_name": "ui_list_actions"
+      },
+      "chosen_tools": [
+        "ui_list_actions"
+      ],
+      "elapsed_ms": 6320,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [
+        "actionId: passed"
+      ],
       "case": "known action id executes action",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvGbF68nJRGHTZ1AHJ\"}",
+      "choice": {
+        "arguments": {
+          "actionId": "composer.submit",
+          "args": {
+            "confirm": true
+          }
+        },
+        "confidence": 0.97,
+        "rationale": "The task specifies executing a known UI action by id with given args, which directly matches ui_execute_action's purpose and schema.",
+        "tool_name": "ui_execute_action"
+      },
+      "chosen_tools": [
+        "ui_execute_action"
+      ],
+      "elapsed_ms": 3203,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "unknown action id lists actions first",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDTyR5VKWKqUpvic1\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.82,
+        "rationale": "The task requires typing text into the composer but the action id and argument shape are unknown. ui_list_actions enumerates available action ids that can be passed to ui_execute_action, letting us discover the correct composer action and its required arguments before executing anything.",
+        "tool_name": "ui_list_actions"
+      },
+      "chosen_tools": [
+        "ui_list_actions"
+      ],
+      "elapsed_ms": 3428,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "coordinate click avoids semantic bridge",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDXhJXqakXDAk9GM1\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.95,
+        "rationale": "The task requires clicking a raw pixel coordinate (400,300) without using a semantic action id. The available OpenWork UI tools only support semantic action control (ui_execute_action requires an actionId), status/snapshot inspection, and action listing. None of them accept raw pixel coordinates, and the task explicitly forbids using a semantic action id, so no provided tool can safely perform this coordinate-based click.",
+        "tool_name": "NO_TOOL"
+      },
+      "chosen_tools": [
+        "NO_TOOL"
+      ],
+      "elapsed_ms": 3148,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "app maybe closed checks status before action",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDkqWye7py1YsZVSg\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.97,
+        "rationale": "The task explicitly requires checking the bridge/connection before doing anything else, since OpenWork may have quit. ui_status confirms whether OpenWork is running and reachable, which must precede any action like sending the composer.",
+        "tool_name": "ui_status"
+      },
+      "chosen_tools": [
+        "ui_status"
+      ],
+      "elapsed_ms": 2894,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "docs_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "bridge check uses status",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvDgsGi1CHfyo98fXt\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.98,
+        "rationale": "The user explicitly wants to verify whether OpenWork is running and whether the local desktop bridge is reachable, which is exactly the connectivity check ui_status performs.",
+        "tool_name": "ui_status"
+      },
+      "chosen_tools": [
+        "ui_status"
+      ],
+      "elapsed_ms": 2452,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "unknown current screen uses snapshot",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvEbBziDCEAhdi1CRg\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.97,
+        "rationale": "The user explicitly asks what screen they are on and which visible actions are available, which is exactly what ui_snapshot returns (current route, narration, and visible actions).",
+        "tool_name": "ui_snapshot"
+      },
+      "chosen_tools": [
+        "ui_snapshot"
+      ],
+      "elapsed_ms": 2056,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "action discovery uses list actions",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvEfQN24hokAAQJ24A\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks to enumerate every executable OpenWork UI action id along with the arguments each requires, which is exactly the purpose of ui_list_actions.",
+        "tool_name": "ui_list_actions"
+      },
+      "chosen_tools": [
+        "ui_list_actions"
+      ],
+      "elapsed_ms": 2377,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     },
     {
+      "arg_details": [
+        "actionId: passed"
+      ],
       "case": "known action id executes action",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvFCQcfDhi1KbDwhWy\"}",
+      "choice": {
+        "arguments": {
+          "actionId": "composer.submit",
+          "args": {
+            "confirm": true
+          }
+        },
+        "confidence": 0.9,
+        "rationale": "The task provides a known, valid action id (composer.submit) with the required arguments explicitly specified. This matches ui_execute_action's use case for executing a known semantic action with args available, so discovery or snapshot steps are unnecessary.",
+        "tool_name": "ui_execute_action"
+      },
+      "chosen_tools": [
+        "ui_execute_action"
+      ],
+      "elapsed_ms": 3002,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "unknown action id lists actions first",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvNjLDpYg3gtfNqqwT\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.85,
+        "rationale": "The user wants to type text into the composer but doesn't know the action id or required argument shape. ui_list_actions discovers valid action ids and their required args, which is the necessary prerequisite before executing any action. ui_execute_action would be premature since the action id and argument structure are unknown.",
+        "tool_name": "ui_list_actions"
+      },
+      "chosen_tools": [
+        "ui_list_actions"
+      ],
+      "elapsed_ms": 3855,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "coordinate click avoids semantic bridge",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvErp98zNd4xzt5UiL\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.95,
+        "rationale": "The task explicitly requests a raw pixel-coordinate click (400,300) and forbids using a semantic action id. None of the available tools support coordinate-based clicking; ui_execute_action only performs semantic actions by known action id and explicitly must avoid coordinate clicks. Executing coordinate clicks is outside the safe capability boundary of this OpenWork UI-control surface, so no tool can safely perform this step.",
+        "tool_name": "NO_TOOL"
+      },
+      "chosen_tools": [
+        "NO_TOOL"
+      ],
+      "elapsed_ms": 3685,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     },
     {
+      "arg_details": [],
       "case": "app maybe closed checks status before action",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvF2yusUceQHApbDYP\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.97,
+        "rationale": "The user explicitly stated OpenWork may have quit and asked to check the bridge before doing anything else. ui_status verifies app and bridge reachability, which is the required first step before attempting any action.",
+        "tool_name": "ui_status"
+      },
+      "chosen_tools": [
+        "ui_status"
+      ],
+      "elapsed_ms": 2198,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "openwork_ui_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_openwork_ui_mcp"
     }
@@ -314,11 +510,11 @@
     "yc": "OpenWork, YC P2026"
   },
   "summary": {
-    "errors": 14,
+    "errors": 0,
     "failed_cases": 0,
-    "passed_cases": 0,
+    "passed_cases": 14,
     "planned": 14,
-    "score": 0.0,
+    "score": 1.0,
     "skipped": 0,
     "total": 14
   }

@@ -28,7 +28,20 @@ class PrPacketTests(unittest.TestCase):
                     target_name="Example MCP",
                     target_repo="https://github.com/example/mcp",
                     change_summary="Clarify when to call the tuned tool.",
+                    evidence_url=(
+                        "https://github.com/cfregly/claude-agent-harness-opt/blob/main/"
+                        "evals/results/example.json"
+                    ),
+                    finding_url=(
+                        "https://github.com/cfregly/claude-agent-harness-opt/tree/main/"
+                        "docs/findings/example"
+                    ),
                     minimum_delta=0.1,
+                    packet_url=(
+                        "https://github.com/cfregly/claude-agent-harness-opt/tree/main/"
+                        "evals/pr_packets/example"
+                    ),
+                    target_actions=("Add an explicit tuned-tool routing regression.",),
                 ),
             )
             body = packet["files"]["PR_BODY.md"]
@@ -36,8 +49,37 @@ class PrPacketTests(unittest.TestCase):
             self.assertTrue(packet["passed"])
             self.assertEqual("Tighten Example MCP retrieval routing with live evals\n", title)
             self.assertIn("Suggested title: Tighten Example MCP retrieval routing with live evals", body)
-            self.assertIn("## Value Proposition", body)
-            self.assertIn("Helps agents choose the intended Example MCP workflow", body)
+            self.assertIn("## Summary", body)
+            self.assertLess(body.index("## Summary"), body.index("## Founder Summary"))
+            self.assertIn("## Founder Summary", body)
+            self.assertIn("| Before | After | Result |", body)
+            self.assertIn("| `stock` scored 0.000", body)
+            self.assertIn(
+                "Suggested change: Clarify when to call the tuned tool.<br>Add an explicit tuned-tool routing regression.",
+                body,
+            )
+            self.assertIn("`tuned` scored 1.000, a 1.000 gain. Add retained cases as regression coverage.", body)
+            self.assertIn("## Why This Matters", body)
+            self.assertIn("helps agents choose the intended Example MCP workflow", body)
+            self.assertIn("## Recommended Actions", body)
+            self.assertIn("Apply this change: Clarify when to call the tuned tool.", body)
+            self.assertIn("Add an explicit tuned-tool routing regression.", body)
+            self.assertIn("## Model Coverage", body)
+            self.assertIn("| Anthropic | `stock` 0/1 passed, 1 failed, 0 errors.", body)
+            self.assertIn("Provider/model rows are evidence lanes", body)
+            self.assertIn("## Run This In Your Repo", body)
+            self.assertLess(body.index("## Recommended Actions"), body.index("## Run This In Your Repo"))
+            self.assertLess(body.index("## Run This In Your Repo"), body.index("## Model Coverage"))
+            self.assertLess(body.index("## Model Coverage"), body.index("## Evidence Bundle"))
+            self.assertIn("codex exec -C /path/to/repo --sandbox read-only -", body)
+            self.assertIn("claude -p --permission-mode plan", body)
+            self.assertIn("gemini --approval-mode plan --output-format text", body)
+            self.assertIn("Review this action-first finding:", body)
+            self.assertIn("https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/example", body)
+            self.assertIn("## Evidence Bundle", body)
+            self.assertIn("evals/pr_packets/example/evidence.json", body)
+            self.assertNotIn("## Actions By Company", body)
+            self.assertNotIn("### Anthropic", body)
             self.assertIn("## What Already Works", body)
             self.assertIn("## How This Is Proven Useful", body)
             self.assertIn("## Current Frontier Coverage", body)
@@ -64,6 +106,9 @@ class PrPacketTests(unittest.TestCase):
             self.assertTrue(Path(written["PR_BODY.md"]).exists())
             self.assertTrue(Path(written["REPRODUCTION.md"]).exists())
             self.assertTrue(Path(written["evidence.json"]).exists())
+            reproduction = Path(written["REPRODUCTION.md"]).read_text(encoding="utf-8")
+            self.assertIn("This is supporting evidence for the founder handoff", reproduction)
+            self.assertIn("Start with `PR_BODY.md` for Founder Summary, Recommended Actions, and Run This In Your Repo", reproduction)
 
     def test_frontier_cells_are_called_out_separately(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -91,6 +136,41 @@ class PrPacketTests(unittest.TestCase):
             self.assertIn("Frontier-only score moved from 0.000 to 1.000", body)
             self.assertIn("Frontier profiles covered: provider-frontier", body)
             self.assertIn("Use frontier cells for upstream-facing claims", body)
+
+    def test_guardrail_packet_keeps_cta_but_does_not_promote_change(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = _sample_result()
+            for cell in result["cells"]:
+                cell["passed"] = 1
+                cell["failed"] = 0
+                cell["score"] = 1.0
+            result["summary"] = {"errors": 0, "failed_cases": 0, "passed_cases": 2, "score": 1.0, "total": 2}
+            result_path = Path(tmp) / "result.json"
+            result_path.write_text(json.dumps(result), encoding="utf-8")
+            packet = build_upstream_pr_packet(
+                result_path,
+                options=PacketOptions(
+                    baseline_variant="stock",
+                    candidate_variant="tuned",
+                    target_name="Example MCP",
+                    minimum_delta=0.1,
+                ),
+            )
+
+            body = packet["files"]["PR_BODY.md"]
+            self.assertFalse(packet["passed"])
+            self.assertIn("No suggested wording change from this slice. No upstream change is promoted.", body)
+            self.assertIn("- No upstream change is promoted from this slice.", body)
+            self.assertIn("`tuned` also scored 1.000. Keep the cases as regression coverage.", body)
+            self.assertIn("Keep the selected cases below as regression coverage", body)
+            self.assertIn("## Run This In Your Repo", body)
+            self.assertIn("Review this action-first finding:", body)
+            self.assertIn("## Model Coverage", body)
+            self.assertLess(body.index("## Recommended Actions"), body.index("## Run This In Your Repo"))
+            self.assertLess(body.index("## Run This In Your Repo"), body.index("## Model Coverage"))
+            self.assertNotIn("0.000 gain", body)
+            self.assertNotIn("## Actions By Company", body)
+            self.assertNotIn("Apply this change:", body)
 
     def test_cli_upstream_pr_packet(self):
         with tempfile.TemporaryDirectory() as tmp:

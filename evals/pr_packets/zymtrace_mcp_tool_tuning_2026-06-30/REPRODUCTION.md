@@ -1,5 +1,8 @@
 # Reproduction for Zymtrace MCP
 
+> [!NOTE]
+> This is supporting evidence for the founder handoff. Start with `PR_BODY.md` for Founder Summary, Recommended Actions, and Run This In Your Repo.
+
 ## Source Pin
 
 - default project id: 00000000-0000-0000-0000-000000000000
@@ -23,7 +26,7 @@ python -m claude_agent_harness_opt model-matrix evals/model_matrix/zymtrace_mcp_
 python -m claude_agent_harness_opt model-matrix evals/model_matrix/zymtrace_mcp_tool_selection.json --env-file .env --live --require-live --providers openai-gpt55-frontier,gemini-31-pro-customtools-frontier --harnesses prompt_json --variants stock_zymtrace_mcp,tuned_zymtrace_mcp_boundaries --out evals/results/zymtrace_mcp_frontier_available_matrix_live_2026-07-01.json --concurrency 8
 ```
 
-Anthropic frontier was attempted separately. `claude-fable-5` remained unavailable to the provided key. The newly provided key passed a `claude-opus-4-8` smoke test, then later sweep cells hit Anthropic API credit exhaustion.
+Anthropic frontier was retried separately. `claude-fable-5` remained unavailable to the provided key. The accessible `claude-opus-4-8` receipt now completes with 118 passed, 18 failed, and 0 errors.
 
 
 ## Current Frontier Stress Receipt
@@ -32,7 +35,7 @@ Anthropic frontier was attempted separately. `claude-fable-5` remained unavailab
 - JSON: [zymtrace_mcp_frontier_available_matrix_live_2026-07-01.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_frontier_available_matrix_live_2026-07-01.json)
 - All retained available-frontier receipts: [frontier-stress-2026-07-01.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/frontier-stress-2026-07-01.md)
 
-The retained current available-frontier run uses OpenAI `gpt-5.5` and Gemini `gemini-3.1-pro-preview-customtools`. Anthropic Opus receipts are retained separately after the new key passed smoke testing; later Anthropic calls hit credit exhaustion where shown in the receipts.
+The retained current available-frontier run uses OpenAI `gpt-5.5` and Gemini `gemini-3.1-pro-preview-customtools`. Anthropic Opus receipts are retained separately on accessible `claude-opus-4-8`; the current MCP Opus receipts have 0 provider errors, and remaining failed rows are model-selection findings.
 
 - Anthropic Opus summary: [zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md)
 - Anthropic Opus JSON: [zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json)

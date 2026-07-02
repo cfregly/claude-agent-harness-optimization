@@ -3,6 +3,33 @@
 This page records a YC P2026 MCP optimization that cleared the
 adversarially-confirmed to add value bar.
 
+## Summary
+
+| Before | After | Result |
+|---|---|---|
+| `readme_insforge_mcp` scored 0.938. Baseline focus: relative deploy path avoids tool. | `source_tuned_insforge_mcp` scored 1.000, a 0.062 gain. | Apply this change: Clarify that `create-deployment` requires an absolute `sourceDirectory` and must be avoided for relative paths, starter-template creation, deployment status lookup, or remote prepared-deployment triggering. Add retained cases as regression coverage. |
+
+## Recommended Actions
+
+- Apply this change: Clarify that `create-deployment` requires an absolute `sourceDirectory` and must be avoided for relative paths, starter-template creation, deployment status lookup, or remote prepared-deployment triggering.
+- Add the 16 retained routing cases to upstream CI or release-blocking regression coverage.
+- Keep the passing cells visible so maintainers preserve behavior that already works.
+
+## Model Coverage
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Public Summary
+
+- Outcome: Confirmed improvement.
+- Focus: absolute-source deployment safety.
+- Baseline: `readme_insforge_mcp` at 0.938.
+- Candidate: `source_tuned_insforge_mcp` at 1.000.
+- Delta: 0.062 against a 0.010 minimum.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
+
 ## Source Pin
 
 - Upstream repo: [InsForge/insforge-mcp](https://github.com/InsForge/insforge-mcp)
@@ -70,3 +97,5 @@ python scripts/optimize_mcp.py insforge \
   --cases "relative deploy path avoids tool" \
   --out /tmp/insforge-relative-deploy.md
 ```
+
+</details>

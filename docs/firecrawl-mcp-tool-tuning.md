@@ -3,6 +3,33 @@
 This audit is the first public MCP sweep result in this repo that clears the
 adversarially-confirmed to add value bar.
 
+## Summary
+
+| Before | After | Result |
+|---|---|---|
+| `legacy_firecrawl_mcp` scored 0.000. Baseline focus: single known page structured fields. | `tuned_firecrawl_mcp_boundaries` scored 1.000, a 1.000 gain. | Apply this change: Clarify that `firecrawl_scrape` handles one known page, including structured JSON fields. Reserve `firecrawl_extract` for broader multi-page structured extraction jobs. Add retained cases as regression coverage. |
+
+## Recommended Actions
+
+- Apply this change: Clarify that `firecrawl_scrape` handles one known page, including structured JSON fields. Reserve `firecrawl_extract` for broader multi-page structured extraction jobs.
+- Add the 1 retained routing case to upstream CI or release-blocking regression coverage.
+- Keep the passing cells visible so maintainers preserve behavior that already works.
+
+## Model Coverage
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Public Summary
+
+- Outcome: Confirmed improvement.
+- Focus: scrape-versus-extract routing for one known URL.
+- Baseline: `legacy_firecrawl_mcp` at 0.000.
+- Candidate: `tuned_firecrawl_mcp_boundaries` at 1.000.
+- Delta: 1.000 against a 0.010 minimum.
+
+<details>
+<summary>LLM / Machine-readable details</summary>
+
 ## Boundary
 
 The ambiguous boundary is:
@@ -105,3 +132,5 @@ The first verifier was too strict because it required the nested `formats` argum
 literal `json` string. The model chose the right tool but used a different nested shape. The eval now
 checks the tool and URL, not incidental JSON-format spelling. That keeps the test focused on tool
 selection instead of overfitting one argument shape.
+
+</details>

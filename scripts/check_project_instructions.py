@@ -8,16 +8,10 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-AGENTS = ROOT / "AGENTS.md"
 CLAUDE = ROOT / "CLAUDE.md"
 OLD_REPO_SLUGS = (
     "claude-agent-harness-optimization",
     "ai-performance-engineering",
-)
-
-AGENTS_REQUIRED_PHRASES = (
-    "See [CLAUDE.md](CLAUDE.md)",
-    "adversarially-confirmed to add value",
 )
 
 CLAUDE_REQUIRED_PHRASES = (
@@ -47,13 +41,9 @@ def main() -> int:
 
 def check_project_instructions(root: Path = ROOT) -> list[str]:
     failures: list[str] = []
-    agents = root / "AGENTS.md"
     claude = root / "CLAUDE.md"
 
-    failures.extend(_check_markdown_file(agents, root))
     failures.extend(_check_markdown_file(claude, root))
-    if agents.exists():
-        failures.extend(_check_required_phrases(agents, AGENTS_REQUIRED_PHRASES, root))
     if claude.exists():
         failures.extend(_check_required_phrases(claude, CLAUDE_REQUIRED_PHRASES, root))
         failures.extend(_check_gate_scripts(claude, root))

@@ -1,5 +1,8 @@
 # Reproduction for Screenpipe MCP Tool Tuning
 
+> [!NOTE]
+> This is supporting evidence for the founder handoff. Start with `PR_BODY.md` for Founder Summary, Recommended Actions, and Run This In Your Repo.
+
 ## Source Pin
 
 - repo: https://github.com/screenpipe/screenpipe
@@ -21,7 +24,7 @@ make optimize mcp=screenpipe OUT=evals/results/screenpipe_mcp_tool_selection_202
 - JSON: [screenpipe_mcp_tool_selection_frontier_available_live_2026-07-01.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_available_live_2026-07-01.json)
 - All retained available-frontier receipts: [frontier-stress-2026-07-01.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/frontier-stress-2026-07-01.md)
 
-The retained current available-frontier run uses OpenAI `gpt-5.5` and Gemini `gemini-3.1-pro-preview-customtools`. Anthropic Opus receipts are retained separately after the new key passed smoke testing; later Anthropic calls hit credit exhaustion where shown in the receipts.
+The retained current available-frontier run uses OpenAI `gpt-5.5` and Gemini `gemini-3.1-pro-preview-customtools`. Anthropic Opus receipts are retained separately on accessible `claude-opus-4-8`; the current MCP Opus receipts have 0 provider errors, and remaining failed rows are model-selection findings.
 
 - Anthropic Opus summary: [screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md)
 - Anthropic Opus JSON: [screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json)

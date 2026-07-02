@@ -1,44 +1,49 @@
-# Postgres mcp Pro Anthropic Frontier Live Result - 2026-07-01
+# postgres mcp pro tool-selection matrix
 
-Passed: no
 Live: yes
-
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
-
-> [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+Passed: yes
+Planned: 18
+Passed cases: 18
+Failed cases: 0
+Errors: 0
+Skipped: 0
+Score: 1.000
 
 ## Matrix Summary
 
 - total: 18
-- passed_cases: 0
+- passed_cases: 18
 - failed_cases: 0
-- errors: 18
+- errors: 0
 - skipped: 0
-- score: 0.0
+- score: 1.0
 
-## Profiles
+## Results
 
-- `anthropic-opus48-frontier`: `claude-opus-4-8`
+| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |
+|---|---|---|---|---|---|---|---|
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | discover schemas | passed | list_schemas |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | list schema objects | passed | list_objects |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | inspect table structure | passed | get_object_details |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | run ready read query | passed | execute_sql |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | get query plan | passed | explain_query |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | rank slow workload queries | passed | get_top_queries |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | workload index tuning | passed | analyze_workload_indexes |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | specific query index tuning | passed | analyze_query_indexes |
+| anthropic | claude-opus-4-8 | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | database health check | passed | analyze_db_health |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | discover schemas | passed | list_schemas |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | list schema objects | passed | list_objects |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | inspect table structure | passed | get_object_details |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | run ready read query | passed | execute_sql |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | get query plan | passed | explain_query |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | rank slow workload queries | passed | get_top_queries |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | workload index tuning | passed | analyze_workload_indexes |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | specific query index tuning | passed | analyze_query_indexes |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | database health check | passed | analyze_db_health |
 
-## Status By Profile
+## Cell Summary
 
-| Profile | Passed | Failed | Errors | Skipped |
-|---|---:|---:|---:|---:|
-| `anthropic-opus48-frontier` | 0 | 0 | 18 | 0 |
-
-## Remaining Failure Clusters
-
-- 2x `discover schemas`: status `error`, chose `error: credit balance is too low`
-- 2x `list schema objects`: status `error`, chose `error: credit balance is too low`
-- 2x `inspect table structure`: status `error`, chose `error: credit balance is too low`
-- 2x `run ready read query`: status `error`, chose `error: credit balance is too low`
-- 2x `get query plan`: status `error`, chose `error: credit balance is too low`
-- 2x `rank slow workload queries`: status `error`, chose `error: credit balance is too low`
-- 2x `workload index tuning`: status `error`, chose `error: credit balance is too low`
-- 2x `specific query index tuning`: status `error`, chose `error: credit balance is too low`
-- 2x `database health check`: status `error`, chose `error: credit balance is too low`
-
-## Machine-readable Receipt
-
-[JSON receipt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/postgres_mcp_pro_tool_selection_frontier_anthropic_live_2026-07-01.json)
+| Provider | Harness | Tool Variant | Instruction Variant | Passed | Failed | Errors | Skipped | Score |
+|---|---|---|---|---:|---:|---:|---:|---:|
+| anthropic | prompt_json | stock_postgres_mcp_pro | postgres_host_rules | 9 | 0 | 0 | 0 | 1.000 |
+| anthropic | prompt_json | tuned_postgres_mcp_pro_boundaries | postgres_host_rules | 9 | 0 | 0 | 0 | 1.000 |

@@ -202,24 +202,24 @@
   ],
   "cells": [
     {
-      "errors": 12,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
-      "passed": 0,
+      "passed": 12,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
-      "errors": 12,
+      "errors": 0,
       "failed": 0,
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
-      "passed": 0,
+      "passed": 12,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 1.0,
       "skipped": 0,
       "tool_variant": "tuned_supabase_database_boundaries"
     }
@@ -240,293 +240,779 @@
   "matrix": "supabase mcp database tool-selection matrix",
   "matrix_path": "evals/model_matrix/supabase_mcp_database_tool_selection.json",
   "max_cases": null,
-  "passed": false,
+  "passed": true,
   "results": [
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed"
+      ],
       "case": "list public tables",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKcLjwmHWeRpNefrS\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ]
+        },
+        "confidence": 0.99,
+        "rationale": "The task asks to list tables in the public schema for the given project, which is exactly what list_tables does with the schemas parameter set to public.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2412,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "verbose: passed"
+      ],
       "case": "inspect table columns",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKinjiLgmD9tPwg9h\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ],
+          "verbose": true
+        },
+        "confidence": 0.92,
+        "rationale": "The task requests structural metadata (columns, primary keys, foreign keys) for tables in the public schema. list_tables with the public schema and verbose enabled returns full table details, which is the appropriate read-only tool for inspecting schema structure.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 3162,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed"
+      ],
       "case": "list applied migrations",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKjn5RoHnFCNFEboK\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to list already-applied migrations, which is precisely the purpose of list_migrations, using the given project id.",
+        "tool_name": "list_migrations"
+      },
+      "chosen_tools": [
+        "list_migrations"
+      ],
+      "elapsed_ms": 2328,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed"
+      ],
       "case": "list installed extensions",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwLALEEDssSGA6wmeY\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly asks to list installed Postgres extensions for project proj_abc, which is exactly the purpose of list_extensions.",
+        "tool_name": "list_extensions"
+      },
+      "chosen_tools": [
+        "list_extensions"
+      ],
+      "elapsed_ms": 2706,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "run read only report query",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKoFcR91mJBydEFbe\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "query": "SELECT status, count(*) FROM orders GROUP BY status;"
+        },
+        "confidence": 0.97,
+        "rationale": "The task is to run an ad-hoc read-only SQL report, which matches execute_sql for raw SQL execution. It is not a schema change, so apply_migration is inappropriate.",
+        "tool_name": "execute_sql"
+      },
+      "chosen_tools": [
+        "execute_sql"
+      ],
+      "elapsed_ms": 2731,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "ddl create table uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKjnJiUBpnXEqnz7g\"}",
+      "choice": {
+        "arguments": {
+          "name": "create_audit_events_table",
+          "project_id": "proj_abc",
+          "query": "CREATE TABLE public.audit_events (id bigint generated always as identity primary key, created_at timestamptz default now());"
+        },
+        "confidence": 0.9,
+        "rationale": "The SQL is a DDL statement that creates a new table, which is a schema-changing operation. Such structural changes should be tracked via migrations using apply_migration rather than run as raw SQL through execute_sql.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 3342,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "ddl alter table uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKo1Bc6Sbn1G9WPxm\"}",
+      "choice": {
+        "arguments": {
+          "name": "add_archived_at_to_orders",
+          "project_id": "proj_abc",
+          "query": "ALTER TABLE public.orders ADD COLUMN archived_at timestamptz;"
+        },
+        "confidence": 0.95,
+        "rationale": "The task is a schema change (DDL ALTER TABLE), which should be applied as a tracked migration rather than raw SQL execution. apply_migration records the change with a descriptive snake_case name.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 2900,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "ddl create index uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwKmWjqYH1AkmPYrGg\"}",
+      "choice": {
+        "arguments": {
+          "name": "create_orders_customer_id_idx",
+          "project_id": "proj_abc",
+          "query": "CREATE INDEX orders_customer_id_idx ON public.orders(customer_id);"
+        },
+        "confidence": 0.82,
+        "rationale": "The SQL is a DDL statement (CREATE INDEX) that alters the database schema, which should be tracked as a migration rather than run as ad-hoc SQL. apply_migration is the appropriate tool for persistent schema changes.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 3613,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "rls policy uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwLnHgzqMbgHpWscdT\"}",
+      "choice": {
+        "arguments": {
+          "name": "add_select_own_profiles_rls_policy",
+          "project_id": "proj_abc",
+          "query": "ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;\n\nCREATE POLICY \"Users can select their own profiles\"\nON public.profiles\nFOR SELECT\nTO authenticated\nUSING (auth.uid() = user_id);"
+        },
+        "confidence": 0.85,
+        "rationale": "Adding an RLS policy is a schema/DDL change that should be tracked as a migration for reproducibility and version history, which is exactly what apply_migration is for. execute_sql would run the change untracked, so apply_migration is the correct choice.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 3979,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed"
+      ],
       "case": "unknown relation error inspects schema",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwRkBZR6nSEv2on9Cy\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ]
+        },
+        "confidence": 0.98,
+        "rationale": "The task requires inspecting the public schema tables to find the correct table name after a query failed due to a nonexistent relation. list_tables lists all tables within specified schemas, exactly matching this need.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2451,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed",
+        "verbose: passed"
+      ],
       "case": "table inventory concise skips verbose",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwLtVCL1heKxZLgHRM\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ],
+          "verbose": false
+        },
+        "confidence": 0.95,
+        "rationale": "The task requires listing only public table names concisely without column, primary key, or foreign key details. list_tables targets the specified schema (public), and verbose=false keeps the output minimal by excluding full details.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2276,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed",
+        "verbose: passed"
+      ],
       "case": "schema metadata before select star",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwLvU3H43qMFWTMrD8\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ],
+          "verbose": true
+        },
+        "confidence": 0.94,
+        "rationale": "The task requires inspecting schema metadata (columns) before writing a SELECT, explicitly avoiding running SELECT *. list_tables with verbose details on the public schema returns table and column metadata without executing queries.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2757,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "terse_supabase_database_mcp"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed"
+      ],
       "case": "list public tables",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwLvU9EiBA2ATw3q5W\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ]
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks to list tables in the public schema, which is exactly what list_tables does. Verbose is not needed since only table names are requested.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2265,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "verbose: passed"
+      ],
       "case": "inspect table columns",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwLxTSfSe5z5gH2Aoe\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ],
+          "verbose": true
+        },
+        "confidence": 0.98,
+        "rationale": "The task requests columns, primary keys, and foreign keys for tables in the public schema, which is exactly what list_tables provides; verbose is set true because column and relationship details are needed.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2749,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed"
+      ],
       "case": "list applied migrations",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwMHJDBsbYCfCT9YvE\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc"
+        },
+        "confidence": 0.99,
+        "rationale": "The task asks to list applied migrations for a specific project, which directly matches list_migrations' purpose of listing recorded migration history.",
+        "tool_name": "list_migrations"
+      },
+      "chosen_tools": [
+        "list_migrations"
+      ],
+      "elapsed_ms": 2136,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed"
+      ],
       "case": "list installed extensions",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwMYveH9vJwM5JRVvi\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc"
+        },
+        "confidence": 1.0,
+        "rationale": "The task explicitly asks to list installed Postgres extensions for project proj_abc, which is exactly what list_extensions does.",
+        "tool_name": "list_extensions"
+      },
+      "chosen_tools": [
+        "list_extensions"
+      ],
+      "elapsed_ms": 2202,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "run read only report query",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwN4S17sbHesCBR1n1\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "query": "SELECT status, count(*) FROM orders GROUP BY status;"
+        },
+        "confidence": 0.99,
+        "rationale": "The task is a read-only SELECT report that aggregates data without changing schema, which matches execute_sql's purpose.",
+        "tool_name": "execute_sql"
+      },
+      "chosen_tools": [
+        "execute_sql"
+      ],
+      "elapsed_ms": 2404,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "ddl create table uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwN3wPzycYNfNjZ9De\"}",
+      "choice": {
+        "arguments": {
+          "name": "create_audit_events_table",
+          "project_id": "proj_abc",
+          "query": "CREATE TABLE public.audit_events (id bigint generated always as identity primary key, created_at timestamptz default now());"
+        },
+        "confidence": 0.99,
+        "rationale": "The SQL is a CREATE TABLE DDL statement that changes the database schema, which should be tracked as a migration via apply_migration rather than execute_sql.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 3176,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "ddl alter table uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwN4vgnd63Ry2i4GVT\"}",
+      "choice": {
+        "arguments": {
+          "name": "add_archived_at_to_orders",
+          "project_id": "proj_abc",
+          "query": "ALTER TABLE public.orders ADD COLUMN archived_at timestamptz;"
+        },
+        "confidence": 0.98,
+        "rationale": "The task is a DDL schema change (ALTER TABLE ADD COLUMN), which should be applied as a tracked migration. apply_migration is designed for schema-changing SQL, and a snake_case name describes the change.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 4257,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "ddl create index uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwN9tF2YWWz3CM8knq\"}",
+      "choice": {
+        "arguments": {
+          "name": "create_orders_customer_id_idx",
+          "project_id": "proj_abc",
+          "query": "CREATE INDEX orders_customer_id_idx ON public.orders(customer_id);"
+        },
+        "confidence": 0.97,
+        "rationale": "The task is a schema-changing DDL statement (CREATE INDEX), which should be applied as a tracked migration via apply_migration rather than execute_sql.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 2890,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "query: passed"
+      ],
       "case": "rls policy uses migration",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwNCcTEMrd8WeCFFcy\"}",
+      "choice": {
+        "arguments": {
+          "name": "add_select_own_profiles_policy",
+          "project_id": "proj_abc",
+          "query": "CREATE POLICY \"Users can select their own profiles\" ON public.profiles FOR SELECT USING (auth.uid() = id);"
+        },
+        "confidence": 0.95,
+        "rationale": "Adding an RLS policy is a schema-changing DDL operation that should be tracked as a migration, which apply_migration handles; execute_sql is explicitly discouraged for policy changes.",
+        "tool_name": "apply_migration"
+      },
+      "chosen_tools": [
+        "apply_migration"
+      ],
+      "elapsed_ms": 3378,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed"
+      ],
       "case": "unknown relation error inspects schema",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwNTVhYU5CKUmVBa7d\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ]
+        },
+        "confidence": 0.97,
+        "rationale": "The task requires inspecting tables in the public schema to find the correct table name after a query failed due to a nonexistent relation. list_tables is designed for listing tables in a schema, and verbose is not needed since only table names are required.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2704,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed",
+        "verbose: passed"
+      ],
       "case": "table inventory concise skips verbose",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwPMKTXK81bBTJNtKz\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ],
+          "verbose": false
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks to list public table names concisely without columns, primary keys, or foreign keys, which matches list_tables with verbose set to false and schemas limited to public.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2522,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     },
     {
+      "arg_details": [
+        "project_id: passed",
+        "schemas: passed",
+        "verbose: passed"
+      ],
       "case": "schema metadata before select star",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPwPXEkGQLnt6wxoVzR\"}",
+      "choice": {
+        "arguments": {
+          "project_id": "proj_abc",
+          "schemas": [
+            "public"
+          ],
+          "verbose": true
+        },
+        "confidence": 0.97,
+        "rationale": "The task requires inspecting column metadata in the public schema before writing a SELECT. list_tables with verbose true returns columns and relationships, which matches the need without executing SQL.",
+        "tool_name": "list_tables"
+      },
+      "chosen_tools": [
+        "list_tables"
+      ],
+      "elapsed_ms": 2694,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "supabase_database_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_supabase_database_boundaries"
     }
@@ -541,11 +1027,11 @@
     "version": "0.8.2"
   },
   "summary": {
-    "errors": 24,
+    "errors": 0,
     "failed_cases": 0,
-    "passed_cases": 0,
+    "passed_cases": 24,
     "planned": 24,
-    "score": 0.0,
+    "score": 1.0,
     "skipped": 0,
     "total": 24
   }

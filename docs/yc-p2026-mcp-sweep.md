@@ -3,6 +3,15 @@
 This page tracks the YC Spring/P2026 MCP surfaces found during the public sweep and whether their
 tool descriptions produced an adversarially-confirmed to add value improvement.
 
+## Summary
+
+| Company | Before | After | Result |
+|---|---|---|---|
+| InsForge | README-level descriptions passed 15/16 but called `create-deployment` for a relative source path. | Suggested change: Require an absolute `sourceDirectory`. Reject relative paths before calling `create-deployment`. | Source-tuned descriptions passed 16/16 and chose `NO_TOOL` for the same relative-path deployment request. |
+| Humwork | README-level descriptions passed 7/7 on the tested expert-consultation and no-tool cases. | No suggested wording change from this slice. No upstream change is promoted. | Skill-tuned descriptions also passed 7/7. Keep cases as guardrail coverage. |
+| OpenWork | Docs-level descriptions passed 7/7 on the tested UI bridge and no-tool cases. | No suggested wording change from this slice. No upstream change is promoted. | Source-tuned descriptions also passed 7/7. Keep cases as guardrail coverage. |
+| Screenpipe | README-level descriptions passed 6/7 but routed exact keyword lookup to `search-content`. | Suggested change: Treat this as a broader YC S26/public-MCP action, not a Spring/P2026 result: route exact phrases to `keyword-search`. | Source-level tuned descriptions passed 7/7 and routed exact keyword lookup to `keyword-search`. |
+
 ## Implemented Targets
 
 | Company | Public MCP Surface | Matrix | Live Result |

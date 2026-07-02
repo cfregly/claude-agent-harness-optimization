@@ -1,45 +1,57 @@
-# Playwright mcp Anthropic Frontier Live Result - 2026-07-01
+# playwright mcp tool-selection matrix
 
-Passed: no
 Live: yes
-
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
-
-> [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+Passed: no
+Planned: 26
+Passed cases: 24
+Failed cases: 2
+Errors: 0
+Skipped: 0
+Score: 0.923
 
 ## Matrix Summary
 
 - total: 26
-- passed_cases: 0
-- failed_cases: 0
-- errors: 26
+- passed_cases: 24
+- failed_cases: 2
+- errors: 0
 - skipped: 0
-- score: 0.0
+- score: 0.923
 
-## Profiles
+## Results
 
-- `anthropic-opus48-frontier`: `claude-opus-4-8`
+| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |
+|---|---|---|---|---|---|---|---|
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | navigate to url | passed | browser_navigate |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | inspect page for actionable refs | failed | browser_snapshot |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | capture full page visual proof | passed | browser_take_screenshot |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | click known target | passed | browser_click |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | type search and submit | passed | browser_type |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | fill multi field form | passed | browser_fill_form |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | select dropdown option | passed | browser_select_option |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | wait for success text | passed | browser_wait_for |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | evaluate local storage | passed | browser_evaluate |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | press escape key | passed | browser_press_key |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | list api network requests | passed | browser_network_requests |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | inspect numbered network request | passed | browser_network_request |
+| anthropic | claude-opus-4-8 | prompt_json | stock_playwright_mcp | playwright_host_rules | get console errors | passed | browser_console_messages |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | navigate to url | passed | browser_navigate |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | inspect page for actionable refs | failed | browser_snapshot |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | capture full page visual proof | passed | browser_take_screenshot |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | click known target | passed | browser_click |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | type search and submit | passed | browser_type |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | fill multi field form | passed | browser_fill_form |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | select dropdown option | passed | browser_select_option |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | wait for success text | passed | browser_wait_for |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | evaluate local storage | passed | browser_evaluate |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | press escape key | passed | browser_press_key |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | list api network requests | passed | browser_network_requests |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | inspect numbered network request | passed | browser_network_request |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | get console errors | passed | browser_console_messages |
 
-## Status By Profile
+## Cell Summary
 
-| Profile | Passed | Failed | Errors | Skipped |
-|---|---:|---:|---:|---:|
-| `anthropic-opus48-frontier` | 0 | 0 | 26 | 0 |
-
-## Remaining Failure Clusters
-
-- 2x `navigate to url`: status `error`, chose `error: credit balance is too low`
-- 2x `inspect page for actionable refs`: status `error`, chose `error: credit balance is too low`
-- 2x `capture full page visual proof`: status `error`, chose `error: credit balance is too low`
-- 2x `click known target`: status `error`, chose `error: credit balance is too low`
-- 2x `type search and submit`: status `error`, chose `error: credit balance is too low`
-- 2x `fill multi field form`: status `error`, chose `error: credit balance is too low`
-- 2x `select dropdown option`: status `error`, chose `error: credit balance is too low`
-- 2x `wait for success text`: status `error`, chose `error: credit balance is too low`
-- 2x `evaluate local storage`: status `error`, chose `error: credit balance is too low`
-- 2x `press escape key`: status `error`, chose `error: credit balance is too low`
-
-## Machine-readable Receipt
-
-[JSON receipt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/playwright_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json)
+| Provider | Harness | Tool Variant | Instruction Variant | Passed | Failed | Errors | Skipped | Score |
+|---|---|---|---|---:|---:|---:|---:|---:|
+| anthropic | prompt_json | stock_playwright_mcp | playwright_host_rules | 12 | 1 | 0 | 0 | 0.923 |
+| anthropic | prompt_json | tuned_playwright_mcp_boundaries | playwright_host_rules | 12 | 1 | 0 | 0 | 0.923 |

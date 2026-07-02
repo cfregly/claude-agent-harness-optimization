@@ -5,6 +5,9 @@ This page points maintainers to current frontier receipts for every retained MCP
 > [!NOTE]
 > Use these receipts as hill-descending evidence first. A clean pass means the eval slice held on that frontier profile. A failed or errored receipt marks the next boundary or provider-state blocker to resolve.
 
+> [!NOTE]
+> This page is supporting evidence for the action-first finding packets. Start with [Founder Findings](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings) or [Confirmed Improvements](https://github.com/cfregly/claude-agent-harness-opt/blob/main/docs/confirmed-improvements.md) for Summary.
+
 ## Start Here
 
 | Scope | Link |
@@ -14,11 +17,25 @@ This page points maintainers to current frontier receipts for every retained MCP
 | Supabase example bundle | [Supabase full PR/evidence bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/supabase_mcp_database_tool_tuning_2026-06-25) |
 | gstack packet | [gstack full PR/evidence bundle](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/gstack_skill_routing_2026-06-25) |
 
+## Action Context
+
+| Target | Action-first packet | How to use this receipt page |
+|---|---|---|
+| Firecrawl | [Firecrawl finding](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/firecrawl) | Treat frontier failures as the next descent targets after the confirmed scrape-versus-extract action. |
+| Supabase | [Supabase finding](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/supabase) | Check whether current frontier profiles preserve the migration-versus-SQL action. |
+| Zymtrace | [Zymtrace finding](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/zymtrace) | Use failed or errored cells to choose the next Zymtrace routing boundary after the confirmed held-out win. |
+| Screenpipe | [Screenpipe finding](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/screenpipe) | Check whether exact keyword routing still holds on current frontier profiles. |
+| InsForge | [InsForge finding](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/insforge) | Check whether relative deploy paths stay blocked before `create-deployment`. |
+| Humwork | [Humwork guardrail](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/humwork) | Keep passing cells as guardrail evidence. Do not promote wording from this page alone. |
+| OpenWork | [OpenWork guardrail](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/openwork) | Keep passing cells as guardrail evidence. Do not promote wording from this page alone. |
+| gstack | [gstack packet](https://github.com/cfregly/claude-agent-harness-opt/tree/main/evals/pr_packets/gstack_skill_routing_2026-06-25) | Use current frontier failures to harden browser alias and safety-mode routing. |
+
 ## Human Summary
 
 - OpenAI and Gemini available-frontier receipts: 15 retained receipts, 1356 cells, 1259 passed, 79 failed, and 18 errors.
-- Anthropic Opus receipts: 15 retained receipts, 678 cells, 156 passed, 13 failed, and 509 errors.
-- The newly provided Anthropic key passed a `claude-opus-4-8` smoke test, then exhausted available Anthropic credit partway through the full batch.
+- Anthropic Opus MCP receipts: 14 retained MCP receipts, 430 cells, 398 passed, 32 failed, and 0 errors after the targeted rerun.
+- Remaining Anthropic MCP failures are model-selection findings, not API-credit blockers.
+- gstack skill routing is retained separately as a provider-state blocker with 248 credit errors.
 - `claude-fable-5` remains unavailable to the provided Anthropic key, so the retained Anthropic profile is the accessible `claude-opus-4-8` profile.
 
 <details>
@@ -54,15 +71,15 @@ This page points maintainers to current frontier receipts for every retained MCP
 | Firecrawl mcp | MCP | stress findings | 30 | 26 | 4 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/firecrawl_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/firecrawl_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
 | Github mcp | MCP | stress findings | 32 | 30 | 2 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/github_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/github_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
 | Humwork mcp | MCP | passed | 14 | 14 | 0 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/humwork_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/humwork_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Insforge mcp | MCP | stress findings | 38 | 28 | 5 | 5 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/insforge_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/insforge_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Openwork ui mcp | MCP | stress findings | 14 | 0 | 0 | 14 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Playwright mcp | MCP | stress findings | 26 | 0 | 0 | 26 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/playwright_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/playwright_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Postgres mcp Pro | MCP | stress findings | 18 | 0 | 0 | 18 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/postgres_mcp_pro_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/postgres_mcp_pro_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Screenpipe mcp | MCP | stress findings | 22 | 0 | 0 | 22 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Slack mcp | MCP | stress findings | 16 | 0 | 0 | 16 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/slack_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/slack_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Supabase mcp database | MCP | stress findings | 24 | 0 | 0 | 24 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/supabase_mcp_database_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/supabase_mcp_database_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| Zymtrace mcp | MCP | stress findings | 136 | 0 | 0 | 136 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
-| gstack Skill Routing | Skill | stress findings | 248 | 0 | 0 | 248 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/gstack_skill_matrix_frontier_anthropic_attempt_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/gstack_skill_matrix_frontier_anthropic_attempt_2026-07-01.json) |
+| Insforge mcp | MCP | stress findings | 38 | 34 | 4 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/insforge_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/insforge_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Openwork ui mcp | MCP | passed | 14 | 14 | 0 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/openwork_ui_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Playwright mcp | MCP | stress findings | 26 | 24 | 2 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/playwright_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/playwright_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Postgres mcp Pro | MCP | passed | 18 | 18 | 0 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/postgres_mcp_pro_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/postgres_mcp_pro_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Screenpipe mcp | MCP | passed | 22 | 22 | 0 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Slack mcp | MCP | passed | 16 | 16 | 0 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/slack_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/slack_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Supabase mcp database | MCP | passed | 24 | 24 | 0 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/supabase_mcp_database_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/supabase_mcp_database_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| Zymtrace mcp | MCP | stress findings | 136 | 118 | 18 | 0 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/zymtrace_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json) |
+| gstack Skill Routing | Skill | provider blocker | 248 | 0 | 0 | 248 | [summary](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/gstack_skill_matrix_frontier_anthropic_attempt_2026-07-01.md) | [json](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/gstack_skill_matrix_frontier_anthropic_attempt_2026-07-01.json) |
 
 ## Run Shape
 

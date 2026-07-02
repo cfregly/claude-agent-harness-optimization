@@ -1,45 +1,53 @@
-# Screenpipe mcp Anthropic Frontier Live Result - 2026-07-01
+# screenpipe mcp tool-selection matrix
 
-Passed: no
 Live: yes
-
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
-
-> [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+Passed: yes
+Planned: 22
+Passed cases: 22
+Failed cases: 0
+Errors: 0
+Skipped: 0
+Score: 1.000
 
 ## Matrix Summary
 
 - total: 22
-- passed_cases: 0
+- passed_cases: 22
 - failed_cases: 0
-- errors: 22
+- errors: 0
 - skipped: 0
-- score: 0.0
+- score: 1.0
 
-## Profiles
+## Results
 
-- `anthropic-opus48-frontier`: `claude-opus-4-8`
+| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |
+|---|---|---|---|---|---|---|---|
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | broad morning recap starts summary | passed | activity-summary |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | exact keyword uses keyword search | passed | keyword-search |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | speaker transcript uses content search | passed | search-content |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | ui button lookup uses elements | passed | search-elements |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | known frame detail uses frame context | passed | frame-context |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | create recurring automation uses pipe | passed | create-pipe |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | verify pipe output uses logs | passed | pipe-logs |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | export video uses video export | passed | export-video |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | meeting inventory uses list meetings | passed | list-meetings |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | known frame elements use element tree | passed | get-frame-elements |
+| anthropic | claude-opus-4-8 | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | manual pipe run uses run pipe | passed | run-pipe |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | broad morning recap starts summary | passed | activity-summary |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | exact keyword uses keyword search | passed | keyword-search |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | speaker transcript uses content search | passed | search-content |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | ui button lookup uses elements | passed | search-elements |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | known frame detail uses frame context | passed | frame-context |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | create recurring automation uses pipe | passed | create-pipe |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | verify pipe output uses logs | passed | pipe-logs |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | export video uses video export | passed | export-video |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | meeting inventory uses list meetings | passed | list-meetings |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | known frame elements use element tree | passed | get-frame-elements |
+| anthropic | claude-opus-4-8 | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | manual pipe run uses run pipe | passed | run-pipe |
 
-## Status By Profile
+## Cell Summary
 
-| Profile | Passed | Failed | Errors | Skipped |
-|---|---:|---:|---:|---:|
-| `anthropic-opus48-frontier` | 0 | 0 | 22 | 0 |
-
-## Remaining Failure Clusters
-
-- 2x `broad morning recap starts summary`: status `error`, chose `error: credit balance is too low`
-- 2x `exact keyword uses keyword search`: status `error`, chose `error: credit balance is too low`
-- 2x `speaker transcript uses content search`: status `error`, chose `error: credit balance is too low`
-- 2x `ui button lookup uses elements`: status `error`, chose `error: credit balance is too low`
-- 2x `known frame detail uses frame context`: status `error`, chose `error: credit balance is too low`
-- 2x `create recurring automation uses pipe`: status `error`, chose `error: credit balance is too low`
-- 2x `verify pipe output uses logs`: status `error`, chose `error: credit balance is too low`
-- 2x `export video uses video export`: status `error`, chose `error: credit balance is too low`
-- 2x `meeting inventory uses list meetings`: status `error`, chose `error: credit balance is too low`
-- 2x `known frame elements use element tree`: status `error`, chose `error: credit balance is too low`
-
-## Machine-readable Receipt
-
-[JSON receipt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/screenpipe_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json)
+| Provider | Harness | Tool Variant | Instruction Variant | Passed | Failed | Errors | Skipped | Score |
+|---|---|---|---|---:|---:|---:|---:|---:|
+| anthropic | prompt_json | readme_screenpipe_mcp | screenpipe_host_rules | 11 | 0 | 0 | 0 | 1.000 |
+| anthropic | prompt_json | source_tuned_screenpipe_mcp | screenpipe_host_rules | 11 | 0 | 0 | 0 | 1.000 |

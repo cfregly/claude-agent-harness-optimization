@@ -329,24 +329,24 @@
   ],
   "cells": [
     {
-      "errors": 13,
-      "failed": 0,
+      "errors": 0,
+      "failed": 1,
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
-      "passed": 0,
+      "passed": 12,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 0.923,
       "skipped": 0,
       "tool_variant": "stock_playwright_mcp"
     },
     {
-      "errors": 13,
-      "failed": 0,
+      "errors": 0,
+      "failed": 1,
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
-      "passed": 0,
+      "passed": 12,
       "provider": "anthropic",
-      "score": 0.0,
+      "score": 0.923,
       "skipped": 0,
       "tool_variant": "tuned_playwright_mcp_boundaries"
     }
@@ -370,314 +370,793 @@
   "passed": false,
   "results": [
     {
+      "arg_details": [
+        "url: passed"
+      ],
       "case": "navigate to url",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSY2rRJK6kbUusYYp\"}",
+      "choice": {
+        "arguments": {
+          "url": "https://example.com"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requires opening a URL in the browser, which is exactly the purpose of browser_navigate.",
+        "tool_name": "browser_navigate"
+      },
+      "chosen_tools": [
+        "browser_navigate"
+      ],
+      "elapsed_ms": 2160,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "target: failed"
+      ],
       "case": "inspect page for actionable refs",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSZmZbygPLSATpoYy\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.97,
+        "rationale": "The task explicitly asks to inspect the current page snapshot for actionable element references. browser_snapshot captures the accessibility tree, which provides element refs for action planning and is preferred over screenshots for this purpose.",
+        "tool_name": "browser_snapshot"
+      },
+      "chosen_tools": [
+        "browser_snapshot"
+      ],
+      "elapsed_ms": 3562,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": false,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "failed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "fullPage: passed"
+      ],
       "case": "capture full page visual proof",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSckMFz6cV3aNfLe3\"}",
+      "choice": {
+        "arguments": {
+          "fullPage": true
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests a full-page screenshot for visual proof, which matches browser_take_screenshot with fullPage set to true.",
+        "tool_name": "browser_take_screenshot"
+      },
+      "chosen_tools": [
+        "browser_take_screenshot"
+      ],
+      "elapsed_ms": 2125,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "target: passed"
+      ],
       "case": "click known target",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSRqVTCRQgCDKdMfN\"}",
+      "choice": {
+        "arguments": {
+          "element": "Submit button",
+          "target": "submit-button"
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly requires clicking the Submit button, and a valid element reference (submit-button) from the current snapshot is already provided, so browser_click is the direct action to perform.",
+        "tool_name": "browser_click"
+      },
+      "chosen_tools": [
+        "browser_click"
+      ],
+      "elapsed_ms": 2702,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "text: passed",
+        "submit: passed"
+      ],
       "case": "type search and submit",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSQMFV9B7QCczb5b4\"}",
+      "choice": {
+        "arguments": {
+          "element": "search input",
+          "submit": true,
+          "target": "search-box",
+          "text": "playwright mcp"
+        },
+        "confidence": 0.97,
+        "rationale": "The task specifies typing text into a known target element and pressing Enter, which browser_type handles directly via its text and submit parameters.",
+        "tool_name": "browser_type"
+      },
+      "chosen_tools": [
+        "browser_type"
+      ],
+      "elapsed_ms": 2500,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "fields: passed"
+      ],
       "case": "fill multi field form",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvScFV1vY4Mo13sMxd\"}",
+      "choice": {
+        "arguments": {
+          "fields": [
+            {
+              "name": "Email",
+              "type": "textbox",
+              "value": "user@example.com"
+            },
+            {
+              "name": "Name",
+              "type": "textbox",
+              "value": "Ada Lovelace"
+            }
+          ]
+        },
+        "confidence": 0.82,
+        "rationale": "The task explicitly requires filling multiple form fields (email and name) at once, which is precisely the purpose of browser_fill_form. This is more efficient than individual browser_type calls for a multi-field form.",
+        "tool_name": "browser_fill_form"
+      },
+      "chosen_tools": [
+        "browser_fill_form"
+      ],
+      "elapsed_ms": 3406,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "values: passed"
+      ],
       "case": "select dropdown option",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSurZZdb5QDSd98xH\"}",
+      "choice": {
+        "arguments": {
+          "element": "Country dropdown",
+          "target": "country-select",
+          "values": [
+            "Canada"
+          ]
+        },
+        "confidence": 0.97,
+        "rationale": "The task explicitly requires selecting the value 'Canada' from a dropdown with target reference 'country-select', which is exactly what browser_select_option handles.",
+        "tool_name": "browser_select_option"
+      },
+      "chosen_tools": [
+        "browser_select_option"
+      ],
+      "elapsed_ms": 2674,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "text: passed"
+      ],
       "case": "wait for success text",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvSeybLmfrPgYu7hsj\"}",
+      "choice": {
+        "arguments": {
+          "text": "Success"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requires waiting until the text 'Success' appears on the page, which is exactly what browser_wait_for with the text parameter does.",
+        "tool_name": "browser_wait_for"
+      },
+      "chosen_tools": [
+        "browser_wait_for"
+      ],
+      "elapsed_ms": 2346,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "function: passed"
+      ],
       "case": "evaluate local storage",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvTmCdvrJrLV66aYsb\"}",
+      "choice": {
+        "arguments": {
+          "function": "() => window.localStorage.getItem('authToken')"
+        },
+        "confidence": 0.99,
+        "rationale": "Reading a localStorage value requires accessing page state (JavaScript storage) that cannot be obtained through accessibility snapshots, screenshots, or normal browser actions. browser_evaluate directly executes the JavaScript needed to return the token.",
+        "tool_name": "browser_evaluate"
+      },
+      "chosen_tools": [
+        "browser_evaluate"
+      ],
+      "elapsed_ms": 2926,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "key: passed"
+      ],
       "case": "press escape key",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvTkD3LTo5w44WZUsd\"}",
+      "choice": {
+        "arguments": {
+          "key": "Escape"
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly requires pressing the Escape key to close the modal, which is a direct keyboard action handled by browser_press_key.",
+        "tool_name": "browser_press_key"
+      },
+      "chosen_tools": [
+        "browser_press_key"
+      ],
+      "elapsed_ms": 2159,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "filter: passed"
+      ],
       "case": "list api network requests",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvTudhzBnMACZRTC1X\"}",
+      "choice": {
+        "arguments": {
+          "filter": "/api/",
+          "static": false
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks to list network requests since page load filtered to URLs matching /api/. The browser_network_requests tool provides a numbered list of requests with a filter regexp parameter, and static:false excludes non-relevant static resources.",
+        "tool_name": "browser_network_requests"
+      },
+      "chosen_tools": [
+        "browser_network_requests"
+      ],
+      "elapsed_ms": 3074,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "index: passed"
+      ],
       "case": "inspect numbered network request",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvTx7JgJBbdN39cXeA\"}",
+      "choice": {
+        "arguments": {
+          "index": 3
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks for the full details of network request #3 from an existing request list. browser_network_request returns full details for a single request identified by its 1-based index, which directly matches this need.",
+        "tool_name": "browser_network_request"
+      },
+      "chosen_tools": [
+        "browser_network_request"
+      ],
+      "elapsed_ms": 2443,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "level: passed"
+      ],
       "case": "get console errors",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvTybby8njgKN4YexG\"}",
+      "choice": {
+        "arguments": {
+          "level": "error"
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks specifically for console errors since the last navigation, which is exactly what browser_console_messages returns; setting level to 'error' filters to errors and omitting 'all' keeps it scoped to the current navigation rather than the whole session.",
+        "tool_name": "browser_console_messages"
+      },
+      "chosen_tools": [
+        "browser_console_messages"
+      ],
+      "elapsed_ms": 5039,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "stock_playwright_mcp"
     },
     {
+      "arg_details": [
+        "url: passed"
+      ],
       "case": "navigate to url",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvUDjUYQ2pbRxkodvH\"}",
+      "choice": {
+        "arguments": {
+          "url": "https://example.com"
+        },
+        "confidence": 1.0,
+        "rationale": "The task explicitly requires opening a URL in the browser, which is exactly what browser_navigate does.",
+        "tool_name": "browser_navigate"
+      },
+      "chosen_tools": [
+        "browser_navigate"
+      ],
+      "elapsed_ms": 2501,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "target: failed"
+      ],
       "case": "inspect page for actionable refs",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvUJhSXHynW4gqVUem\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks to inspect the current page and obtain actionable element references, which is precisely the purpose of an accessibility snapshot. No navigation, action, or visual proof is required.",
+        "tool_name": "browser_snapshot"
+      },
+      "chosen_tools": [
+        "browser_snapshot"
+      ],
+      "elapsed_ms": 2681,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": false,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "failed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "fullPage: passed"
+      ],
       "case": "capture full page visual proof",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvUz84Q7NGLG5gKkXj\"}",
+      "choice": {
+        "arguments": {
+          "filename": "fullpage-screenshot.png",
+          "fullPage": true,
+          "type": "png"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests a full-page screenshot for visual proof, which is exactly what browser_take_screenshot with fullPage=true provides.",
+        "tool_name": "browser_take_screenshot"
+      },
+      "chosen_tools": [
+        "browser_take_screenshot"
+      ],
+      "elapsed_ms": 2695,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "target: passed"
+      ],
       "case": "click known target",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvV36ZKRzpV8zL68Au\"}",
+      "choice": {
+        "arguments": {
+          "element": "Submit button",
+          "target": "submit-button"
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly requests clicking the Submit button, and a valid element reference (submit-button) is already available from the current snapshot, so no additional inspection is needed.",
+        "tool_name": "browser_click"
+      },
+      "chosen_tools": [
+        "browser_click"
+      ],
+      "elapsed_ms": 2616,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "text: passed",
+        "submit: passed"
+      ],
       "case": "type search and submit",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvVD25aGNB3VLnXFkN\"}",
+      "choice": {
+        "arguments": {
+          "submit": true,
+          "target": "search-box",
+          "text": "playwright mcp"
+        },
+        "confidence": 0.97,
+        "rationale": "The task specifies typing text into a single known input target (search-box) and pressing Enter, which browser_type handles directly with submit=true.",
+        "tool_name": "browser_type"
+      },
+      "chosen_tools": [
+        "browser_type"
+      ],
+      "elapsed_ms": 2312,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "fields: passed"
+      ],
       "case": "fill multi field form",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvVGVGf2etAKoFMpEc\"}",
+      "choice": {
+        "arguments": {
+          "fields": [
+            {
+              "target": "email input field",
+              "value": "user@example.com"
+            },
+            {
+              "target": "name input field",
+              "value": "Ada Lovelace"
+            }
+          ]
+        },
+        "confidence": 0.85,
+        "rationale": "The task requires filling multiple form fields (email and name) at once, which is exactly what browser_fill_form is designed for.",
+        "tool_name": "browser_fill_form"
+      },
+      "chosen_tools": [
+        "browser_fill_form"
+      ],
+      "elapsed_ms": 2820,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "values: passed"
+      ],
       "case": "select dropdown option",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvVEG1i9hAQUYXY1ML\"}",
+      "choice": {
+        "arguments": {
+          "element": "Country dropdown",
+          "target": "country-select",
+          "values": [
+            "Canada"
+          ]
+        },
+        "confidence": 0.95,
+        "rationale": "The task requires choosing an option from a dropdown/select element with a known target reference, which is exactly what browser_select_option handles.",
+        "tool_name": "browser_select_option"
+      },
+      "chosen_tools": [
+        "browser_select_option"
+      ],
+      "elapsed_ms": 2707,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "text: passed"
+      ],
       "case": "wait for success text",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvVJUE2tLVchfPU8UM\"}",
+      "choice": {
+        "arguments": {
+          "text": "Success"
+        },
+        "confidence": 0.99,
+        "rationale": "The task explicitly requires waiting for the text 'Success' to appear, which is exactly what browser_wait_for handles via its text parameter.",
+        "tool_name": "browser_wait_for"
+      },
+      "chosen_tools": [
+        "browser_wait_for"
+      ],
+      "elapsed_ms": 2401,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "function: passed"
+      ],
       "case": "evaluate local storage",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvVZbde2mbvqAA6neE\"}",
+      "choice": {
+        "arguments": {
+          "function": "() => window.localStorage.getItem('authToken')"
+        },
+        "confidence": 0.98,
+        "rationale": "The task requires reading a specific localStorage value, which is page state that only JavaScript evaluation can expose; normal UI actions cannot access storage.",
+        "tool_name": "browser_evaluate"
+      },
+      "chosen_tools": [
+        "browser_evaluate"
+      ],
+      "elapsed_ms": 2287,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "key: passed"
+      ],
       "case": "press escape key",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvVabANtZTJCXdAUmy\"}",
+      "choice": {
+        "arguments": {
+          "key": "Escape"
+        },
+        "confidence": 0.99,
+        "rationale": "The task requires pressing the Escape key to close a modal, which is a non-text keypress handled by browser_press_key.",
+        "tool_name": "browser_press_key"
+      },
+      "chosen_tools": [
+        "browser_press_key"
+      ],
+      "elapsed_ms": 2628,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "filter: passed"
+      ],
       "case": "list api network requests",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvWE34Sj4V17kBf2EA\"}",
+      "choice": {
+        "arguments": {
+          "filter": "/api/",
+          "static": false
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks to list network requests since page load filtered to URLs matching /api/, which is exactly what browser_network_requests does with a URL filter regex; static=false excludes irrelevant static assets.",
+        "tool_name": "browser_network_requests"
+      },
+      "chosen_tools": [
+        "browser_network_requests"
+      ],
+      "elapsed_ms": 2969,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "index: passed"
+      ],
       "case": "inspect numbered network request",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvWKVVD4e3shy2yxYM\"}",
+      "choice": {
+        "arguments": {
+          "index": 3
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks for full details of a specific numbered network request (#3) from an existing request list, which is exactly what browser_network_request provides using the 1-based index.",
+        "tool_name": "browser_network_request"
+      },
+      "chosen_tools": [
+        "browser_network_request"
+      ],
+      "elapsed_ms": 2461,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     },
     {
+      "arg_details": [
+        "level: passed"
+      ],
       "case": "get console errors",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPvWq1Bzm6xdQ12Ug53\"}",
+      "choice": {
+        "arguments": {
+          "level": "error"
+        },
+        "confidence": 0.98,
+        "rationale": "The task asks for browser console errors since the last navigation, which maps directly to browser_console_messages with level=error and default all=false (excludes messages before the last navigation).",
+        "tool_name": "browser_console_messages"
+      },
+      "chosen_tools": [
+        "browser_console_messages"
+      ],
+      "elapsed_ms": 2840,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "playwright_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "tuned_playwright_mcp_boundaries"
     }
@@ -691,11 +1170,11 @@
     "repo": "https://github.com/microsoft/playwright-mcp"
   },
   "summary": {
-    "errors": 26,
-    "failed_cases": 0,
-    "passed_cases": 0,
+    "errors": 0,
+    "failed_cases": 2,
+    "passed_cases": 24,
     "planned": 26,
-    "score": 0.0,
+    "score": 0.923,
     "skipped": 0,
     "total": 26
   }

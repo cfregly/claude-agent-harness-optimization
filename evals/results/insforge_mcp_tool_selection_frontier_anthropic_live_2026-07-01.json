@@ -297,23 +297,23 @@
   "cells": [
     {
       "errors": 0,
-      "failed": 4,
+      "failed": 3,
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
-      "passed": 15,
+      "passed": 16,
       "provider": "anthropic",
-      "score": 0.789,
+      "score": 0.842,
       "skipped": 0,
       "tool_variant": "readme_insforge_mcp"
     },
     {
-      "errors": 5,
+      "errors": 0,
       "failed": 1,
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
-      "passed": 13,
+      "passed": 18,
       "provider": "anthropic",
-      "score": 0.684,
+      "score": 0.947,
       "skipped": 0,
       "tool_variant": "source_tuned_insforge_mcp"
     }
@@ -338,30 +338,30 @@
   "results": [
     {
       "arg_details": [
-        "docType: failed"
+        "docType: passed"
       ],
       "case": "new project setup reads instructions",
       "choice": {
         "arguments": {
-          "docType": "setup"
+          "docType": "instructions"
         },
         "confidence": 0.85,
-        "rationale": "The task requires fetching mandatory setup instructions for a newly connected InsForge project before building anything. The fetch-docs tool retrieves InsForge documentation, and requesting the 'setup' docType directly addresses the need for setup instructions.",
+        "rationale": "The task requires fetching mandatory setup instructions for a newly connected InsForge project. The fetch-docs tool retrieves InsForge documentation, making it the appropriate choice for obtaining setup instructions before any building begins.",
         "tool_name": "fetch-docs"
       },
       "chosen_tools": [
         "fetch-docs"
       ],
-      "elapsed_ms": 3243,
+      "elapsed_ms": 3076,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
       "missing_expected": [],
       "model": "claude-opus-4-8",
-      "passed": false,
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "failed",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "readme_insforge_mcp"
     },
@@ -376,13 +376,13 @@
           "projectName": "founder-dashboard"
         },
         "confidence": 0.9,
-        "rationale": "The task is to create a new Next.js starter app for InsForge. The download-template tool downloads a pre-configured starter template, accepting a 'frame' (framework, e.g., nextjs) and an optional 'projectName' matching the requested app name 'founder-dashboard'.",
+        "rationale": "The task is to create a new Next.js starter app for InsForge. The download-template tool downloads a pre-configured starter template and accepts a frame (framework) and projectName, matching the request to scaffold a Next.js app named founder-dashboard.",
         "tool_name": "download-template"
       },
       "chosen_tools": [
         "download-template"
       ],
-      "elapsed_ms": 3679,
+      "elapsed_ms": 3095,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -401,13 +401,13 @@
       "choice": {
         "arguments": {},
         "confidence": 0.95,
-        "rationale": "The task asks for a complete overview of the current backend structure across tables, buckets, and functions. The get-backend-metadata tool indexes all backend metadata, making it the single best fit to retrieve the full structure in one call, rather than querying each resource type separately.",
+        "rationale": "The task asks for an overview of the entire backend structure across tables, buckets, and functions. get-backend-metadata indexes all backend metadata in one call, directly covering all three resource types requested.",
         "tool_name": "get-backend-metadata"
       },
       "chosen_tools": [
         "get-backend-metadata"
       ],
-      "elapsed_ms": 4505,
+      "elapsed_ms": 2537,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -430,13 +430,13 @@
           "tableName": "accounts"
         },
         "confidence": 0.95,
-        "rationale": "The task requests detailed schema info (RLS policies, indexes, constraints, columns) for the known 'accounts' table, which is exactly what get-table-schema returns for a specific table.",
+        "rationale": "The task asks for detailed schema info (columns, constraints, indexes, RLS policies) for a specific known table, which is exactly what get-table-schema returns.",
         "tool_name": "get-table-schema"
       },
       "chosen_tools": [
         "get-table-schema"
       ],
-      "elapsed_ms": 3632,
+      "elapsed_ms": 2549,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -459,13 +459,13 @@
           "query": "SELECT count(*) FROM accounts WHERE status = 'active'"
         },
         "confidence": 0.98,
-        "rationale": "The task explicitly requests executing a SQL query, which directly matches the run-raw-sql tool's purpose of executing raw SQL. The query is provided verbatim and requires no parameters.",
+        "rationale": "The task explicitly requests running a SQL query, and run-raw-sql is the tool designed to execute raw SQL queries against the InsForge backend.",
         "tool_name": "run-raw-sql"
       },
       "chosen_tools": [
         "run-raw-sql"
       ],
-      "elapsed_ms": 3819,
+      "elapsed_ms": 2677,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -491,13 +491,13 @@
           "upsertKey": "account_id"
         },
         "confidence": 0.99,
-        "rationale": "The task explicitly requires bulk upserting data from a CSV file into a table using a unique key, which directly matches the bulk-upsert tool with its table, filePath, and upsertKey parameters.",
+        "rationale": "The task explicitly requires bulk upserting a CSV file into a table with a specified unique key, which directly matches the bulk-upsert tool's purpose and required parameters (table, filePath, upsertKey).",
         "tool_name": "bulk-upsert"
       },
       "chosen_tools": [
         "bulk-upsert"
       ],
-      "elapsed_ms": 3395,
+      "elapsed_ms": 2636,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -516,13 +516,13 @@
       "choice": {
         "arguments": {},
         "confidence": 0.99,
-        "rationale": "The task asks to enumerate existing storage buckets, which is exactly what list-buckets provides with no required inputs.",
+        "rationale": "The task asks which storage buckets exist, which directly matches the list-buckets tool that lists all storage buckets. No arguments are required.",
         "tool_name": "list-buckets"
       },
       "chosen_tools": [
         "list-buckets"
       ],
-      "elapsed_ms": 3585,
+      "elapsed_ms": 2333,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -546,13 +546,13 @@
           "isPublic": true
         },
         "confidence": 0.99,
-        "rationale": "The task explicitly asks to create a public storage bucket named 'avatars'. The create-bucket tool directly matches this, with bucketName set to 'avatars' and isPublic set to true.",
+        "rationale": "The task requires creating a public storage bucket named 'avatars', which directly maps to create-bucket with bucketName set to 'avatars' and isPublic true.",
         "tool_name": "create-bucket"
       },
       "chosen_tools": [
         "create-bucket"
       ],
-      "elapsed_ms": 3085,
+      "elapsed_ms": 2246,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -575,13 +575,13 @@
           "slug": "webhook-handler"
         },
         "confidence": 0.98,
-        "rationale": "The task asks to retrieve the code and metadata for an existing edge function identified by the slug 'webhook-handler'. The get-function tool returns details of a specific edge function by its slug.",
+        "rationale": "The task requires retrieving the code and metadata of an existing edge function identified by its slug 'webhook-handler', which is exactly what get-function does.",
         "tool_name": "get-function"
       },
       "chosen_tools": [
         "get-function"
       ],
-      "elapsed_ms": 3311,
+      "elapsed_ms": 2269,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -606,13 +606,13 @@
           "slug": "webhook-handler"
         },
         "confidence": 0.95,
-        "rationale": "The task explicitly requires updating an existing edge function identified by its slug 'webhook-handler' using code from a local file, which matches update-function's purpose and its codeFile parameter.",
+        "rationale": "The task is to update an existing edge function named webhook-handler using a local source file, which directly matches the update-function tool that accepts a slug and codeFile.",
         "tool_name": "update-function"
       },
       "chosen_tools": [
         "update-function"
       ],
-      "elapsed_ms": 3635,
+      "elapsed_ms": 2440,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -635,14 +635,14 @@
           "limit": 50,
           "source": "edge-functions"
         },
-        "confidence": 0.78,
-        "rationale": "The task asks for the last 50 edge function runtime logs. The get-container-logs tool retrieves the latest logs from a container or service, accepting a source identifier and a limit of 50 to satisfy the request.",
+        "confidence": 0.72,
+        "rationale": "The task asks for the last 50 edge function runtime logs. The get-container-logs tool fetches latest logs from a container or service, accepting a source and a limit, which directly matches retrieving 50 edge function runtime logs.",
         "tool_name": "get-container-logs"
       },
       "chosen_tools": [
         "get-container-logs"
       ],
-      "elapsed_ms": 2957,
+      "elapsed_ms": 2954,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -663,17 +663,17 @@
       "case": "sdk docs use sdk docs",
       "choice": {
         "arguments": {
-          "sdkFeature": "storage uploads",
+          "sdkFeature": "storage",
           "sdkLanguage": "javascript"
         },
-        "confidence": 0.97,
-        "rationale": "The task requests JavaScript SDK documentation for storage uploads, which directly matches fetch-sdk-docs requiring sdkLanguage and sdkFeature.",
+        "confidence": 0.95,
+        "rationale": "The task requests JavaScript SDK documentation for storage uploads, which directly matches fetch-sdk-docs requiring sdkLanguage and sdkFeature parameters.",
         "tool_name": "fetch-sdk-docs"
       },
       "chosen_tools": [
         "fetch-sdk-docs"
       ],
-      "elapsed_ms": 3309,
+      "elapsed_ms": 2542,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -693,14 +693,14 @@
       "case": "client token uses anon key",
       "choice": {
         "arguments": {},
-        "confidence": 0.98,
-        "rationale": "The task asks to generate a public anonymous token for client-side/browser access, which is exactly the purpose of get-anon-key (generate an anonymous JWT token for client-side applications).",
+        "confidence": 0.97,
+        "rationale": "The task explicitly requests generating a public anonymous token for client-side browser access, which is exactly what get-anon-key does by producing an anonymous JWT token for client-side applications.",
         "tool_name": "get-anon-key"
       },
       "chosen_tools": [
         "get-anon-key"
       ],
-      "elapsed_ms": 3185,
+      "elapsed_ms": 2654,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -723,13 +723,13 @@
           "sourceDirectory": "/Users/me/founder-dashboard"
         },
         "confidence": 0.9,
-        "rationale": "Deploying a source tree first requires creating/preparing a source-code deployment from the given directory. create-deployment takes sourceDirectory and is the correct initial step before start-deployment (which needs a deploymentId produced here).",
+        "rationale": "The task is to deploy a source tree from a local directory. The create-deployment tool prepares a source-code deployment from a sourceDirectory, which is the correct first step. start-deployment requires a deploymentId that would only be produced after create-deployment.",
         "tool_name": "create-deployment"
       },
       "chosen_tools": [
         "create-deployment"
       ],
-      "elapsed_ms": 2917,
+      "elapsed_ms": 3376,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -751,14 +751,14 @@
         "arguments": {
           "deploymentId": "dep_123"
         },
-        "confidence": 0.98,
-        "rationale": "The source code upload is complete, and the task explicitly asks to trigger the deployment build. The start-deployment tool triggers a deployment build after uploading source code and requires the deploymentId, which is provided as dep_123.",
+        "confidence": 0.97,
+        "rationale": "The source code upload for deployment dep_123 is complete, and the task explicitly asks to trigger the deployment build. The start-deployment tool triggers a deployment build after source code upload, matching this exact step.",
         "tool_name": "start-deployment"
       },
       "chosen_tools": [
         "start-deployment"
       ],
-      "elapsed_ms": 2848,
+      "elapsed_ms": 4122,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -778,14 +778,14 @@
         "arguments": {
           "sourceDirectory": "."
         },
-        "confidence": 0.86,
-        "rationale": "Deploying a source-code directory starts with create-deployment, which prepares/uploads the current directory ('.'). This is the correct first step before start-deployment (which requires a deploymentId produced by this step). No other tool handles deploying a local directory.",
+        "confidence": 0.82,
+        "rationale": "The task asks to deploy the current directory to InsForge. create-deployment prepares a source-code deployment from a given sourceDirectory, and '.' maps directly to the required parameter. This is the correct first step; start-deployment would follow only after source code is uploaded and a deploymentId exists.",
         "tool_name": "create-deployment"
       },
       "chosen_tools": [
         "create-deployment"
       ],
-      "elapsed_ms": 2805,
+      "elapsed_ms": 3212,
       "forbidden_used": [
         "create-deployment"
       ],
@@ -809,14 +809,14 @@
         "arguments": {
           "bucketName": "old-avatars"
         },
-        "confidence": 0.98,
-        "rationale": "The task explicitly requests deleting a storage bucket named 'old-avatars', which directly matches the delete-bucket tool's purpose and required bucketName argument.",
+        "confidence": 0.99,
+        "rationale": "The task explicitly requests deleting a specific storage bucket named 'old-avatars', which directly matches the delete-bucket tool's purpose and required bucketName argument.",
         "tool_name": "delete-bucket"
       },
       "chosen_tools": [
         "delete-bucket"
       ],
-      "elapsed_ms": 2772,
+      "elapsed_ms": 2336,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -841,13 +841,13 @@
           "slug": "hello-world"
         },
         "confidence": 0.95,
-        "rationale": "The task is to create a new edge function with slug 'hello-world' using code from a local file. The create-function tool accepts a slug and a codeFile path, matching the request exactly.",
+        "rationale": "The task is to create a new edge function with slug 'hello-world' using code from a local file. The create-function tool accepts a slug and a codeFile path, matching the requirements exactly.",
         "tool_name": "create-function"
       },
       "chosen_tools": [
         "create-function"
       ],
-      "elapsed_ms": 4949,
+      "elapsed_ms": 6696,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -870,13 +870,13 @@
           "slug": "legacy-webhook"
         },
         "confidence": 0.99,
-        "rationale": "The task explicitly requests deleting the edge function with slug 'legacy-webhook', which directly matches the delete-function tool's purpose and required slug parameter.",
+        "rationale": "The task explicitly requires deleting an edge function by slug, which directly matches the delete-function tool with the given slug 'legacy-webhook'.",
         "tool_name": "delete-function"
       },
       "chosen_tools": [
         "delete-function"
       ],
-      "elapsed_ms": 2400,
+      "elapsed_ms": 2440,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -899,13 +899,13 @@
           "docType": "instructions"
         },
         "confidence": 0.98,
-        "rationale": "The task is to fetch mandatory setup instructions for a newly connected project before building. fetch-docs with docType 'instructions' is explicitly designated as the first documentation step for a new project.",
+        "rationale": "The user connected a new InsForge project and explicitly wants mandatory setup instructions before building. fetch-docs with docType 'instructions' is the designated first documentation step for a new project.",
         "tool_name": "fetch-docs"
       },
       "chosen_tools": [
         "fetch-docs"
       ],
-      "elapsed_ms": 5048,
+      "elapsed_ms": 2939,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -925,17 +925,17 @@
       "case": "new app bootstrap uses template",
       "choice": {
         "arguments": {
-          "frame": "nextjs",
+          "frame": "next",
           "projectName": "founder-dashboard"
         },
         "confidence": 0.97,
-        "rationale": "The task is to scaffold a new Next.js InsForge starter app, which matches download-template's purpose as the first build step. The frame is Next.js and projectName is a safe single directory name.",
+        "rationale": "The task is to scaffold a new Next.js InsForge starter app, which is exactly what download-template does; frame is set to Next.js and projectName is the requested safe directory name.",
         "tool_name": "download-template"
       },
       "chosen_tools": [
         "download-template"
       ],
-      "elapsed_ms": 2948,
+      "elapsed_ms": 2373,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -954,13 +954,13 @@
       "choice": {
         "arguments": {},
         "confidence": 0.97,
-        "rationale": "The user asks for the full current backend structure across tables, buckets, and functions, which matches the whole-backend inventory purpose of get-backend-metadata. No specific table, bucket, or function is named, so narrower tools do not apply.",
+        "rationale": "The user asks for the full current backend structure across tables, buckets, and functions, which is exactly the inventory-level metadata this tool indexes. No specific table, bucket, or function is named, so the broad metadata index is the correct choice over narrower object-specific tools.",
         "tool_name": "get-backend-metadata"
       },
       "chosen_tools": [
         "get-backend-metadata"
       ],
-      "elapsed_ms": 2947,
+      "elapsed_ms": 3861,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -983,13 +983,13 @@
           "tableName": "accounts"
         },
         "confidence": 0.99,
-        "rationale": "The task requests RLS policies, indexes, constraints, and columns for a known table named 'accounts', which is exactly what get-table-schema returns for a single known table.",
+        "rationale": "The task requests RLS policies, indexes, constraints, and columns for a specific known table named 'accounts', which is exactly what get-table-schema returns for a known table name.",
         "tool_name": "get-table-schema"
       },
       "chosen_tools": [
         "get-table-schema"
       ],
-      "elapsed_ms": 2922,
+      "elapsed_ms": 2621,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1012,13 +1012,13 @@
           "query": "SELECT count(*) FROM accounts WHERE status = 'active'"
         },
         "confidence": 0.97,
-        "rationale": "The user explicitly requested running a specific read-only SQL query, which is exactly the use case for run-raw-sql. This is a non-destructive SELECT, so it is safe to prepare for execution.",
+        "rationale": "The user explicitly requested to run a specific read-only SQL query now; run-raw-sql executes SQL against the InsForge database, and this SELECT is non-destructive.",
         "tool_name": "run-raw-sql"
       },
       "chosen_tools": [
         "run-raw-sql"
       ],
-      "elapsed_ms": 3126,
+      "elapsed_ms": 2696,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1043,14 +1043,14 @@
           "table": "accounts",
           "upsertKey": "account_id"
         },
-        "confidence": 0.99,
-        "rationale": "The task explicitly names a local CSV file (/tmp/accounts.csv), a target table (accounts), and a unique upsert key (account_id), which precisely matches bulk-upsert's use_when criteria requiring table, filePath, and upsertKey.",
+        "confidence": 0.98,
+        "rationale": "The task explicitly names a local CSV file, a target table, and a unique upsert key, which directly matches bulk-upsert's use case and required inputs.",
         "tool_name": "bulk-upsert"
       },
       "chosen_tools": [
         "bulk-upsert"
       ],
-      "elapsed_ms": 4468,
+      "elapsed_ms": 2774,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1069,13 +1069,13 @@
       "choice": {
         "arguments": {},
         "confidence": 0.98,
-        "rationale": "The task explicitly asks which storage buckets exist, which is a bucket inventory request. list-buckets is the dedicated tool for enumerating all storage buckets.",
+        "rationale": "The task directly asks for an inventory of existing storage buckets, which is exactly what list-buckets provides. No arguments are required.",
         "tool_name": "list-buckets"
       },
       "chosen_tools": [
         "list-buckets"
       ],
-      "elapsed_ms": 2808,
+      "elapsed_ms": 3025,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1098,14 +1098,14 @@
           "bucketName": "avatars",
           "isPublic": true
         },
-        "confidence": 0.99,
-        "rationale": "The task explicitly asks to create a named storage bucket 'avatars' with public access, matching create-bucket's purpose and inputs.",
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks to create a named storage bucket 'avatars' that is public, which matches create-bucket's purpose and its inputs bucketName and isPublic.",
         "tool_name": "create-bucket"
       },
       "chosen_tools": [
         "create-bucket"
       ],
-      "elapsed_ms": 2899,
+      "elapsed_ms": 2663,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1128,13 +1128,13 @@
           "slug": "webhook-handler"
         },
         "confidence": 0.99,
-        "rationale": "The task asks to inspect the code and metadata of a known existing edge function by its slug, which is exactly what get-function does.",
+        "rationale": "The task asks to retrieve the code and metadata for a known existing edge function with slug 'webhook-handler', which is exactly what get-function does.",
         "tool_name": "get-function"
       },
       "chosen_tools": [
         "get-function"
       ],
-      "elapsed_ms": 2510,
+      "elapsed_ms": 2428,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1159,13 +1159,13 @@
           "slug": "webhook-handler"
         },
         "confidence": 0.97,
-        "rationale": "The task explicitly updates an existing edge function with a known slug (webhook-handler) using a local code file path, which matches update-function's use_when for changing a known function slug with an updated code file.",
+        "rationale": "The task asks to update an existing edge function with a known slug (webhook-handler) using a local code file path, which exactly matches update-function's purpose and inputs.",
         "tool_name": "update-function"
       },
       "chosen_tools": [
         "update-function"
       ],
-      "elapsed_ms": 3994,
+      "elapsed_ms": 2755,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1189,13 +1189,13 @@
           "source": "function.logs"
         },
         "confidence": 0.97,
-        "rationale": "The task asks for edge function runtime logs, which maps directly to get-container-logs using the function.logs source with a bounded limit of 50.",
+        "rationale": "The task requests edge function runtime logs, which maps to reading recent container logs from the function.logs source with a bounded limit of 50.",
         "tool_name": "get-container-logs"
       },
       "chosen_tools": [
         "get-container-logs"
       ],
-      "elapsed_ms": 2705,
+      "elapsed_ms": 3433,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1219,14 +1219,14 @@
           "sdkFeature": "storage",
           "sdkLanguage": "javascript"
         },
-        "confidence": 0.97,
-        "rationale": "The user explicitly asks for JavaScript SDK documentation for a specific InsForge feature (storage uploads), which matches fetch-sdk-docs requiring both sdkFeature and sdkLanguage.",
+        "confidence": 0.98,
+        "rationale": "The task explicitly asks for JavaScript SDK documentation for storage uploads, which matches fetch-sdk-docs requiring both sdkFeature (storage) and sdkLanguage (javascript).",
         "tool_name": "fetch-sdk-docs"
       },
       "chosen_tools": [
         "fetch-sdk-docs"
       ],
-      "elapsed_ms": 3125,
+      "elapsed_ms": 2413,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1246,14 +1246,14 @@
       "case": "client token uses anon key",
       "choice": {
         "arguments": {},
-        "confidence": 0.98,
-        "rationale": "The task explicitly asks to generate the public anonymous token for a browser/client-side app, which is exactly the purpose of get-anon-key.",
+        "confidence": 0.97,
+        "rationale": "The task explicitly asks to generate the public anonymous token for browser/client-side InsForge access, which is precisely the purpose of get-anon-key.",
         "tool_name": "get-anon-key"
       },
       "chosen_tools": [
         "get-anon-key"
       ],
-      "elapsed_ms": 2765,
+      "elapsed_ms": 2560,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1276,13 +1276,13 @@
           "sourceDirectory": "/Users/me/founder-dashboard"
         },
         "confidence": 0.94,
-        "rationale": "The task asks to deploy an existing local source tree and provides an absolute path (/Users/me/founder-dashboard), which matches create-deployment's use case and its absolute-path requirement.",
+        "rationale": "The task asks to deploy an existing local source tree with an absolute path, which matches create-deployment's purpose and its requirement for an absolute sourceDirectory.",
         "tool_name": "create-deployment"
       },
       "chosen_tools": [
         "create-deployment"
       ],
-      "elapsed_ms": 2773,
+      "elapsed_ms": 7013,
       "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
@@ -1296,62 +1296,145 @@
       "tool_variant": "source_tuned_insforge_mcp"
     },
     {
+      "arg_details": [
+        "deploymentId: passed"
+      ],
       "case": "prepared remote upload starts deployment",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPuzgXe9bX34mTsJ3ib\"}",
+      "choice": {
+        "arguments": {
+          "deploymentId": "dep_123"
+        },
+        "confidence": 0.97,
+        "rationale": "The prepared deployment upload is complete and a deployment id (dep_123) is provided, which matches start-deployment's purpose of triggering a build after upload steps finish.",
+        "tool_name": "start-deployment"
+      },
+      "chosen_tools": [
+        "start-deployment"
+      ],
+      "elapsed_ms": 2867,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_insforge_mcp"
     },
     {
+      "arg_details": [],
       "case": "relative deploy path avoids tool",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPv23t2trEgfoLUNUAi\"}",
+      "choice": {
+        "arguments": {},
+        "confidence": 0.83,
+        "rationale": "The task asks to deploy the current directory '.', but create-deployment requires an absolute sourceDirectory path and its quality_checks mandate rejecting relative paths before calling. '.' is a relative path, so no deployment tool can safely execute this step until an absolute path is provided.",
+        "tool_name": "NO_TOOL"
+      },
+      "chosen_tools": [
+        "NO_TOOL"
+      ],
+      "elapsed_ms": 3020,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_insforge_mcp"
     },
     {
+      "arg_details": [
+        "bucketName: passed"
+      ],
       "case": "delete storage bucket uses delete bucket",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPv3zTuC4cTeWLGfbSy\"}",
+      "choice": {
+        "arguments": {
+          "bucketName": "old-avatars"
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly requests deletion of a specific named bucket 'old-avatars', which matches delete-bucket's purpose and required bucketName input.",
+        "tool_name": "delete-bucket"
+      },
+      "chosen_tools": [
+        "delete-bucket"
+      ],
+      "elapsed_ms": 2815,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_insforge_mcp"
     },
     {
+      "arg_details": [
+        "slug: passed",
+        "codeFile: passed"
+      ],
       "case": "create function uses create function",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPv42wfHXyBB5ziQ8tn\"}",
+      "choice": {
+        "arguments": {
+          "codeFile": "/Users/me/app/functions/hello-world.js",
+          "slug": "hello-world"
+        },
+        "confidence": 0.97,
+        "rationale": "The task asks to create a new edge function with a specific slug from a local code file, which matches create-function's purpose (new function from a local code file in local mode) with the required slug and a codeFile path.",
+        "tool_name": "create-function"
+      },
+      "chosen_tools": [
+        "create-function"
+      ],
+      "elapsed_ms": 2762,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_insforge_mcp"
     },
     {
+      "arg_details": [
+        "slug: passed"
+      ],
       "case": "delete function uses delete function",
-      "error": "HTTP 400: {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CcbPv4gds1bJicGQqaqgA\"}",
+      "choice": {
+        "arguments": {
+          "slug": "legacy-webhook"
+        },
+        "confidence": 0.98,
+        "rationale": "The task explicitly requests deletion of a specific known edge function slug 'legacy-webhook', which matches delete-function's use_when for explicit delete requests with a concrete slug.",
+        "tool_name": "delete-function"
+      },
+      "chosen_tools": [
+        "delete-function"
+      ],
+      "elapsed_ms": 2719,
+      "forbidden_used": [],
       "harness": "prompt_json",
       "instruction_variant": "insforge_host_rules",
+      "missing_expected": [],
       "model": "claude-opus-4-8",
+      "passed": true,
       "profile": "anthropic-opus48-frontier",
       "provider": "anthropic",
-      "status": "error",
+      "status": "passed",
       "tier": "frontier",
       "tool_variant": "source_tuned_insforge_mcp"
     }
@@ -1365,11 +1448,11 @@
     "yc": "InsForge, YC P2026"
   },
   "summary": {
-    "errors": 5,
-    "failed_cases": 5,
-    "passed_cases": 28,
+    "errors": 0,
+    "failed_cases": 4,
+    "passed_cases": 34,
     "planned": 38,
-    "score": 0.737,
+    "score": 0.895,
     "skipped": 0,
     "total": 38
   }

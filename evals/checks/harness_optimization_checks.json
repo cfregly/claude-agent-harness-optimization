@@ -82,7 +82,7 @@
     {
       "id": "instruction_surface_migration",
       "name": "Instruction surface migration",
-      "prompt_pattern": "Check whether a migration should touch tool descriptions, system prompts, CLAUDE.md, AGENTS.md, skills, MCP server instructions, hooks, or SDK loop rules.",
+      "prompt_pattern": "Check whether a migration should touch tool descriptions, system prompts, durable repo instructions, skills, MCP server instructions, hooks, or SDK loop rules.",
       "promotion_evidence": "The change lands on the smallest durable surface that explains the failure and the matrix proves that surface changes behavior for the target harness.",
       "signal": "The same guidance is copied into every prompt surface instead of being placed where the harness actually reads it."
     }

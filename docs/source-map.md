@@ -1,6 +1,6 @@
 # Source Map
 
-Checked on 2026-06-25.
+Checked on 2026-07-01.
 
 > [!NOTE]
 > This page starts with the human summary. Detailed eval, command, and machine-readable material is preserved below.
@@ -67,7 +67,7 @@ Checked on 2026-06-25.
 ## OpenAI Codex Docs
 
 - [Codex manual](https://developers.openai.com/codex/codex-manual.md)
-  - Used for Codex harness coverage: AGENTS.md discovery, skills, MCP configuration, hooks,
+  - Used for Codex harness coverage: project-instruction discovery, skills, MCP configuration, hooks,
     `codex exec --json`, Codex SDK, app-server, Codex MCP server, GitHub Action, plugins, and
     import behavior.
 
@@ -172,6 +172,13 @@ Checked on 2026-06-25.
 
 ## Public MCP Sources
 
+- [claude-agent-harness-opt](https://github.com/cfregly/claude-agent-harness-opt)
+  - Used for public founder handoff pages, retained packet links, evidence-bundle links, and local
+    coding-agent CTA examples.
+- [gstack repo](https://github.com/garrytan/gstack)
+  - Used for the gstack skill-routing target repo link in the founder handoff.
+- [Zymtrace repo](https://github.com/zystem-io/zymtrace)
+  - Used for the Zymtrace target repo link in the founder handoff.
 - [Zymtrace getting started](https://docs.zymtrace.com/getting-started/)
   - Used for the Zymtrace MCP and profiler setup context in the public MCP sweep.
 - [Zymtrace Model Context Protocol docs](https://docs.zymtrace.com/category/model-context-protocol-mcp/)

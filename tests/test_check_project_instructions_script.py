@@ -31,7 +31,6 @@ class CheckProjectInstructionsScriptTests(unittest.TestCase):
             scripts.mkdir()
             (scripts / "check_sample.py").write_text("#!/usr/bin/env python3\n", encoding="utf-8")
             (scripts / "deslop_check.py").write_text("#!/usr/bin/env python3\n", encoding="utf-8")
-            (root / "AGENTS.md").write_text("# Agents\n\nNo delegation.\n", encoding="utf-8")
             (root / "CLAUDE.md").write_text(
                 textwrap.dedent(
                     """
@@ -46,7 +45,6 @@ class CheckProjectInstructionsScriptTests(unittest.TestCase):
             failures = check_project_instructions(root)
 
         joined = "\n".join(failures)
-        self.assertIn("AGENTS.md: missing required instruction phrase: See [CLAUDE.md](CLAUDE.md)", joined)
         self.assertIn("CLAUDE.md: missing required instruction phrase: evals/model_matrix", joined)
         self.assertIn("CLAUDE.md: missing gate script reference scripts/check_sample.py", joined)
 
@@ -55,10 +53,6 @@ class CheckProjectInstructionsScriptTests(unittest.TestCase):
             root = Path(temp_dir)
             scripts = root / "scripts"
             scripts.mkdir()
-            (root / "AGENTS.md").write_text(
-                "# Agents\n\nSee [CLAUDE.md](CLAUDE.md).\nadversarially-confirmed to add value\n",
-                encoding="utf-8",
-            )
             (root / "CLAUDE.md").write_text(
                 "# Claude\n\nclaude-agent-harness-optimization\n",
                 encoding="utf-8",

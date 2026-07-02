@@ -11,6 +11,30 @@ Sources used for the first matrix:
 - cloned source commit `9430064a2becb382644042ce9fe5752ace1d8409`
 - generated tool snapshots under `pkg/github/__toolsnaps__`
 
+## Summary
+
+| Before | After | Result |
+|---|---|---|
+| `stock_github_mcp` passed 72/72 across Anthropic, OpenAI, Gemini, prompt JSON, and native tools. | `tuned_github_mcp_boundaries` also passed 72/72. No baseline delta was proven. | Do not rewrite the public GitHub MCP tool descriptions from this slice. |
+
+## Recommended Actions
+
+- Do not rewrite the public GitHub MCP tool descriptions from this slice.
+- Keep this matrix as regression coverage for repository, issue, pull request, and Actions routing.
+- Add harder held-out cases before proposing an upstream change: issue comments versus pull request review comments, Actions metadata versus job logs, known-path reads versus code search, and read-only or excluded-tool modes.
+
+## Model Coverage
+
+Provider/model rows are evidence lanes. The target repo actions above are the only primary CTA.
+
+## Public Summary
+
+- Outcome: Guardrail, no promoted change.
+- Focus: GitHub repository, issue, pull request, and Actions tool routing.
+- Baseline: `stock_github_mcp` passed 72/72.
+- Candidate: `tuned_github_mcp_boundaries` also passed 72/72.
+- Action: do not ship wording changes until a harder case proves a live baseline-to-candidate delta.
+
 ## Tool Surface Tested
 
 The matrix covers a compact, high-traffic developer workflow subset:

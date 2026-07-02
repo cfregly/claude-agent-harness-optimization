@@ -1,43 +1,47 @@
-# Slack mcp Anthropic Frontier Live Result - 2026-07-01
+# slack mcp tool-selection matrix
 
-Passed: no
 Live: yes
-
-This retained receipt uses the newly provided Anthropic key against the accessible `claude-opus-4-8` profile.
-
-> [!NOTE]
-> The new key passed a smoke test. Later cells in this batch hit Anthropic credit exhaustion, so credit-exhausted rows are retained as provider-state evidence rather than hidden or deleted.
+Passed: yes
+Planned: 16
+Passed cases: 16
+Failed cases: 0
+Errors: 0
+Skipped: 0
+Score: 1.000
 
 ## Matrix Summary
 
 - total: 16
-- passed_cases: 0
+- passed_cases: 16
 - failed_cases: 0
-- errors: 16
+- errors: 0
 - skipped: 0
-- score: 0.0
+- score: 1.0
 
-## Profiles
+## Results
 
-- `anthropic-opus48-frontier`: `claude-opus-4-8`
+| Provider | Model | Harness | Tool Variant | Instruction Variant | Case | Status | Chosen |
+|---|---|---|---|---|---|---|---|
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | list channels to find id | passed | slack_list_channels |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | post top level channel message | passed | slack_post_message |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | reply in existing thread | passed | slack_reply_to_thread |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | read recent channel messages | passed | slack_get_channel_history |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | read thread replies | passed | slack_get_thread_replies |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | add reaction to message | passed | slack_add_reaction |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | list users to find id | passed | slack_get_users |
+| anthropic | claude-opus-4-8 | prompt_json | stock_slack_mcp | slack_host_rules | get known user profile | passed | slack_get_user_profile |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | list channels to find id | passed | slack_list_channels |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | post top level channel message | passed | slack_post_message |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | reply in existing thread | passed | slack_reply_to_thread |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | read recent channel messages | passed | slack_get_channel_history |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | read thread replies | passed | slack_get_thread_replies |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | add reaction to message | passed | slack_add_reaction |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | list users to find id | passed | slack_get_users |
+| anthropic | claude-opus-4-8 | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | get known user profile | passed | slack_get_user_profile |
 
-## Status By Profile
+## Cell Summary
 
-| Profile | Passed | Failed | Errors | Skipped |
-|---|---:|---:|---:|---:|
-| `anthropic-opus48-frontier` | 0 | 0 | 16 | 0 |
-
-## Remaining Failure Clusters
-
-- 2x `list channels to find id`: status `error`, chose `error: credit balance is too low`
-- 2x `post top level channel message`: status `error`, chose `error: credit balance is too low`
-- 2x `reply in existing thread`: status `error`, chose `error: credit balance is too low`
-- 2x `read recent channel messages`: status `error`, chose `error: credit balance is too low`
-- 2x `read thread replies`: status `error`, chose `error: credit balance is too low`
-- 2x `add reaction to message`: status `error`, chose `error: credit balance is too low`
-- 2x `list users to find id`: status `error`, chose `error: credit balance is too low`
-- 2x `get known user profile`: status `error`, chose `error: credit balance is too low`
-
-## Machine-readable Receipt
-
-[JSON receipt](https://github.com/cfregly/claude-agent-harness-opt/blob/main/evals/results/slack_mcp_tool_selection_frontier_anthropic_live_2026-07-01.json)
+| Provider | Harness | Tool Variant | Instruction Variant | Passed | Failed | Errors | Skipped | Score |
+|---|---|---|---|---:|---:|---:|---:|---:|
+| anthropic | prompt_json | stock_slack_mcp | slack_host_rules | 8 | 0 | 0 | 0 | 1.000 |
+| anthropic | prompt_json | tuned_slack_mcp_boundaries | slack_host_rules | 8 | 0 | 0 | 0 | 1.000 |

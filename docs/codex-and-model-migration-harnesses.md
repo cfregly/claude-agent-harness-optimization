@@ -2,7 +2,7 @@
 
 This repo treats Codex as a harness, not only as the local agent running the repo. A Codex harness
 means the Codex CLI, app, IDE extension, GitHub Action, SDK, app-server, MCP-server mode, hooks,
-skills, plugins, AGENTS.md loading, sandbox policy, and JSONL event stream that sit around the
+skills, plugins, project-instruction loading, sandbox policy, and JSONL event stream that sit around the
 model.
 
 Checked on 2026-06-25.
@@ -15,7 +15,7 @@ Checked on 2026-06-25.
 
 Codex exposes several surfaces that can change tool-use behavior:
 
-- `AGENTS.md`: durable repo instructions loaded before work. Nested files and overrides can change
+- Project instructions: durable repo instructions loaded before work. Nested files and overrides can change
   behavior by directory.
 - Skills: reusable workflows with progressive disclosure. Skill descriptions are a tool-selection
   surface because Codex chooses skills from descriptions before reading full `SKILL.md`.
@@ -70,7 +70,7 @@ Highest-value harnesses for this repo:
 | OpenAI native tools / Responses API | Different function-call schema and reasoning behavior. | Live matrix supported. |
 | Gemini function calling | Third provider with different schema and tool-selection behavior. | Live matrix supported. |
 | Prompt JSON | Cheap cross-provider control harness that makes tool-choice output explicit. | Live matrix supported. |
-| Codex CLI / app-server / SDK | Real coding-agent runtime with AGENTS.md, skills, MCP, hooks, sandbox, command execution, and JSONL traces. | Fixture and live `codex exec --json` adapter covered. |
+| Codex CLI / app-server / SDK | Real coding-agent runtime with project instructions, skills, MCP, hooks, sandbox, command execution, and JSONL traces. | Fixture and live `codex exec --json` adapter covered. |
 | Claude Code / Claude API skill | Anthropic coding-agent runtime and bundled migration skill. | Live `claude -p --output-format stream-json --verbose` adapter covered. |
 | Claude Agent SDK | Library harness that exposes Claude Code's loop and capabilities. | Live latest-package `claude-agent-sdk` smoke plus surface inventory covered. |
 | OpenAI Agents SDK | Common multi-agent SDK with handoffs, MCP, traces, and guardrails. | Live latest-package `openai-agents` smoke plus surface inventory covered. |
@@ -113,7 +113,7 @@ repo is an eval and harness optimization lab.
 The useful relationship is:
 
 1. Run `/claude-api migrate` or any provider migration tool.
-2. Snapshot the changed model IDs, prompts, tool descriptions, CLAUDE.md/AGENTS.md, skills, SDK loop,
+2. Snapshot the changed model IDs, prompts, tool descriptions, durable repo instructions, skills, SDK loop,
    and harness config.
 3. Run model-matrix cases on the old and new model/harness surfaces.
 4. Run trace review on representative live runs.
