@@ -4,7 +4,9 @@ Share link: [Zymtrace full PR/evidence bundle](https://github.com/cfregly/claude
 
 ## Summary
 
-| Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|
 | Encode the profiling workflow: prefer MCP resources for `topfunctions`, `topentities`, and `flamegraph`. Use project UUID `00000000-0000-0000-0000-000000000000` unless the user names another project. Discover metrics before GPU or inference metric queries. Use rank-first CPU tools. Fetch full traces only after a selected `prefix_hash`. | Agents could skip resource-first lookup, use `project_id: "default"`, query GPU or inference metrics before discovery, or fetch full traces before selecting a `prefix_hash`. | Use MCP resources first for `topfunctions`, `topentities`, and `flamegraph`. Use the default project UUID unless another project is named. Discover metrics before GPU or inference queries. Rank CPU traces before full trace fetches. Fetch full trace only after a selected `prefix_hash`. | `tuned_zymtrace_mcp_boundaries` scored 1.000, a 0.417 gain. Add retained cases as regression coverage. |
 | Add an explicit idle-exclusion option or marker for optimization-oriented `hot_traces` discovery. | `hot_traces` can rank an `IDLE` trace first for optimization-oriented discovery. | Add idle exclusion or an explicit idle marker for optimization-oriented `hot_traces` discovery before traces are ranked. | `tuned_zymtrace_mcp_boundaries` scored 1.000, a 0.417 gain. Add retained cases as regression coverage. |
@@ -33,7 +35,7 @@ stock passes to 24/24 tuned passes across Anthropic, OpenAI, and Gemini.
 
 ## Recommended Actions
 
-- Apply exact change: Encode the profiling workflow: prefer MCP resources for `topfunctions`, `topentities`, and `flamegraph`. Use project UUID `00000000-0000-0000-0000-000000000000` unless the user names another project. Discover metrics before GPU or inference metric queries. Use rank-first CPU tools. Fetch full traces only after a selected `prefix_hash`.
+- Apply suggested change: Encode the profiling workflow: prefer MCP resources for `topfunctions`, `topentities`, and `flamegraph`. Use project UUID `00000000-0000-0000-0000-000000000000` unless the user names another project. Discover metrics before GPU or inference metric queries. Use rank-first CPU tools. Fetch full traces only after a selected `prefix_hash`.
 - Add an explicit idle-exclusion option or marker for optimization-oriented `hot_traces` discovery.
 - Add a server-side option or marker that keeps `zymtrace-profiler` from being presented as an optimization target in `topentities`.
 - Add a small read-only GPU readiness resource that reports GPU support, GPU metric collection, detected GPU names, and CUDA library extraction state without exposing the license value.

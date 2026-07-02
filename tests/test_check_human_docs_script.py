@@ -84,11 +84,11 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
                 "# Sample Finding\n\n"
                 "Share link: [Sample](https://github.com/cfregly/claude-agent-harness-opt/tree/main/docs/findings/sample)\n\n"
                 "## Summary\n\n"
-                "| Exact change | Before | After | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
+                "| Suggested change | Baseline / before description | Suggested / after description | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
                 "## Why This Matters\n\n"
                 "- Value proposition: useful.\n\n"
                 "## Recommended Actions\n\n"
-                "- Apply exact change.\n\n"
+                "- Apply suggested change.\n\n"
                 "## Run This In Your Repo\n\n"
                 "Run a local agent.\n\n"
                 "## Model Coverage\n\n"
@@ -123,13 +123,13 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
             (packet / "PR_BODY.md").write_text(
                 "Suggested title: Sample\n\n"
                 "## Summary\n\n"
-                "| Exact change | Before | After | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
+                "| Suggested change | Baseline / before description | Suggested / after description | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
                 "## Evidence Bundle\n\n"
                 "Evidence.\n\n"
                 "## Why This Matters\n\n"
                 "- Value proposition: useful.\n\n"
                 "## Recommended Actions\n\n"
-                "- Apply exact change.\n\n"
+                "- Apply suggested change.\n\n"
                 "## Model Coverage\n\n"
                 "- Coverage.\n\n"
                 "## Run This In Your Repo\n\n"
@@ -181,7 +181,7 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
             (packet / "PR_BODY.md").write_text(
                 "Suggested title: Sample\n\n"
                 "## Summary\n\n"
-                "| Exact change | Before | After | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
+                "| Suggested change | Baseline / before description | Suggested / after description | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
                 "## Why This Matters\n\n"
                 "- Value proposition: useful.\n\n"
                 "## Recommended Actions\n\n"
@@ -217,11 +217,11 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
             (packet / "PR_BODY.md").write_text(
                 "Suggested title: Sample\n\n"
                 "## Summary\n\n"
-                "| Exact change | Before | After | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
+                "| Suggested change | Baseline / before description | Suggested / after description | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
                 "## Why This Matters\n\n"
                 "- Value proposition: useful.\n\n"
                 "## Recommended Actions\n\n"
-                "- Apply exact change.\n\n"
+                "- Apply suggested change.\n\n"
                 "## Run This In Your Repo\n\n"
                 "codex exec -C /path/to/repo --sandbox read-only -\n"
                 "claude -p --permission-mode plan\n"
@@ -251,11 +251,11 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
             (packet / "PR_BODY.md").write_text(
                 "Suggested title: Sample\n\n"
                 "## Summary\n\n"
-                "| Exact change | Before | After | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
+                "| Suggested change | Baseline / before description | Suggested / after description | Result |\n|---|---|---|---|\n| Update routing. | Before. | After. | Result. |\n\n"
                 "## Why This Matters\n\n"
                 "- Value proposition: useful.\n\n"
                 "## Recommended Actions\n\n"
-                "- Apply exact change.\n\n"
+                "- Apply suggested change.\n\n"
                 "## Run This In Your Repo\n\n"
                 "codex exec -C /path/to/repo --sandbox read-only -\n"
                 "claude -p --permission-mode plan\n"
@@ -355,7 +355,7 @@ class CheckHumanDocsScriptTests(unittest.TestCase):
 
         joined = "\n".join(failures)
         self.assertIn(
-            "docs/confirmed-improvements.md: action summary table must include Exact change, Before, After, and Result columns",
+            "docs/confirmed-improvements.md: action summary table must include Suggested change, Baseline / before description, Suggested / after description, and Result columns",
             joined,
         )
 

@@ -4,7 +4,9 @@ Share link: [Screenpipe MCP Tool Tuning full PR/evidence bundle](https://github.
 
 ## Summary
 
-| Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|
 | Clarify that `keyword-search` is for literal terms and exact phrases. Reserve `search-content` for transcript lines, screen text, speaker or window filters, tags, memories, and broader content search. | Exact keyword or phrase lookup could be routed to broad `search-content` instead of the dedicated literal lookup tool. | Literal terms and exact phrases route to `keyword-search`. `search-content` stays for broader content, transcript, screen text, speaker, window, tag, and memory search. | `source_tuned_screenpipe_mcp` scored 1.000, a 0.143 gain. Add retained cases as regression coverage. |
 
@@ -29,7 +31,7 @@ The live Anthropic prompt JSON run moved from 6/7 baseline passes to 7/7 tuned p
 
 ## Recommended Actions
 
-- Apply exact change: Clarify that `keyword-search` is for literal terms and exact phrases. Reserve `search-content` for transcript lines, screen text, speaker or window filters, tags, memories, and broader content search.
+- Apply suggested change: Clarify that `keyword-search` is for literal terms and exact phrases. Reserve `search-content` for transcript lines, screen text, speaker or window filters, tags, memories, and broader content search.
 - Add the selected cases below to repo CI or release-blocking regression coverage.
 - Run the local-agent prompt below in your repo to identify exact files, patch locations, tests, and risks before editing.
 

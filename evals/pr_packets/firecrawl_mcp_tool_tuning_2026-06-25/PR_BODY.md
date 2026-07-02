@@ -5,7 +5,9 @@ Suggested title: Improve Firecrawl MCP tool routing with live eval evidence
 
 ## Summary
 
-| Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|
 | Clarify that `firecrawl_scrape` handles one known page, including structured JSON fields. Reserve `firecrawl_extract` for broader multi-page structured extraction jobs. | A request for one exact URL plus specific fields could be routed to `firecrawl_extract`, even though it is not a broad multi-page extraction job. | `firecrawl_scrape` handles the exact URL with structured JSON fields. `firecrawl_extract` stays reserved for broader multi-page extraction. | `tuned_firecrawl_mcp_boundaries` scored 1.000, a 1.000 gain. Add retained cases as regression coverage. |
 
@@ -31,7 +33,7 @@ Suggested title: Improve Firecrawl MCP tool routing with live eval evidence
 
 ## Recommended Actions
 
-- Apply exact change: Clarify that `firecrawl_scrape` handles one known page, including structured JSON fields. Reserve `firecrawl_extract` for broader multi-page structured extraction jobs.
+- Apply suggested change: Clarify that `firecrawl_scrape` handles one known page, including structured JSON fields. Reserve `firecrawl_extract` for broader multi-page structured extraction jobs.
 - Add the selected cases below to repo CI or release-blocking regression coverage.
 - Run the local-agent prompt below in your repo to identify exact files, patch locations, tests, and risks before editing.
 

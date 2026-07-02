@@ -277,6 +277,8 @@ def _founder_handoff_lines(
     lines: list[str] = [
         "## Summary",
         "",
+        "The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.",
+        "",
     ]
     lines.extend(_before_after_lines(result, comparison, options, change))
     lines.extend([
@@ -411,7 +413,7 @@ def _recommended_action_lines(
     change: str,
 ) -> list[str]:
     if comparison.get("promote"):
-        actions = [f"Apply exact change: {item}" for item in _target_change_items(change, options)]
+        actions = [f"Apply suggested change: {item}" for item in _target_change_items(change, options)]
         actions.extend(
             [
                 "Add the selected cases below to repo CI or release-blocking regression coverage.",
@@ -851,7 +853,7 @@ def _before_after_lines(
             "This clears the adversarially-confirmed to add value bar; add retained cases as regression coverage."
         )
         lines = [
-            "| Exact change | Before | After | Result |",
+            "| Suggested change | Baseline / before description | Suggested / after description | Result |",
             "|---|---|---|---|",
         ]
         for action in _target_change_items(change, options):
@@ -866,7 +868,7 @@ def _before_after_lines(
     else:
         before = f"`{baseline}` scored {baseline_score} on the retained slice."
         return [
-            "| Exact change | Before | After | Result |",
+            "| Suggested change | Baseline / before description | Suggested / after description | Result |",
             "|---|---|---|---|",
             (
                 "| No wording change promoted from this slice. | "
@@ -986,7 +988,7 @@ def _action_lines(
         lines = [
             f"### {target}",
             "",
-            f"- Apply exact change: {change}",
+            f"- Apply suggested change: {change}",
             "- Add the selected cases below to upstream CI or release-blocking regression coverage.",
             "- Keep the passing cells visible so maintainers preserve behavior that already works.",
         ]

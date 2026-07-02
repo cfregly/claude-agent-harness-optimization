@@ -52,7 +52,7 @@ class PrPacketTests(unittest.TestCase):
             self.assertIn("## Summary", body)
             self.assertLess(body.index("## Summary"), body.index("## Why This Matters"))
             self.assertNotIn("## Founder Summary", body)
-            self.assertIn("| Exact change | Before | After | Result |", body)
+            self.assertIn("| Suggested change | Baseline / before description | Suggested / after description | Result |", body)
             self.assertIn("| Clarify when to call the tuned tool.", body)
             self.assertIn(
                 "| Add an explicit tuned-tool routing regression.",
@@ -63,7 +63,7 @@ class PrPacketTests(unittest.TestCase):
             self.assertIn("## Why This Matters", body)
             self.assertIn("helps agents choose the intended Example MCP workflow", body)
             self.assertIn("## Recommended Actions", body)
-            self.assertIn("Apply exact change: Clarify when to call the tuned tool.", body)
+            self.assertIn("Apply suggested change: Clarify when to call the tuned tool.", body)
             self.assertIn("Add an explicit tuned-tool routing regression.", body)
             self.assertIn("## Model Coverage", body)
             self.assertIn("| Anthropic | `stock` 0/1 passed, 1 failed, 0 errors.", body)

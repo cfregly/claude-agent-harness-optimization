@@ -4,7 +4,9 @@ Share link: [InsForge MCP Tool Tuning full PR/evidence bundle](https://github.co
 
 ## Summary
 
-| Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|
 | Clarify that `create-deployment` requires an absolute `sourceDirectory` and must be avoided for relative paths, starter-template creation, deployment status lookup, or remote prepared-deployment triggering. | A relative path such as `.` could still lead the agent to call `create-deployment`, even though deployment requires an absolute `sourceDirectory`. | `create-deployment` requires an absolute `sourceDirectory`. Relative paths, starter-template creation, status lookup, and remote prepared-deployment triggering do not call it. | `source_tuned_insforge_mcp` scored 1.000, a 0.062 gain. Add retained cases as regression coverage. |
 
@@ -29,7 +31,7 @@ The live Anthropic prompt JSON run moved from 15/16 baseline passes to 16/16 tun
 
 ## Recommended Actions
 
-- Apply exact change: Clarify that `create-deployment` requires an absolute `sourceDirectory` and must be avoided for relative paths, starter-template creation, deployment status lookup, or remote prepared-deployment triggering.
+- Apply suggested change: Clarify that `create-deployment` requires an absolute `sourceDirectory` and must be avoided for relative paths, starter-template creation, deployment status lookup, or remote prepared-deployment triggering.
 - Add the selected cases below to repo CI or release-blocking regression coverage.
 - Run the local-agent prompt below in your repo to identify exact files, patch locations, tests, and risks before editing.
 

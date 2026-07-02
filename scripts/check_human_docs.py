@@ -190,14 +190,14 @@ def _check_founder_handoff(rel: Path, text: str, *, require_share_link: bool) ->
     why_index = indexes.get("## Why This Matters", -1)
     if table_index != -1:
         table_window = text[table_index : why_index if why_index != -1 else table_index + 1200]
-        if "| Exact change | Before | After | Result |" not in table_window:
-            failures.append(f"{rel}: first founder table must include Exact change, Before, After, and Result columns")
+        if "| Suggested change | Baseline / before description | Suggested / after description | Result |" not in table_window:
+            failures.append(f"{rel}: first founder table must include Suggested change, Baseline / before description, Suggested / after description, and Result columns")
         if "Model coverage:" in table_window or "Evidence lane" in table_window:
             failures.append(f"{rel}: first founder table must show target-owned value, not provider coverage")
         if "The target surface states" in table_window or "Baseline mistakes clustered" in table_window:
             failures.append(f"{rel}: first founder table must show exact repo-owned before/after changes, not eval-summary filler")
-        if "no wording change promoted" not in table_window.casefold() and "Exact change" not in table_window:
-            failures.append(f"{rel}: Summary table must show exact target-owned changes before Why This Matters")
+        if "no wording change promoted" not in table_window.casefold() and "Suggested change" not in table_window:
+            failures.append(f"{rel}: Summary table must show exact target-owned suggested changes before Why This Matters")
         if require_share_link:
             first_twelve = "\n".join(text.splitlines()[:12])
             if "## Summary" not in first_twelve:
@@ -286,12 +286,12 @@ def _check_action_summary_doc(rel: Path, text: str) -> list[str]:
     if detail_index != -1 and index > detail_index:
         failures.append(f"{rel}: {heading} must appear before LLM details")
     summary_window = text[index : index + 5000]
-    if "Exact change | Before | After | Result" not in summary_window:
-        failures.append(f"{rel}: action summary table must include Exact change, Before, After, and Result columns")
+    if "Suggested change | Baseline / before description | Suggested / after description | Result" not in summary_window:
+        failures.append(f"{rel}: action summary table must include Suggested change, Baseline / before description, Suggested / after description, and Result columns")
     if "Suggested change:" in summary_window:
-        failures.append(f"{rel}: action summary table must use exact changes, not Suggested change labels")
-    if "No wording change promoted" not in summary_window and "Exact change" not in summary_window:
-        failures.append(f"{rel}: action summary table must show exact changes or explicit no-change guardrails")
+        failures.append(f"{rel}: action summary table must use a Suggested change column, not Suggested change labels inside cells")
+    if "No wording change promoted" not in summary_window and "Suggested change" not in summary_window:
+        failures.append(f"{rel}: action summary table must show exact suggested changes or explicit no-change guardrails")
     return failures
 
 

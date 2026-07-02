@@ -4,7 +4,9 @@ Share link: [gstack full PR/evidence bundle](https://github.com/cfregly/claude-a
 
 ## Summary
 
-| Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|
 | Clarify browser alias and safety-mode skill routing boundaries. | Agents could confuse browser/headless aliases or careful-mode versus other safety-mode skills. | Clarify browser/headless aliases and safety or careful-mode skill boundaries before the agent selects a skill. | `gstack_boundary_tuned_skill_descriptions` scored 0.992, a 0.017 gain. Add retained cases as regression coverage. |
 
@@ -30,7 +32,7 @@ the remaining packet evidence preserved for reruns and upstream review.
 
 ## Recommended Actions
 
-- Apply exact change: Clarify browser alias and safety-mode skill routing boundaries.
+- Apply suggested change: Clarify browser alias and safety-mode skill routing boundaries.
 - Add the selected cases below to repo CI or release-blocking regression coverage.
 - Run the local-agent prompt below in your repo to identify exact files, patch locations, tests, and risks before editing.
 

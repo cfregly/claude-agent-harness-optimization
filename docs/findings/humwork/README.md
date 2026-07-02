@@ -4,7 +4,9 @@ Share link: [Humwork packet](https://github.com/cfregly/claude-agent-harness-opt
 
 ## Summary
 
-| Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|
 | No wording change promoted from this slice. | The retained MCP surface already passed every tested tool-selection case. | No tool or wording change is promoted. Keep current behavior and retain the cases as regression coverage. | `skill_tuned_humwork_mcp` also scored 1.000. Keep the cases as regression coverage. |
 

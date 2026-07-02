@@ -5,12 +5,14 @@ tool descriptions produced an adversarially-confirmed to add value improvement.
 
 ## Summary
 
-| Company | Exact change | Before | After | Result |
+The table below is the exact handoff text. Baseline / before is the current behavior. Suggested / after is the proposed wording or behavior to implement.
+
+| Company | Suggested change | Baseline / before description | Suggested / after description | Result |
 |---|---|---|---|---|
-| InsForge | Require an absolute `sourceDirectory`. Reject relative paths before calling `create-deployment`. | README-level descriptions passed 15/16 but called `create-deployment` for a relative source path. | Relative paths stop before `create-deployment`. | Source-tuned descriptions passed 16/16 and chose `NO_TOOL` for the same request. |
-| Humwork | No wording change promoted from this slice. | README-level descriptions passed 7/7 on the tested expert-consultation and no-tool cases. | Keep current wording and retain the cases. | Skill-tuned descriptions also passed 7/7. Guardrail only. |
-| OpenWork | No wording change promoted from this slice. | Docs-level descriptions passed 7/7 on the tested UI bridge and no-tool cases. | Keep current wording and retain the cases. | Source-tuned descriptions also passed 7/7. Guardrail only. |
-| Screenpipe | Treat this as a broader YC S26/public-MCP action, not a Spring/P2026 result: route exact phrases to `keyword-search`. | README-level descriptions passed 6/7 but routed exact keyword lookup to `search-content`. | Exact keyword lookup routes to `keyword-search`. | Source-level tuned descriptions passed 7/7. |
+| InsForge | Require an absolute `sourceDirectory`. Reject relative paths before calling `create-deployment`. | A relative path such as `.` could still lead the agent to call `create-deployment`, even though deployment requires an absolute `sourceDirectory`. | `create-deployment` requires an absolute `sourceDirectory`. Relative paths, starter-template creation, status lookup, and remote prepared-deployment triggering do not call it. | Source-tuned descriptions passed 16/16 and chose `NO_TOOL` for the same request. |
+| Humwork | No wording change promoted from this slice. | The retained MCP surface already passed every tested tool-selection case. | No tool or wording change is promoted. Keep current behavior and retain the cases as regression coverage. | Skill-tuned descriptions also passed 7/7. Guardrail only. |
+| OpenWork | No wording change promoted from this slice. | The retained MCP surface already passed every tested tool-selection case. | No tool or wording change is promoted. Keep current behavior and retain the cases as regression coverage. | Source-tuned descriptions also passed 7/7. Guardrail only. |
+| Screenpipe | Treat this as a broader YC S26/public-MCP action, not a Spring/P2026 result: route exact phrases to `keyword-search`. | Exact keyword or phrase lookup could be routed to broad `search-content` instead of the dedicated literal lookup tool. | Literal terms and exact phrases route to `keyword-search`. `search-content` stays for broader content, transcript, screen text, speaker, window, tag, and memory search. | Source-level tuned descriptions passed 7/7. |
 
 ## Implemented Targets
 
